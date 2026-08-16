@@ -58,7 +58,7 @@
   // --------------------------------------------------------------- tilt ---
   if (reduced || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
-  var tiltables = document.querySelectorAll(".card, .repo");
+  var tiltables = document.querySelectorAll(".card, .repo, .demo");
   var frame = null;
 
   Array.prototype.forEach.call(tiltables, function (el) {

@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hani Amro — AI Automation Engineer</title>
-<meta name="description" content="I design automations that run unattended in production, and I keep them running. Trade execution on live broker accounts, LLM agent pipelines, subscription lifecycles, and the interfaces people operate them through.">
+<meta name="description" content="I connect the tools a business already uses so the work happens without anyone doing it by hand, and I keep those systems running.">
 <meta name="color-scheme" content="light dark">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hani Amro — AI Automation Engineer">
-<meta property="og:description" content="Automations that run unattended in production: 913 live trade executions, 378,110 logged agent events, 8 self-built services on one server.">
+<meta property="og:description" content="Automations that run unattended in production: 913 orders on real broker accounts, 378,110 logged events, 8 self-built services on one server.">
 <meta property="og:url" content="https://hani-amro.github.io/">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
@@ -31,7 +31,6 @@
 </head>
 <body>
 
-<!-- Icon set as one inline sprite, referenced by <use>. No icon font, no request. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <g id="ic-activity"><polyline points="21 12 17 12 14 20 10 4 7 12 3 12"/></g>
@@ -39,9 +38,7 @@
     <g id="ic-cpu"><rect x="5" y="5" width="14" height="14" rx="2.5"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></g>
     <g id="ic-repeat"><polyline points="17 2 21 6 17 10"/><path d="M3 12V10a4 4 0 0 1 4-4h14"/><polyline points="7 22 3 18 7 14"/><path d="M21 12v2a4 4 0 0 1-4 4H3"/></g>
     <g id="ic-file"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"/><polyline points="14 2 14 7 19 7"/><path d="M9 13h6M9 17h4"/></g>
-    <g id="ic-layout"><rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 9h18M9 21V9"/></g>
     <g id="ic-cart"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></g>
-    <g id="ic-phone"><rect x="6" y="2" width="12" height="20" rx="2.6"/><path d="M11 18.5h2"/></g>
     <g id="ic-chat"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-4.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 0 1 8.5-8.4 8.4 8.4 0 0 1 8.5 8.4z"/></g>
     <g id="ic-code"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></g>
     <g id="ic-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15.5 9.5"/></g>
@@ -56,13 +53,15 @@
     <g id="ic-globe"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></g>
     <g id="ic-server"><rect x="3" y="3.5" width="18" height="7" rx="2"/><rect x="3" y="13.5" width="18" height="7" rx="2"/><path d="M7 7h.01M7 17h.01"/></g>
     <g id="ic-arrow"><path d="M5 12h13"/><polyline points="13 6 19 12 13 18"/></g>
+    <g id="ic-link"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></g>
+    <g id="ic-eye"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
+    <g id="ic-plug"><path d="M9 2v6M15 2v6"/><path d="M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v5"/></g>
   </defs>
 </svg>
 
 <canvas id="aurora" aria-hidden="true"></canvas>
 
 <button id="lang-toggle" type="button" aria-label="Switch to Arabic">ع</button>
-
 <button id="theme-toggle" type="button" aria-label="Toggle colour theme">
   <span data-icon="dark">☾</span><span data-icon="light">☀</span>
 </button>
@@ -71,12 +70,11 @@
   <div class="wrap">
    <div class="hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow" data-i18n="eyebrow"><span class="pulse"></span> AI Automation Engineer</p>
-      <h1>Hani Amro</h1>
+      <p class="eyebrow"><span class="pulse"></span> <span data-i18n="eyebrow">AI Automation Engineer</span></p>
+      <h1 data-i18n="h1">Hani Amro</h1>
       <p class="lede" data-i18n="lede">
-        I design automations that run unattended in production &mdash; and I am the person who
-        keeps them running. <b>The model proposes; deterministic code decides; nothing is
-        allowed to fail silently.</b>
+        I connect the tools a business already uses, so the work happens without anyone doing it
+        by hand. Then I keep those systems running.
       </p>
       <p class="where">
         <span><svg class="i" viewBox="0 0 24 24"><use href="#ic-pin"/></svg> <span data-i18n="loc">Malaysia</span></span>
@@ -88,8 +86,8 @@
         <a class="btn primary" href="Hani_Amro_CV.pdf">
           <svg class="i" viewBox="0 0 24 24"><use href="#ic-download"/></svg> <span data-i18n="cv">Download CV</span>
         </a>
-        <a class="btn" href="https://github.com/hani-amro">
-          <svg class="i" viewBox="0 0 24 24"><use href="#ic-github"/></svg> GitHub
+        <a class="btn" href="#demos">
+          <svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="see">See it working</span>
         </a>
         <a class="btn" href="mailto:hani.wael.amro@gmail.com">
           <svg class="i" viewBox="0 0 24 24"><use href="#ic-mail"/></svg> <span data-i18n="email">Email</span>
@@ -100,30 +98,105 @@
     <figure class="hero-viz">
       <canvas id="pipeline" aria-hidden="true"></canvas>
       <figcaption data-i18n="viz">
-        A signal enters, is parsed, and meets the validation gate. What fails there is
-        dropped, not passed downstream.
+        A request arrives, is read, then meets a check. Whatever fails the check stops there
+        instead of carrying on.
       </figcaption>
     </figure>
    </div>
 
-    <ul class="counters" aria-label="Verified production figures">
-      <li><b>913</b><span data-i18n="c1">trade executions on live broker accounts</span></li>
-      <li><b>378,110</b><span data-i18n="c2">agent events logged by one pipeline</span></li>
-      <li><b>8</b><span data-i18n="c3">self-built services I operate</span></li>
-      <li><b>64</b><span data-i18n="c4">days uptime on that server</span></li>
+    <ul class="counters" aria-label="Verified figures">
+      <li><b>913</b><span data-i18n="c1">orders placed on real broker accounts</span></li>
+      <li><b>378,110</b><span data-i18n="c2">events logged by one automation</span></li>
+      <li><b>8</b><span data-i18n="c3">services I built and run</span></li>
+      <li><b>64</b><span data-i18n="c4">days running without a stumble</span></li>
     </ul>
-    <p class="footnote" data-i18n="foot">Figures measured August 2026. Every number on this page is one I can show you the source of.</p>
+    <p class="footnote" data-i18n="foot">Measured August 2026. I can show you the source of every figure on this page.</p>
   </div>
 </header>
 
 <main class="wrap">
+
+<section data-reveal id="what">
+  <div class="sec-head">
+    <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-plug"/></svg></span>
+    <h2 data-i18n="w-h">What I do</h2>
+  </div>
+  <p class="section-lede" data-i18n="w-l">In plain terms, before any of the detail.</p>
+
+  <div class="what-grid">
+    <div class="what-viz"><canvas id="hub" aria-hidden="true"></canvas></div>
+
+    <div class="what-list">
+      <article class="what-item">
+        <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-link"/></svg></span>
+        <div class="txt">
+          <h3 data-i18n="w1-h">I join your tools together</h3>
+          <p data-i18n="w1-p">A WhatsApp message becomes an order, an invoice, a delivery and a
+            receipt. Nobody retypes anything between screens.</p>
+        </div>
+      </article>
+
+      <article class="what-item">
+        <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cpu"/></svg></span>
+        <div class="txt">
+          <h3 data-i18n="w2-h">I use AI where it helps, and keep it away from the money</h3>
+          <p data-i18n="w2-p">AI reads, sorts and drafts. Prices and payments are worked out by
+            ordinary code, because AI that is confidently wrong about a number is worse than none.</p>
+        </div>
+      </article>
+
+      <article class="what-item">
+        <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span>
+        <div class="txt">
+          <h3 data-i18n="w3-h">I run it after it is built</h3>
+          <p data-i18n="w3-p">Servers, backups, alerts, and the call when something breaks. Handing
+            over a folder of files is not delivery.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section data-reveal id="demos">
+  <div class="sec-head">
+    <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg></span>
+    <h2 data-i18n="d-h">See it working</h2>
+  </div>
+  <p class="section-lede" data-i18n="d-l">Running right now. Not screenshots.</p>
+
+  <div class="grid three">
+    <a class="demo" href="https://salla-cx.hani-wael-amro.workers.dev/demo/yasmin-store">
+      <span class="demo-tag" data-i18n="d1-t">Try it yourself</span>
+      <b data-i18n="d1-h">A shop assistant that will not guess</b>
+      <span class="desc" data-i18n="d1-p">Ask about a product and it answers, naming the page it read.
+        Ask something the shop never published and it says so, then offers a human. Arabic and English.</span>
+      <span class="demo-go"><span data-i18n="go1">Open the demo</span> <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></span>
+    </a>
+
+    <a class="demo" href="https://pdf.srv1564240.hstgr.cloud/docs">
+      <span class="demo-tag" data-i18n="d2-t">Live service</span>
+      <b data-i18n="d2-h">26 PDF tools, including Arabic scanning</b>
+      <span class="desc" data-i18n="d2-p">Merge, split, compress, protect, or lift the text out of a
+        scanned page. Files are handled in memory and never stored. Sold through RapidAPI.</span>
+      <span class="demo-go"><span data-i18n="go2">Open the docs</span> <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></span>
+    </a>
+
+    <a class="demo" href="https://copybridge.cloud">
+      <span class="demo-tag" data-i18n="d3-t">Live, real money</span>
+      <b data-i18n="d3-h">A trading platform I co-founded</b>
+      <span class="desc" data-i18n="d3-p">One instruction from an analyst is carried out on every
+        subscriber's account. Sign-in only, so you will see the front door rather than the inside.</span>
+      <span class="demo-go"><span data-i18n="go3">Open the site</span> <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></span>
+    </a>
+  </div>
+</section>
 
 <section data-reveal id="systems">
   <div class="sec-head">
     <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-activity"/></svg></span>
     <h2 data-i18n="s-h">Systems in production</h2>
   </div>
-  <p class="section-lede" data-i18n="s-l">Running now, with real data flowing through them.</p>
+  <p class="section-lede" data-i18n="s-l">Four of them, with real data moving through.</p>
 
   <div class="grid pair">
 
@@ -131,181 +204,91 @@
       <header>
         <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-trend"/></svg></span>
         <div class="titles">
-          <h3>ALTAJIR &mdash; copybridge.cloud</h3>
-          <span class="tag live"><span class="pulse"></span> live &middot; real money</span>
+          <h3 data-i18n="s1-h">ALTAJIR &mdash; copy trading</h3>
+          <span class="tag live"><span class="pulse"></span> <span data-i18n="tg1">live &middot; real money</span></span>
         </div>
       </header>
-      <p>
-        An analyst posts a trade signal; the system parses it, validates it, and executes it
-        across subscriber broker accounts through MetaApi. Daily, monthly and trade-close
-        reports go out to Telegram without anyone asking.
-      </p>
+      <p data-i18n="s1-p">An analyst posts one instruction. The system reads it, checks it, and places
+        it on every subscriber's account. Daily and monthly reports go out on their own.</p>
       <ul class="facts">
-        <li><b>913</b> executions, <b>110</b> trades against real capital</li>
-        <li>Broker P&amp;L identity proved to <b>0.000000</b> across 3 live accounts</li>
-        <li><b>8</b> tests gate every release; atomic deploy with documented rollback</li>
+        <li data-i18n="s1-f1"><b>913</b> orders placed, <b>110</b> completed trades</li>
+        <li data-i18n="s1-f2">Our profit figures match the broker's exactly, verified on three real accounts</li>
+        <li data-i18n="s1-f3">Eight checks must pass before any update goes out</li>
       </ul>
-      <p class="note">
-        Built first on n8n and iterated across <b>22 versions</b> chasing sub-second execution,
-        then replaced with a purpose-built service once the workflow engine itself proved to be
-        the ceiling. That decision is the one I am most often asked about.
-      </p>
-      <p class="links">
-        <a href="https://copybridge.cloud">Visit <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></a>
-      </p>
+      <p class="note" data-i18n="s1-n">The first version used a drag-and-drop automation tool. After
+        22 attempts to make it fast enough, the tool itself turned out to be the limit, so I replaced
+        it with code. That is the decision I am asked about most.</p>
     </article>
 
     <article class="card">
       <header>
         <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cpu"/></svg></span>
         <div class="titles">
-          <h3>Gold-AI &mdash; autonomous agent pipeline</h3>
-          <span class="tag live"><span class="pulse"></span> live</span>
+          <h3 data-i18n="s2-h">Gold-AI &mdash; an AI that trades on its own</h3>
+          <span class="tag live"><span class="pulse"></span> <span data-i18n="tg2">live</span></span>
         </div>
       </header>
-      <p>
-        Five chained Claude agents on a 30-second cycle: scan, analyse, risk, execute, monitor.
-        The two that touch money call no model at all &mdash; they are plain Python.
-      </p>
+      <p data-i18n="s2-p">Five AI steps run every thirty seconds: look, judge, weigh the risk, act,
+        watch. The two steps that touch money use no AI at all.</p>
       <ul class="facts">
-        <li><b>378,110</b> events, <b>3,144</b> signals, <b>323</b> trades with outcomes</li>
-        <li><b>6</b> hard rules in code the model cannot override</li>
-        <li><b>420</b> versioned prompts, regenerated daily from won and lost setups</li>
+        <li data-i18n="s2-f1"><b>378,110</b> events, <b>3,144</b> decisions, <b>323</b> trades with recorded outcomes</li>
+        <li data-i18n="s2-f2">Six rules in code the AI cannot talk its way past</li>
+        <li data-i18n="s2-f3">It rewrites its own instructions daily from what won and what lost</li>
       </ul>
-      <p class="note">
-        This is where &ldquo;the model proposes, code decides&rdquo; stopped being a slogan.
-        Any answer that fails a post-condition is discarded, not argued with.
-      </p>
     </article>
 
     <article class="card k-am">
       <header>
         <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-repeat"/></svg></span>
         <div class="titles">
-          <h3>Subscription lifecycle bot</h3>
-          <span class="tag pilot">pilot</span>
+          <h3 data-i18n="s3-h">Subscriptions that run themselves</h3>
+          <span class="tag pilot"><span data-i18n="tg3">pilot</span></span>
         </div>
       </header>
-      <p>
-        A Telegram platform that runs the whole customer lifecycle unattended: payment proof,
-        admin approval, one-time channel invite, reminders at three days and one day, and
-        automatic removal on expiry.
-      </p>
+      <p data-i18n="s3-p">Payment proof in, approval, a one-time invite, reminders three days and one
+        day before expiry, removal on the day. Nobody watches a calendar.</p>
       <ul class="facts">
-        <li><b>173</b> tests, including cross-tenant isolation gates</li>
-        <li>Per-tenant bot credentials encrypted at rest</li>
-        <li><b>12</b> database migrations; Docker stack with a backup sidecar</li>
+        <li data-i18n="s3-f1"><b>173</b> automated checks, including one proving no customer can ever see another's data</li>
+        <li data-i18n="s3-f2">Each client's credentials are encrypted where they are stored</li>
       </ul>
-    </article>
-
-    <article class="card">
-      <header>
-        <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg></span>
-        <div class="titles">
-          <h3>PDF Tools API</h3>
-          <span class="tag live"><span class="pulse"></span> live &middot; RapidAPI</span>
-        </div>
-      </header>
-      <p>
-        26 endpoints for merging, splitting, compressing, encrypting, redacting and reading
-        PDFs. Arabic OCR is the differentiator; on-device PII redaction means the document
-        never leaves the box to be analysed.
-      </p>
-      <ul class="facts">
-        <li>Files processed in memory &mdash; nothing is ever written to disk</li>
-        <li>Gateway-secret guard prevents billing bypass</li>
-      </ul>
-      <p class="links">
-        <a href="https://pdf.srv1564240.hstgr.cloud/docs">API docs <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></a>
-        <a href="https://github.com/hani-amro/pdf-tools-api">Source <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></a>
-      </p>
-    </article>
-
-  </div>
-</section>
-
-<section data-reveal id="interfaces">
-  <div class="sec-head">
-    <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-layout"/></svg></span>
-    <h2 data-i18n="i-h">The interface, not just the pipeline</h2>
-  </div>
-  <p class="section-lede" data-i18n="i-l">An automation nobody can see or operate has not been delivered. I build the screens too.</p>
-
-  <div class="grid pair">
-    <article class="card k-in">
-      <header>
-        <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-layout"/></svg></span>
-        <div class="titles"><h3 data-i18n="i1-h">Operations dashboard &mdash; three languages</h3></div>
-      </header>
-      <p>
-        Arabic (RTL), English and Malay from one codebase, 394 translation keys with none
-        missing. RTL is a first-class requirement in everything I ship, not a translation pass
-        bolted on at the end &mdash; logical CSS properties only, and every generated element
-        carries <code>dir="auto"</code>.
-      </p>
     </article>
 
     <article class="card k-in">
       <header>
         <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cart"/></svg></span>
-        <div class="titles"><h3 data-i18n="i2-h">Storefront and checkout</h3></div>
+        <div class="titles">
+          <h3 data-i18n="s4-h">QuickDrop &mdash; ordering and delivery</h3>
+          <span class="tag lib"><span data-i18n="tg4">built, not yet trading</span></span>
+        </div>
       </header>
-      <p>
-        Catalogue, pricing rules, offers, coupons and redemptions, loyalty accounts, orders and
-        settlements, with payment integration. Money is stored as integers in the smallest
-        currency unit &mdash; enforced by two guards that fail the build if a float ever
-        touches it.
-      </p>
+      <p data-i18n="s4-p">A customer orders on WhatsApp, pays, and a rider is assigned automatically.
+        The shop gets a dashboard in Arabic, English or Malay; the rider gets an app; the customer
+        gets a tracking link.</p>
+      <ul class="facts">
+        <li data-i18n="s4-f1">Catalogue, pricing, coupons, loyalty and settlement</li>
+        <li data-i18n="s4-f2">One shop can never see another's orders, enforced by the database itself</li>
+      </ul>
     </article>
 
-    <article class="card k-in">
-      <header>
-        <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-phone"/></svg></span>
-        <div class="titles"><h3 data-i18n="i3-h">Driver PWA</h3></div>
-      </header>
-      <p>
-        Installable, works on a phone in the field. Proof-of-delivery images are validated by
-        magic bytes and re-encoded before storage, so an uploaded file is never served back as
-        it arrived.
-      </p>
-    </article>
-
-    <article class="card k-in">
-      <header>
-        <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-chat"/></svg></span>
-        <div class="titles"><h3 data-i18n="i4-h">Embeddable chat widget</h3></div>
-      </header>
-      <p>
-        Drops into a client's existing site. Answers only from that client's documents, cites
-        the source in every reply, and offers a human handoff when the answer is not in the
-        corpus &mdash; instead of inventing one.
-      </p>
-    </article>
   </div>
 </section>
 
 <section data-reveal id="ops">
   <div class="sec-head">
     <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-server"/></svg></span>
-    <h2 data-i18n="o-h">One box, eight services, sixty-four days</h2>
+    <h2 data-i18n="o-h">One server, eight services, sixty-four days</h2>
   </div>
-  <p class="section-lede" data-i18n="o-l">
-    Everything above runs on a single Ubuntu VPS that I administer. This is the stack,
-    bottom to top.
-  </p>
+  <p class="section-lede" data-i18n="o-l">All of the above runs on one machine I look after myself.</p>
 
   <div class="ops-grid">
-    <figure class="ops-viz">
-      <canvas id="stack" aria-hidden="true"></canvas>
-    </figure>
+    <figure class="ops-viz"><canvas id="stack" aria-hidden="true"></canvas></figure>
 
     <dl class="specs">
-      <div><dt data-i18n="o1-t">Uptime</dt><dd data-i18n="o1-d"><b>64 days</b>, zero unplanned restarts</dd></div>
-      <div><dt data-i18n="o2-t">Edge</dt><dd data-i18n="o2-d">nginx, <b>7</b> Let's Encrypt certificates, every app port bound to loopback</dd></div>
-      <div><dt data-i18n="o3-t">Runtimes</dt><dd data-i18n="o3-d">Docker Compose, PM2 and systemd side by side &mdash; each service on the one that fits it</dd></div>
-      <div><dt data-i18n="o4-t">Data</dt><dd data-i18n="o4-d">PostgreSQL 16, Redis, MinIO, SQLite. Nightly <code>pg_dump</code> with retention</dd></div>
-      <div><dt data-i18n="o5-t">Firewall</dt><dd data-i18n="o5-d">default deny inbound; a separate rule for Docker, which bypasses the host firewall entirely</dd></div>
-      <div><dt data-i18n="o6-t">Automation</dt><dd data-i18n="o6-d">self-hosted n8n, scheduled jobs, and a watchdog that restarts a crashed process and gives up after three failures rather than looping</dd></div>
+      <div><dt data-i18n="o1-t">Running</dt><dd data-i18n="o1-d"><b>64 days</b> without an unplanned restart</dd></div>
+      <div><dt data-i18n="o2-t">Security</dt><dd data-i18n="o2-d">Every service reachable only through one encrypted front door</dd></div>
+      <div><dt data-i18n="o3-t">Backups</dt><dd data-i18n="o3-d">Taken nightly, kept on a schedule, and tested by restoring them</dd></div>
+      <div><dt data-i18n="o4-t">If it crashes</dt><dd data-i18n="o4-d">It restarts itself, then gives up after three tries rather than looping forever</dd></div>
+      <div><dt data-i18n="o5-t">I get told</dt><dd data-i18n="o5-d">Alerts reach me before a customer notices</dd></div>
     </dl>
   </div>
 </section>
@@ -315,28 +298,32 @@
     <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-code"/></svg></span>
     <h2 data-i18n="code-h">Code you can read</h2>
   </div>
-  <p class="section-lede" data-i18n="code-l">
-    Six public repositories. Two are small libraries meant to be read end to end.
-  </p>
+  <p class="section-lede" data-i18n="code-l">For anyone who would rather check the work than take my word for it.</p>
 
   <div class="grid three">
     <a class="repo" href="https://github.com/hani-amro/quickdrop">
-      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-server"/></svg></span><b>quickdrop</b></span><span class="desc">Multi-tenant delivery SaaS. 44,205 LOC, 571 tests, 42 tables, forced Postgres row-level security.</span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-server"/></svg></span><b>quickdrop</b></span>
+      <span class="desc" data-i18n="r1">The delivery platform above. 44,205 lines, 571 automated checks.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/qalb-ecg">
-      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-activity"/></svg></span><b>qalb-ecg</b></span><span class="desc">ECG screening. 0.919 macro-AUROC, and a model card that leads with the 28% it misses.</span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-activity"/></svg></span><b>qalb-ecg</b></span>
+      <span class="desc" data-i18n="r2">Heart-trace screening. Its own documentation opens with the 28% of heart attacks it misses.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/tenant-guard">
-      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span><b>tenant-guard</b></span><span class="desc">Makes cross-tenant data leaks impossible to write by accident. 20 tests.</span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span><b>tenant-guard</b></span>
+      <span class="desc" data-i18n="r3">Makes it impossible to accidentally show one customer another customer's data.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/overfit-stats">
-      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span><b>overfit-stats</b></span><span class="desc">Refuses to certify a strategy that is statistically indistinguishable from luck. 41 tests.</span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span><b>overfit-stats</b></span>
+      <span class="desc" data-i18n="r4">Tells you whether a trading strategy found a real edge or just got lucky.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/boq-engine">
-      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span><b>boq-engine</b></span><span class="desc">Arabic bill-of-quantities engine. Every figure prints the arithmetic that produced it.</span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span><b>boq-engine</b></span>
+      <span class="desc" data-i18n="r5">Turns building plans into a priced Arabic quotation, showing the sum behind every figure.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/pdf-tools-api">
-      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg></span><b>pdf-tools-api</b></span><span class="desc">26-endpoint PDF toolkit with Arabic OCR. Live on RapidAPI.</span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg></span><b>pdf-tools-api</b></span>
+      <span class="desc" data-i18n="r6">The PDF service above, with Arabic scanning.</span>
     </a>
   </div>
 </section>
@@ -344,55 +331,43 @@
 <section data-reveal id="principles">
   <div class="sec-head">
     <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span>
-    <h2 data-i18n="p-h">How I build</h2>
+    <h2 data-i18n="p-h">Four rules I do not break</h2>
   </div>
 
   <div class="grid pair">
     <article class="principle">
       <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-alert"/></svg></span>
       <div class="txt">
-        <h3 data-i18n="p1-h">No silent zeros</h3>
-        <p data-i18n="p1-p">
-          Anything that cannot compute a number says so, in the output, where someone will see
-          it. A silent <code>0</code> becomes a silent under-quote or a missed diagnosis, and
-          nobody notices until it has already cost something.
-        </p>
+        <h3 data-i18n="p1-h">Never answer zero in silence</h3>
+        <p data-i18n="p1-p">If something cannot be worked out, the system says so where you will see
+          it. A quiet zero becomes a quote that is too low, and nobody notices until it has cost money.</p>
       </div>
     </article>
 
     <article class="principle">
       <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-branch"/></svg></span>
       <div class="txt">
-        <h3 data-i18n="p2-h">The model proposes; code decides</h3>
-        <p data-i18n="p2-p">
-          Language models orchestrate, explain and draft. Arithmetic, risk limits and money are
-          computed by code that can be tested. In the trading engine this is six post-conditions
-          the model has no way to talk its way past.
-        </p>
+        <h3 data-i18n="p2-h">AI suggests, code decides</h3>
+        <p data-i18n="p2-p">AI is good at reading and drafting. It is not what I trust with a price or
+          a payment. Those are worked out by code, and the code overrules the AI.</p>
       </div>
     </article>
 
     <article class="principle">
       <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span>
       <div class="txt">
-        <h3 data-i18n="p3-h">Every number carries its arithmetic</h3>
-        <p data-i18n="p3-p">
-          Deliverables show the inputs, the formula, and the formula with the values substituted.
-          That is a feature, not debug output &mdash; it is what lets a client argue with a
-          number instead of quietly distrusting it.
-        </p>
+        <h3 data-i18n="p3-h">Show the sum, not just the total</h3>
+        <p data-i18n="p3-p">Every figure comes with what went into it. That is what lets a client argue
+          with a number instead of quietly deciding not to trust you.</p>
       </div>
     </article>
 
     <article class="principle">
       <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span>
       <div class="txt">
-        <h3 data-i18n="p4-h">Systems document their own weaknesses</h3>
-        <p data-i18n="p4-p">
-          The ECG model card opens with the infarctions it misses. The delivery platform's README
-          states plainly that it has never served a customer. A number nobody is allowed to
-          criticise is a number nobody should trust.
-        </p>
+        <h3 data-i18n="p4-h">Say what it cannot do</h3>
+        <p data-i18n="p4-p">Every system I publish lists its own weaknesses. Anything presented as
+          flawless is hiding something.</p>
       </div>
     </article>
   </div>
@@ -404,17 +379,12 @@
       <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-branch"/></svg></span>
       <h2 data-i18n="h-h">How these were built</h2>
     </div>
-    <p>
-      I direct AI coding assistants rather than writing implementation line by line. I set the
-      requirements and the architecture, review and correct what comes back, decide what ships,
-      and operate the result in production.
-    </p>
-    <p>
-      <b>That last part is the one that cannot be generated.</b> These systems run on a server I
-      administer, and I am the person who gets paged when they stop. Every design decision
-      documented in these repositories is one I chose and can explain &mdash; including the ones
-      that turned out to be wrong.
-    </p>
+    <p data-i18n="h-p1">I direct AI coding assistants rather than typing the implementation myself. I
+      decide what is needed and how it fits together, correct what comes back, choose what ships, and
+      run the result.</p>
+    <p data-i18n="h-p2"><b>That last part cannot be generated.</b> These systems run on a server I look
+      after, and I am the one called when they stop. Every decision documented here is one I made and
+      can explain, including the ones that turned out wrong.</p>
   </div>
 </section>
 
@@ -442,11 +412,9 @@
 <footer>
   <div class="wrap">
     <p>
-      <span>Hani Amro</span>
-      <span>&middot;</span>
-      <span>Malaysia</span>
-      <span>&middot;</span>
-      <span dir="rtl" lang="ar" data-i18n="footer">العربية لغة التسليم، لا طبقة ترجمة</span>
+      <span data-i18n="h1b">Hani Amro</span><span>&middot;</span>
+      <span data-i18n="loc2">Malaysia</span><span>&middot;</span>
+      <span data-i18n="footer">Arabic is a delivery language here, not a translation layer</span>
     </p>
   </div>
 </footer>
@@ -455,6 +423,7 @@
 <script src="pipeline.js"></script>
 <script src="background.js"></script>
 <script src="stack.js"></script>
+<script src="hub.js"></script>
 <script src="i18n.js"></script>
 </body>
 </html>

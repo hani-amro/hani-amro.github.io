@@ -609,3 +609,75 @@ footer span[dir="rtl"] { display: inline-block; }
 :root[dir="rtl"] .card p,
 :root[dir="rtl"] .principle p,
 :root[dir="rtl"] .disclosure p { text-align: start; }
+
+/* ---------- what I do ---------- */
+.what-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: 30px; align-items: center;
+}
+.what-viz { min-width: 0; }
+#hub { display: block; width: 100%; height: 380px; pointer-events: none; }
+
+.what-list { display: grid; gap: 6px; }
+.what-item {
+  display: flex; gap: 15px; align-items: flex-start;
+  padding: 17px 2px;
+  border-top: 1px solid var(--line);
+}
+.what-item:last-child { border-bottom: 1px solid var(--line); }
+.what-item .txt { min-width: 0; }
+.what-item h3 { margin: 0 0 5px; font-size: 1.08rem; letter-spacing: -0.012em; }
+.what-item p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+
+@media (max-width: 880px) {
+  .what-grid { grid-template-columns: 1fr; gap: 16px; }
+  #hub { height: 300px; }
+}
+
+/* ---------- live demos ---------- */
+.demo {
+  display: flex; flex-direction: column; gap: 9px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  padding: 20px; text-decoration: none;
+  box-shadow: var(--shadow);
+  transform-style: preserve-3d;
+  transition: transform 0.34s cubic-bezier(0.2, 0.7, 0.25, 1), border-color 0.25s ease, box-shadow 0.34s ease;
+  will-change: transform;
+}
+.demo:hover { border-color: color-mix(in srgb, var(--emerald) 52%, var(--line)); box-shadow: var(--shadow-lift); }
+
+.demo-tag {
+  align-self: flex-start;
+  font-size: 11.5px; font-weight: 660;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 999px;
+  color: var(--emerald); background: var(--emerald-soft);
+}
+.demo b { font-size: 1.06rem; letter-spacing: -0.012em; line-height: 1.35; }
+.demo .desc { color: var(--ink-2); font-size: 14.5px; line-height: 1.55; flex: 1; }
+.demo-go {
+  display: inline-flex; align-items: center; gap: 7px;
+  color: var(--emerald); font-weight: 640; font-size: 14.5px;
+  margin-top: 2px;
+}
+.demo:hover .demo-go { text-decoration: underline; }
+
+@media (hover: hover) and (pointer: fine) {
+  .demo:hover {
+    transform:
+      perspective(1000px)
+      rotateX(calc(var(--ry, 0) * -3.4deg))
+      rotateY(calc(var(--rx, 0) *  3.4deg))
+      translate3d(0, -4px, 0);
+  }
+}
+
+:root[dir="rtl"] .what-viz,
+:root[dir="rtl"] #hub { direction: ltr; }
+
+@media (prefers-reduced-motion: reduce) {
+  .demo { transition: border-color 0.2s ease; transform: none !important; }
+}
