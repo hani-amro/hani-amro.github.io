@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hani Amro — AI Automation Engineer</title>
+<meta name="description" content="I design automations that run unattended in production, and I keep them running. Trade execution on live broker accounts, LLM agent pipelines, subscription lifecycles, and the interfaces people operate them through.">
+<meta name="color-scheme" content="light dark">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hani Amro — AI Automation Engineer">
+<meta property="og:description" content="Automations that run unattended in production: 913 live trade executions, 378,110 logged agent events, 8 self-built services on one server.">
+<meta property="og:url" content="https://hani-amro.github.io/">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+<link rel="stylesheet" href="style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Hani Amro",
+  "jobTitle": "AI Automation Engineer",
+  "email": "mailto:hani.wael.amro@gmail.com",
+  "url": "https://hani-amro.github.io/",
+  "sameAs": ["https://github.com/hani-amro"],
+  "address": { "@type": "PostalAddress", "addressCountry": "MY" },
+  "knowsLanguage": ["ar", "en"]
+}
+</script>
+</head>
+<body>
+
+<button id="theme-toggle" type="button" aria-label="Toggle colour theme">
+  <span data-icon="dark">☾</span><span data-icon="light">☀</span>
+</button>
+
+<header class="hero">
+  <div class="wrap">
+   <div class="hero-grid">
+    <div class="hero-copy">
+    <p class="eyebrow">AI Automation Engineer</p>
+    <h1>Hani Amro</h1>
+    <p class="lede">
+      I design automations that run unattended in production &mdash; and I am the person who
+      keeps them running. The model proposes; deterministic code decides; nothing is allowed
+      to fail silently.
+    </p>
+    <p class="where">
+      Malaysia (UTC+8) &middot; open to relocation to the UAE &middot; available remote
+    </p>
+
+    <div class="cta">
+      <a class="btn primary" href="Hani_Amro_CV.pdf">Download CV (PDF)</a>
+      <a class="btn" href="https://github.com/hani-amro">GitHub</a>
+      <a class="btn" href="mailto:hani.wael.amro@gmail.com">Email</a>
+    </div>
+    </div>
+
+    <figure class="hero-viz">
+      <canvas id="pipeline" aria-hidden="true"></canvas>
+      <figcaption>
+        A signal enters, is parsed, and meets the validation gate. What fails there is
+        dropped, not passed downstream.
+      </figcaption>
+    </figure>
+   </div>
+
+    <ul class="counters" aria-label="Verified production figures">
+      <li><b>913</b><span>trade executions on live broker accounts</span></li>
+      <li><b>378,110</b><span>agent events logged by one pipeline</span></li>
+      <li><b>8</b><span>self-built services I operate</span></li>
+      <li><b>64</b><span>days uptime on that server</span></li>
+    </ul>
+    <p class="footnote">Figures measured August 2026. Every number on this page is one I can show you the source of.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section data-reveal id="systems">
+  <h2>Systems in production</h2>
+  <p class="section-lede">Running now, with real data flowing through them.</p>
+
+  <div class="grid pair">
+
+    <article class="card">
+      <header>
+        <h3>ALTAJIR &mdash; copybridge.cloud</h3>
+        <span class="tag live">live &middot; real money</span>
+      </header>
+      <p>
+        An analyst posts a trade signal; the system parses it, validates it, and executes it
+        across subscriber broker accounts through MetaApi. Daily, monthly and trade-close
+        reports go out to Telegram without anyone asking.
+      </p>
+      <ul class="facts">
+        <li><b>913</b> executions, <b>110</b> trades against real capital</li>
+        <li>Broker P&amp;L identity proved to <b>0.000000</b> across 3 live accounts</li>
+        <li><b>8</b> tests gate every release; atomic deploy with documented rollback</li>
+      </ul>
+      <p class="note">
+        Built first on n8n and iterated across <b>22 versions</b> chasing sub-second execution,
+        then replaced with a purpose-built service once the workflow engine itself proved to be
+        the ceiling. That decision is the one I am most often asked about.
+      </p>
+      <p class="links"><a href="https://copybridge.cloud">Visit &rarr;</a></p>
+    </article>
+
+    <article class="card">
+      <header>
+        <h3>Gold-AI &mdash; autonomous agent pipeline</h3>
+        <span class="tag live">live</span>
+      </header>
+      <p>
+        Five chained Claude agents on a 30-second cycle: scan, analyse, risk, execute, monitor.
+        The two that touch money call no model at all &mdash; they are plain Python.
+      </p>
+      <ul class="facts">
+        <li><b>378,110</b> events, <b>3,144</b> signals, <b>323</b> trades with outcomes</li>
+        <li><b>6</b> hard rules in code the model cannot override</li>
+        <li><b>420</b> versioned prompts, regenerated daily from won and lost setups</li>
+      </ul>
+      <p class="note">
+        This is where &ldquo;the model proposes, code decides&rdquo; stopped being a slogan.
+        Any answer that fails a post-condition is discarded, not argued with.
+      </p>
+    </article>
+
+    <article class="card">
+      <header>
+        <h3>Subscription lifecycle bot</h3>
+        <span class="tag pilot">pilot</span>
+      </header>
+      <p>
+        A Telegram platform that runs the whole customer lifecycle unattended: payment proof,
+        admin approval, one-time channel invite, reminders at three days and one day, and
+        automatic removal on expiry.
+      </p>
+      <ul class="facts">
+        <li><b>173</b> tests, including cross-tenant isolation gates</li>
+        <li>Per-tenant bot credentials encrypted at rest</li>
+        <li><b>12</b> database migrations; Docker stack with a backup sidecar</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <header>
+        <h3>PDF Tools API</h3>
+        <span class="tag live">live &middot; RapidAPI</span>
+      </header>
+      <p>
+        26 endpoints for merging, splitting, compressing, encrypting, redacting and reading
+        PDFs. Arabic OCR is the differentiator; on-device PII redaction means the document
+        never leaves the box to be analysed.
+      </p>
+      <ul class="facts">
+        <li>Files processed in memory &mdash; nothing is ever written to disk</li>
+        <li>Gateway-secret guard prevents billing bypass</li>
+      </ul>
+      <p class="links">
+        <a href="https://pdf.srv1564240.hstgr.cloud/docs">API docs &rarr;</a>
+        <a href="https://github.com/hani-amro/pdf-tools-api">Source &rarr;</a>
+      </p>
+    </article>
+
+  </div>
+</section>
+
+<section data-reveal id="interfaces">
+  <h2>The interface, not just the pipeline</h2>
+  <p class="section-lede">
+    An automation nobody can see or operate has not been delivered. I build the screens too.
+  </p>
+
+  <div class="grid two">
+    <article class="card">
+      <h3>Operations dashboard &mdash; three languages</h3>
+      <p>
+        Arabic (RTL), English and Malay from one codebase, 394 translation keys with none
+        missing. RTL is a first-class requirement in everything I ship, not a translation pass
+        bolted on at the end &mdash; logical CSS properties only, and every generated element
+        carries <code>dir="auto"</code>.
+      </p>
+    </article>
+
+    <article class="card">
+      <h3>Storefront and checkout</h3>
+      <p>
+        Catalogue, pricing rules, offers, coupons and redemptions, loyalty accounts, orders and
+        settlements, with payment integration. Money is stored as integers in the smallest
+        currency unit &mdash; enforced by two guards that fail the build if a float ever
+        touches it.
+      </p>
+    </article>
+
+    <article class="card">
+      <h3>Driver PWA</h3>
+      <p>
+        Installable, works on a phone in the field. Proof-of-delivery images are validated by
+        magic bytes and re-encoded before storage, so an uploaded file is never served back as
+        it arrived.
+      </p>
+    </article>
+
+    <article class="card">
+      <h3>Embeddable chat widget</h3>
+      <p>
+        Drops into a client's existing site. Answers only from that client's documents, cites
+        the source in every reply, and offers a human handoff when the answer is not in the
+        corpus &mdash; instead of inventing one.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section data-reveal id="code">
+  <h2>Code you can read</h2>
+  <p class="section-lede">
+    Six public repositories. Two are small libraries meant to be read end to end.
+  </p>
+
+  <div class="grid three">
+    <a class="repo" href="https://github.com/hani-amro/quickdrop">
+      <b>quickdrop</b>
+      <span>Multi-tenant delivery SaaS. 44,205 LOC, 571 tests, 42 tables, forced Postgres row-level security.</span>
+    </a>
+    <a class="repo" href="https://github.com/hani-amro/qalb-ecg">
+      <b>qalb-ecg</b>
+      <span>ECG screening. 0.919 macro-AUROC, and a model card that leads with the 28% it misses.</span>
+    </a>
+    <a class="repo" href="https://github.com/hani-amro/tenant-guard">
+      <b>tenant-guard</b>
+      <span>Makes cross-tenant data leaks impossible to write by accident. 20 tests.</span>
+    </a>
+    <a class="repo" href="https://github.com/hani-amro/overfit-stats">
+      <b>overfit-stats</b>
+      <span>Refuses to certify a strategy that is statistically indistinguishable from luck. 41 tests.</span>
+    </a>
+    <a class="repo" href="https://github.com/hani-amro/boq-engine">
+      <b>boq-engine</b>
+      <span>Arabic bill-of-quantities engine. Every figure prints the arithmetic that produced it.</span>
+    </a>
+    <a class="repo" href="https://github.com/hani-amro/pdf-tools-api">
+      <b>pdf-tools-api</b>
+      <span>26-endpoint PDF toolkit with Arabic OCR. Live on RapidAPI.</span>
+    </a>
+  </div>
+</section>
+
+<section data-reveal id="principles">
+  <h2>How I build</h2>
+
+  <div class="grid two">
+    <article class="principle">
+      <h3>No silent zeros</h3>
+      <p>
+        Anything that cannot compute a number says so, in the output, where someone will see
+        it. A silent <code>0</code> becomes a silent under-quote or a missed diagnosis, and
+        nobody notices until it has already cost something.
+      </p>
+    </article>
+    <article class="principle">
+      <h3>The model proposes; code decides</h3>
+      <p>
+        Language models orchestrate, explain and draft. Arithmetic, risk limits and money are
+        computed by code that can be tested. In the trading engine this is six post-conditions
+        the model has no way to talk its way past.
+      </p>
+    </article>
+    <article class="principle">
+      <h3>Every number carries its arithmetic</h3>
+      <p>
+        Deliverables show the inputs, the formula, and the formula with the values substituted.
+        That is a feature, not debug output &mdash; it is what lets a client argue with a
+        number instead of quietly distrusting it.
+      </p>
+    </article>
+    <article class="principle">
+      <h3>Systems document their own weaknesses</h3>
+      <p>
+        The ECG model card opens with the infarctions it misses. The delivery platform's README
+        states plainly that it has never served a customer. A number nobody is allowed to
+        criticise is a number nobody should trust.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section data-reveal id="how" class="disclosure">
+  <h2>How these were built</h2>
+  <p>
+    I direct AI coding assistants rather than writing implementation line by line. I set the
+    requirements and the architecture, review and correct what comes back, decide what ships,
+    and operate the result in production.
+  </p>
+  <p>
+    That last part is the one that cannot be generated. These systems run on a server I
+    administer, and I am the person who gets paged when they stop. Every design decision
+    documented in these repositories is one I chose and can explain &mdash; including the ones
+    that turned out to be wrong.
+  </p>
+</section>
+
+<section data-reveal id="contact">
+  <h2>Get in touch</h2>
+  <p class="section-lede">Open to automation and integration work, contract or full-time.</p>
+  <p class="cta">
+    <a class="btn primary" href="mailto:hani.wael.amro@gmail.com">hani.wael.amro@gmail.com</a>
+    <a class="btn" href="https://wa.me/601172380996">WhatsApp</a>
+    <a class="btn" href="https://github.com/hani-amro">GitHub</a>
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Hani Amro &middot; Malaysia &middot; <span dir="rtl" lang="ar">العربية لغة التسليم، لا طبقة ترجمة</span></p>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script src="pipeline.js"></script>
+</body>
+</html>
