@@ -27,11 +27,15 @@
 
   // Each field drifts on its own slow Lissajous path, so the composition never
   // repeats on a short loop.
+  // `pr` is the breathing rate and `pd` the phase offset, so the fields swell and
+  // fade out of step with one another. Without the offsets they would pulse in
+  // unison and read as a single flashing light rather than a living field.
   var FIELDS = [
-    { hue: "a", x: 0.18, y: 0.16, r: 0.52, sx: 0.00021, sy: 0.00013, ax: 0.16, ay: 0.11 },
-    { hue: "b", x: 0.82, y: 0.24, r: 0.46, sx: 0.00017, sy: 0.00023, ax: 0.13, ay: 0.15 },
-    { hue: "c", x: 0.62, y: 0.72, r: 0.58, sx: 0.00012, sy: 0.00019, ax: 0.18, ay: 0.12 },
-    { hue: "a", x: 0.28, y: 0.86, r: 0.40, sx: 0.00024, sy: 0.00011, ax: 0.11, ay: 0.09 }
+    { hue: "a", x: 0.16, y: 0.14, r: 0.54, sx: 0.00021, sy: 0.00013, ax: 0.19, ay: 0.13, pr: 0.00042, pd: 0.0 },
+    { hue: "b", x: 0.84, y: 0.22, r: 0.48, sx: 0.00017, sy: 0.00023, ax: 0.16, ay: 0.17, pr: 0.00031, pd: 1.7 },
+    { hue: "c", x: 0.64, y: 0.74, r: 0.60, sx: 0.00012, sy: 0.00019, ax: 0.21, ay: 0.14, pr: 0.00037, pd: 3.1 },
+    { hue: "a", x: 0.26, y: 0.88, r: 0.42, sx: 0.00024, sy: 0.00011, ax: 0.14, ay: 0.11, pr: 0.00048, pd: 4.4 },
+    { hue: "b", x: 0.48, y: 0.46, r: 0.50, sx: 0.00015, sy: 0.00026, ax: 0.23, ay: 0.18, pr: 0.00027, pd: 2.3 }
   ];
 
   var w = 0, h = 0;
@@ -63,13 +67,17 @@
       var f = FIELDS[i];
       var cx = (f.x + Math.sin(time * f.sx) * f.ax) * w;
       var cy = (f.y + Math.cos(time * f.sy) * f.ay) * h;
-      var r = f.r * base;
+
+      // breath in [0,1]: swells the radius by 30% and the opacity by 45%
+      var breath = 0.5 + 0.5 * Math.sin(time * f.pr + f.pd);
+      var r = f.r * base * (0.85 + breath * 0.30);
 
       var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
       g.addColorStop(0, colours[f.hue]);
+      g.addColorStop(0.55, colours[f.hue]);
       g.addColorStop(1, "transparent");
 
-      ctx.globalAlpha = 0.55;
+      ctx.globalAlpha = 0.34 + breath * 0.45;
       ctx.fillStyle = g;
       ctx.beginPath();
       ctx.arc(cx, cy, r, 0, Math.PI * 2);

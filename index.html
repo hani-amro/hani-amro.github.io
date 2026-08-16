@@ -61,6 +61,8 @@
 
 <canvas id="aurora" aria-hidden="true"></canvas>
 
+<button id="lang-toggle" type="button" aria-label="Switch to Arabic">ع</button>
+
 <button id="theme-toggle" type="button" aria-label="Toggle colour theme">
   <span data-icon="dark">☾</span><span data-icon="light">☀</span>
 </button>
@@ -69,35 +71,35 @@
   <div class="wrap">
    <div class="hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow"><span class="pulse"></span> AI Automation Engineer</p>
+      <p class="eyebrow" data-i18n="eyebrow"><span class="pulse"></span> AI Automation Engineer</p>
       <h1>Hani Amro</h1>
-      <p class="lede">
+      <p class="lede" data-i18n="lede">
         I design automations that run unattended in production &mdash; and I am the person who
         keeps them running. <b>The model proposes; deterministic code decides; nothing is
         allowed to fail silently.</b>
       </p>
       <p class="where">
-        <span><svg class="i" viewBox="0 0 24 24"><use href="#ic-pin"/></svg> Malaysia</span>
-        <span><svg class="i" viewBox="0 0 24 24"><use href="#ic-clock"/></svg> UTC+8</span>
-        <span><svg class="i" viewBox="0 0 24 24"><use href="#ic-globe"/></svg> open to relocation (UAE) &middot; remote</span>
+        <span><svg class="i" viewBox="0 0 24 24"><use href="#ic-pin"/></svg> <span data-i18n="loc">Malaysia</span></span>
+        <span><svg class="i" viewBox="0 0 24 24"><use href="#ic-clock"/></svg> <span data-i18n="tz">UTC+8</span></span>
+        <span><svg class="i" viewBox="0 0 24 24"><use href="#ic-globe"/></svg> <span data-i18n="open">open to relocation (UAE) &middot; remote</span></span>
       </p>
 
       <div class="cta">
         <a class="btn primary" href="Hani_Amro_CV.pdf">
-          <svg class="i" viewBox="0 0 24 24"><use href="#ic-download"/></svg> Download CV
+          <svg class="i" viewBox="0 0 24 24"><use href="#ic-download"/></svg> <span data-i18n="cv">Download CV</span>
         </a>
         <a class="btn" href="https://github.com/hani-amro">
           <svg class="i" viewBox="0 0 24 24"><use href="#ic-github"/></svg> GitHub
         </a>
         <a class="btn" href="mailto:hani.wael.amro@gmail.com">
-          <svg class="i" viewBox="0 0 24 24"><use href="#ic-mail"/></svg> Email
+          <svg class="i" viewBox="0 0 24 24"><use href="#ic-mail"/></svg> <span data-i18n="email">Email</span>
         </a>
       </div>
     </div>
 
     <figure class="hero-viz">
       <canvas id="pipeline" aria-hidden="true"></canvas>
-      <figcaption>
+      <figcaption data-i18n="viz">
         A signal enters, is parsed, and meets the validation gate. What fails there is
         dropped, not passed downstream.
       </figcaption>
@@ -105,12 +107,12 @@
    </div>
 
     <ul class="counters" aria-label="Verified production figures">
-      <li><b>913</b><span>trade executions on live broker accounts</span></li>
-      <li><b>378,110</b><span>agent events logged by one pipeline</span></li>
-      <li><b>8</b><span>self-built services I operate</span></li>
-      <li><b>64</b><span>days uptime on that server</span></li>
+      <li><b>913</b><span data-i18n="c1">trade executions on live broker accounts</span></li>
+      <li><b>378,110</b><span data-i18n="c2">agent events logged by one pipeline</span></li>
+      <li><b>8</b><span data-i18n="c3">self-built services I operate</span></li>
+      <li><b>64</b><span data-i18n="c4">days uptime on that server</span></li>
     </ul>
-    <p class="footnote">Figures measured August 2026. Every number on this page is one I can show you the source of.</p>
+    <p class="footnote" data-i18n="foot">Figures measured August 2026. Every number on this page is one I can show you the source of.</p>
   </div>
 </header>
 
@@ -119,9 +121,9 @@
 <section data-reveal id="systems">
   <div class="sec-head">
     <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-activity"/></svg></span>
-    <h2>Systems in production</h2>
+    <h2 data-i18n="s-h">Systems in production</h2>
   </div>
-  <p class="section-lede">Running now, with real data flowing through them.</p>
+  <p class="section-lede" data-i18n="s-l">Running now, with real data flowing through them.</p>
 
   <div class="grid pair">
 
@@ -225,17 +227,15 @@
 <section data-reveal id="interfaces">
   <div class="sec-head">
     <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-layout"/></svg></span>
-    <h2>The interface, not just the pipeline</h2>
+    <h2 data-i18n="i-h">The interface, not just the pipeline</h2>
   </div>
-  <p class="section-lede">
-    An automation nobody can see or operate has not been delivered. I build the screens too.
-  </p>
+  <p class="section-lede" data-i18n="i-l">An automation nobody can see or operate has not been delivered. I build the screens too.</p>
 
   <div class="grid pair">
     <article class="card k-in">
       <header>
         <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-layout"/></svg></span>
-        <div class="titles"><h3>Operations dashboard &mdash; three languages</h3></div>
+        <div class="titles"><h3 data-i18n="i1-h">Operations dashboard &mdash; three languages</h3></div>
       </header>
       <p>
         Arabic (RTL), English and Malay from one codebase, 394 translation keys with none
@@ -248,7 +248,7 @@
     <article class="card k-in">
       <header>
         <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cart"/></svg></span>
-        <div class="titles"><h3>Storefront and checkout</h3></div>
+        <div class="titles"><h3 data-i18n="i2-h">Storefront and checkout</h3></div>
       </header>
       <p>
         Catalogue, pricing rules, offers, coupons and redemptions, loyalty accounts, orders and
@@ -261,7 +261,7 @@
     <article class="card k-in">
       <header>
         <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-phone"/></svg></span>
-        <div class="titles"><h3>Driver PWA</h3></div>
+        <div class="titles"><h3 data-i18n="i3-h">Driver PWA</h3></div>
       </header>
       <p>
         Installable, works on a phone in the field. Proof-of-delivery images are validated by
@@ -273,7 +273,7 @@
     <article class="card k-in">
       <header>
         <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-chat"/></svg></span>
-        <div class="titles"><h3>Embeddable chat widget</h3></div>
+        <div class="titles"><h3 data-i18n="i4-h">Embeddable chat widget</h3></div>
       </header>
       <p>
         Drops into a client's existing site. Answers only from that client's documents, cites
@@ -284,39 +284,59 @@
   </div>
 </section>
 
+<section data-reveal id="ops">
+  <div class="sec-head">
+    <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-server"/></svg></span>
+    <h2 data-i18n="o-h">One box, eight services, sixty-four days</h2>
+  </div>
+  <p class="section-lede" data-i18n="o-l">
+    Everything above runs on a single Ubuntu VPS that I administer. This is the stack,
+    bottom to top.
+  </p>
+
+  <div class="ops-grid">
+    <figure class="ops-viz">
+      <canvas id="stack" aria-hidden="true"></canvas>
+    </figure>
+
+    <dl class="specs">
+      <div><dt data-i18n="o1-t">Uptime</dt><dd data-i18n="o1-d"><b>64 days</b>, zero unplanned restarts</dd></div>
+      <div><dt data-i18n="o2-t">Edge</dt><dd data-i18n="o2-d">nginx, <b>7</b> Let's Encrypt certificates, every app port bound to loopback</dd></div>
+      <div><dt data-i18n="o3-t">Runtimes</dt><dd data-i18n="o3-d">Docker Compose, PM2 and systemd side by side &mdash; each service on the one that fits it</dd></div>
+      <div><dt data-i18n="o4-t">Data</dt><dd data-i18n="o4-d">PostgreSQL 16, Redis, MinIO, SQLite. Nightly <code>pg_dump</code> with retention</dd></div>
+      <div><dt data-i18n="o5-t">Firewall</dt><dd data-i18n="o5-d">default deny inbound; a separate rule for Docker, which bypasses the host firewall entirely</dd></div>
+      <div><dt data-i18n="o6-t">Automation</dt><dd data-i18n="o6-d">self-hosted n8n, scheduled jobs, and a watchdog that restarts a crashed process and gives up after three failures rather than looping</dd></div>
+    </dl>
+  </div>
+</section>
+
 <section data-reveal id="code">
   <div class="sec-head">
     <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-code"/></svg></span>
-    <h2>Code you can read</h2>
+    <h2 data-i18n="code-h">Code you can read</h2>
   </div>
-  <p class="section-lede">
+  <p class="section-lede" data-i18n="code-l">
     Six public repositories. Two are small libraries meant to be read end to end.
   </p>
 
   <div class="grid three">
     <a class="repo" href="https://github.com/hani-amro/quickdrop">
-      <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-server"/></svg></span>
-      <span class="txt"><b>quickdrop</b><span>Multi-tenant delivery SaaS. 44,205 LOC, 571 tests, 42 tables, forced Postgres row-level security.</span></span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-server"/></svg></span><b>quickdrop</b></span><span class="desc">Multi-tenant delivery SaaS. 44,205 LOC, 571 tests, 42 tables, forced Postgres row-level security.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/qalb-ecg">
-      <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-activity"/></svg></span>
-      <span class="txt"><b>qalb-ecg</b><span>ECG screening. 0.919 macro-AUROC, and a model card that leads with the 28% it misses.</span></span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-activity"/></svg></span><b>qalb-ecg</b></span><span class="desc">ECG screening. 0.919 macro-AUROC, and a model card that leads with the 28% it misses.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/tenant-guard">
-      <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span>
-      <span class="txt"><b>tenant-guard</b><span>Makes cross-tenant data leaks impossible to write by accident. 20 tests.</span></span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span><b>tenant-guard</b></span><span class="desc">Makes cross-tenant data leaks impossible to write by accident. 20 tests.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/overfit-stats">
-      <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span>
-      <span class="txt"><b>overfit-stats</b><span>Refuses to certify a strategy that is statistically indistinguishable from luck. 41 tests.</span></span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span><b>overfit-stats</b></span><span class="desc">Refuses to certify a strategy that is statistically indistinguishable from luck. 41 tests.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/boq-engine">
-      <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span>
-      <span class="txt"><b>boq-engine</b><span>Arabic bill-of-quantities engine. Every figure prints the arithmetic that produced it.</span></span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span><b>boq-engine</b></span><span class="desc">Arabic bill-of-quantities engine. Every figure prints the arithmetic that produced it.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/pdf-tools-api">
-      <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg></span>
-      <span class="txt"><b>pdf-tools-api</b><span>26-endpoint PDF toolkit with Arabic OCR. Live on RapidAPI.</span></span>
+      <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg></span><b>pdf-tools-api</b></span><span class="desc">26-endpoint PDF toolkit with Arabic OCR. Live on RapidAPI.</span>
     </a>
   </div>
 </section>
@@ -324,15 +344,15 @@
 <section data-reveal id="principles">
   <div class="sec-head">
     <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span>
-    <h2>How I build</h2>
+    <h2 data-i18n="p-h">How I build</h2>
   </div>
 
   <div class="grid pair">
     <article class="principle">
       <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-alert"/></svg></span>
       <div class="txt">
-        <h3>No silent zeros</h3>
-        <p>
+        <h3 data-i18n="p1-h">No silent zeros</h3>
+        <p data-i18n="p1-p">
           Anything that cannot compute a number says so, in the output, where someone will see
           it. A silent <code>0</code> becomes a silent under-quote or a missed diagnosis, and
           nobody notices until it has already cost something.
@@ -343,8 +363,8 @@
     <article class="principle">
       <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-branch"/></svg></span>
       <div class="txt">
-        <h3>The model proposes; code decides</h3>
-        <p>
+        <h3 data-i18n="p2-h">The model proposes; code decides</h3>
+        <p data-i18n="p2-p">
           Language models orchestrate, explain and draft. Arithmetic, risk limits and money are
           computed by code that can be tested. In the trading engine this is six post-conditions
           the model has no way to talk its way past.
@@ -355,8 +375,8 @@
     <article class="principle">
       <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span>
       <div class="txt">
-        <h3>Every number carries its arithmetic</h3>
-        <p>
+        <h3 data-i18n="p3-h">Every number carries its arithmetic</h3>
+        <p data-i18n="p3-p">
           Deliverables show the inputs, the formula, and the formula with the values substituted.
           That is a feature, not debug output &mdash; it is what lets a client argue with a
           number instead of quietly distrusting it.
@@ -367,8 +387,8 @@
     <article class="principle">
       <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span>
       <div class="txt">
-        <h3>Systems document their own weaknesses</h3>
-        <p>
+        <h3 data-i18n="p4-h">Systems document their own weaknesses</h3>
+        <p data-i18n="p4-p">
           The ECG model card opens with the infarctions it misses. The delivery platform's README
           states plainly that it has never served a customer. A number nobody is allowed to
           criticise is a number nobody should trust.
@@ -382,7 +402,7 @@
   <div class="disclosure">
     <div class="sec-head">
       <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-branch"/></svg></span>
-      <h2>How these were built</h2>
+      <h2 data-i18n="h-h">How these were built</h2>
     </div>
     <p>
       I direct AI coding assistants rather than writing implementation line by line. I set the
@@ -401,9 +421,9 @@
 <section data-reveal id="contact">
   <div class="sec-head">
     <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-mail"/></svg></span>
-    <h2>Get in touch</h2>
+    <h2 data-i18n="ct-h">Get in touch</h2>
   </div>
-  <p class="section-lede">Open to automation and integration work, contract or full-time.</p>
+  <p class="section-lede" data-i18n="ct-l">Open to automation and integration work, contract or full-time.</p>
   <p class="cta">
     <a class="btn primary" href="mailto:hani.wael.amro@gmail.com">
       <svg class="i" viewBox="0 0 24 24"><use href="#ic-mail"/></svg> hani.wael.amro@gmail.com
@@ -426,7 +446,7 @@
       <span>&middot;</span>
       <span>Malaysia</span>
       <span>&middot;</span>
-      <span dir="rtl" lang="ar">العربية لغة التسليم، لا طبقة ترجمة</span>
+      <span dir="rtl" lang="ar" data-i18n="footer">العربية لغة التسليم، لا طبقة ترجمة</span>
     </p>
   </div>
 </footer>
@@ -434,5 +454,7 @@
 <script src="main.js"></script>
 <script src="pipeline.js"></script>
 <script src="background.js"></script>
+<script src="stack.js"></script>
+<script src="i18n.js"></script>
 </body>
 </html>

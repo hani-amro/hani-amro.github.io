@@ -30,7 +30,7 @@
   --aurora-a: #34c79a;
   --aurora-b: #7f8dff;
   --aurora-c: #f0bf6b;
-  --aurora-opacity: 0.30;
+  --aurora-opacity: 0.34;
   --grid-line: rgba(18, 22, 26, 0.045);
 
   --radius: 14px;
@@ -60,7 +60,7 @@
   --aurora-a: #1f9c78;
   --aurora-b: #4a58c8;
   --aurora-c: #b5822f;
-  --aurora-opacity: 0.42;
+  --aurora-opacity: 0.50;
   --grid-line: rgba(237, 241, 244, 0.05);
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 34px -22px rgba(0, 0, 0, 0.9);
   --shadow-lift: 0 20px 56px -24px rgba(67, 214, 163, 0.35);
@@ -88,7 +88,7 @@
     --aurora-a: #1f9c78;
     --aurora-b: #4a58c8;
     --aurora-c: #b5822f;
-    --aurora-opacity: 0.42;
+    --aurora-opacity: 0.50;
     --grid-line: rgba(237, 241, 244, 0.05);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 34px -22px rgba(0, 0, 0, 0.9);
     --shadow-lift: 0 20px 56px -24px rgba(67, 214, 163, 0.35);
@@ -117,7 +117,7 @@ body {
   height: 100%;
   z-index: -2;
   opacity: var(--aurora-opacity);
-  filter: blur(72px) saturate(120%);
+  filter: blur(78px) saturate(135%);
   transform: translateZ(0);      /* own compositor layer: never repaints the document */
   pointer-events: none;
 }
@@ -170,7 +170,7 @@ code {
 
 /* ---------- theme toggle ---------- */
 #theme-toggle {
-  position: fixed; top: 16px; right: 16px; z-index: 30;
+  position: fixed; top: 16px; inset-inline-end: 16px; z-index: 30;
   width: 42px; height: 42px; border-radius: 50%;
   border: 1px solid var(--line);
   background: var(--surface-solid);
@@ -359,13 +359,13 @@ h2 {
 .tag.pilot { color: var(--amber);   background: var(--amber-soft); }
 .tag.lib   { color: var(--indigo);  background: var(--indigo-soft); }
 
-.facts { margin: 0 0 13px; padding-left: 19px; font-size: 15px; color: var(--ink-2); }
+.facts { margin: 0 0 13px; padding-inline-start: 19px; font-size: 15px; color: var(--ink-2); }
 .facts li { margin-bottom: 5px; }
 .facts b { color: var(--ink); font-variant-numeric: tabular-nums; }
 
 .note {
-  border-left: 3px solid var(--accent-line, var(--emerald));
-  padding-left: 13px;
+  border-inline-start: 3px solid var(--accent-line, var(--emerald));
+  padding-inline-start: 13px;
   font-size: 14.5px !important; color: var(--ink-3) !important;
 }
 
@@ -378,7 +378,8 @@ h2 {
 
 /* ---------- repo tiles ---------- */
 .repo {
-  display: flex; gap: 13px; align-items: flex-start;
+  display: block;
+  position: relative;
   border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--surface);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -389,17 +390,21 @@ h2 {
   will-change: transform;
 }
 .repo:hover { border-color: color-mix(in srgb, var(--indigo) 48%, var(--line)); box-shadow: var(--shadow-lift); }
-.repo .txt { min-width: 0; }
+
+/* Badge and repository name share a baseline row; the description sits under
+   both and uses the full card width, so nothing is left floating. */
+.repo .rhead { display: flex; align-items: center; gap: 11px; margin-bottom: 9px; }
 .repo b {
-  display: block;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 15px; color: var(--indigo); margin-bottom: 5px;
+  font-size: 15.5px; color: var(--indigo); letter-spacing: -0.01em;
 }
-.repo span { display: block; color: var(--ink-2); font-size: 14.5px; line-height: 1.5; }
+.repo .desc { display: block; color: var(--ink-2); font-size: 14.5px; line-height: 1.55; }
+.repo .rhead .icon-badge { width: 34px; height: 34px; font-size: 17px; border-radius: 10px; }
 
 /* ---------- principles ---------- */
 .principle {
   display: flex; gap: 14px; align-items: flex-start;
+  /* badge stays top-aligned here because the heading is a single line */
   padding: 20px;
   border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--surface);
@@ -514,3 +519,93 @@ footer span[dir="rtl"] { display: inline-block; }
     transform: none !important;
   }
 }
+
+/* ---------- isometric stack section ---------- */
+.ops-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 30px;
+  align-items: center;
+}
+
+.ops-viz { margin: 0; min-width: 0; }
+#stack { display: block; width: 100%; height: 440px; pointer-events: none; }
+
+/* Definition rows read faster than paragraphs: the label is the scan target and
+   the value is only read when the label is the one you wanted. */
+.specs { margin: 0; display: grid; gap: 2px; }
+.specs > div {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  gap: 14px;
+  padding: 13px 2px;
+  border-top: 1px solid var(--line);
+  align-items: baseline;
+}
+.specs > div:last-child { border-bottom: 1px solid var(--line); }
+.specs dt {
+  font-size: 12.5px; font-weight: 680;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--emerald);
+}
+.specs dd { margin: 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+.specs dd b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 880px) {
+  .ops-grid { grid-template-columns: 1fr; gap: 20px; }
+  #stack { height: 320px; }
+  .specs > div { grid-template-columns: 1fr; gap: 3px; padding: 11px 2px; }
+}
+
+
+/* ---------- language toggle ---------- */
+#lang-toggle {
+  position: fixed; top: 16px; inset-inline-end: 68px; z-index: 30;
+  min-width: 42px; height: 42px; padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface-solid);
+  color: var(--ink);
+  font: 650 14px/1 ui-sans-serif, system-ui, sans-serif;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.25, 1), border-color 0.2s ease, color 0.2s ease;
+}
+#lang-toggle:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+
+/* ============================================================
+   Right-to-left.
+
+   Almost nothing is needed here, because the rules above use logical
+   properties -- the browser mirrors padding, margins and borders itself once
+   dir="rtl" is set. What follows is only the handful of things that must NOT
+   mirror, plus Arabic typography.
+   ============================================================ */
+
+:root[dir="rtl"] body {
+  font-family: "Segoe UI", "Noto Naskh Arabic", "Geeza Pro", Tahoma, ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.78;                 /* Arabic needs more leading than Latin */
+}
+
+:root[dir="rtl"] h1 { letter-spacing: 0; font-weight: 700; }
+:root[dir="rtl"] h2,
+:root[dir="rtl"] h3 { letter-spacing: 0; }
+:root[dir="rtl"] .eyebrow,
+:root[dir="rtl"] .specs dt,
+:root[dir="rtl"] .tag { letter-spacing: 0; text-transform: none; }
+
+/* Canvas artwork is drawn in its own coordinate space and must not flip. */
+:root[dir="rtl"] .hero-viz,
+:root[dir="rtl"] .ops-viz { direction: ltr; }
+
+/* Identifiers, code and figures stay left-to-right inside Arabic prose. */
+:root[dir="rtl"] code,
+:root[dir="rtl"] .repo b,
+:root[dir="rtl"] .counters b,
+:root[dir="rtl"] .facts b { direction: ltr; unicode-bidi: isolate; }
+
+:root[dir="rtl"] .repo .desc,
+:root[dir="rtl"] .lede,
+:root[dir="rtl"] .card p,
+:root[dir="rtl"] .principle p,
+:root[dir="rtl"] .disclosure p { text-align: start; }
