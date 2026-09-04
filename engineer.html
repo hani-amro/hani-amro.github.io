@@ -193,8 +193,8 @@
     <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-stack"/></svg></span>
     <h2 data-i18n="cs-h">Selected work</h2>
   </div>
-  <p class="section-lede" data-i18n="cs-l">Four systems, each with the problem it solved and the
-    result it produced.</p>
+  <p class="section-lede" data-i18n="cs-l">Six systems. Each one shows the defect happening first,
+    then the mechanism that makes it impossible.</p>
 
   <div class="grid pair">
 
@@ -220,6 +220,7 @@
           identity was verified on three accounts named Demo, Demo2 and Demo10. No subscriber
           balance has ever been read successfully, and the last execution was 24 August 2026.</dd>
       </dl>
+      <figure data-mechanism="altajir-position-pnl"></figure>
       <p class="note" data-i18n="k1-n"><b>A decision I am often asked about:</b> the first version ran
         on a drag-and-drop automation tool. After 22 attempts to make it fast enough, the tool itself
         proved to be the limit &mdash; so I rebuilt the core in code.</p>
@@ -257,6 +258,8 @@
         the demo data is wiped and re-seeded by cron every day at 03:00 UTC. The repository stays
         private because its history carries an inventory of a server hosting six client sites that
         are not mine.</p>
+      <p class="cta"><a class="btn" href="https://wain.srv1564240.hstgr.cloud" target="_blank" rel="noopener">
+        <svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="k2-go">Open the live demo</span></a></p>
       <p class="stack" data-i18n="k2-s">TypeScript &middot; Next.js 16 &middot; NestJS 11 &middot; PostgreSQL 18 &middot; Drizzle &middot; Valkey &middot; Flutter &middot; Docker</p>
     </article>
 
@@ -284,6 +287,7 @@
           And no order has ever reached delivery: four test orders on 20 July 2026, all still
           sitting at <em>confirmed</em>.</dd>
       </dl>
+      <figure data-mechanism="quickdrop"></figure>
       <p class="stack" data-i18n="k3-s">TypeScript &middot; NestJS &middot; PostgreSQL (RLS, PostGIS) &middot; Redis &middot; WhatsApp Business API &middot; Docker</p>
     </article>
 
@@ -308,41 +312,80 @@
           those tests all run on SQLite while production is PostgreSQL &mdash; and that exact gap
           once hid a feature that passed a green board and was impossible in production.</dd>
       </dl>
+      <figure data-mechanism="gold-signals"></figure>
+      <p class="cta"><a class="btn" href="https://gold-signals.srv1564240.hstgr.cloud" target="_blank" rel="noopener">
+        <svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="k4-go">Open it</span></a></p>
       <p class="stack" data-i18n="k4-s">Python &middot; aiogram &middot; SQLAlchemy &middot; PostgreSQL &middot; Alembic &middot; Docker</p>
+    </article>
+
+    <article class="card k-am" data-project="yasmin-salla-cx">
+      <header>
+        <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cpu"/></svg></span>
+        <div class="titles">
+          <h3 data-i18n="k5-h">Yasmin &mdash; an assistant that counts its own misses</h3>
+          <span class="tag pilot"><span data-i18n="k5-t">Built and measured &middot; model connection down</span></span>
+        </div>
+      </header>
+      <dl class="par">
+        <dt data-i18n="lbl-p">The problem</dt>
+        <dd data-i18n="k5-p">An assistant grounded in a client's own pages has one failure that matters:
+          answering something the source never contained. The check for that failure was itself a
+          string match on the first fifteen characters of a sentence the tenant can edit from their
+          own panel &mdash; so the check broke the moment anyone reworded it, and broke silently.</dd>
+        <dt data-i18n="lbl-a">What I built</dt>
+        <dd data-i18n="k5-a">A refusal sentinel that does not depend on wording, the old text match kept
+          as a verbatim fallback, and a <code>refusal_via</code> column recording which path produced
+          each refusal &mdash; so the system counts its own misses instead of assuming it has none.</dd>
+        <dt data-i18n="lbl-r">What it proves</dt>
+        <dd data-i18n="k5-r">9 of 23 refusals were arriving through the fallback &mdash; 39% &mdash;
+          while every visible indicator was green and the gate reported no gaps. 198 tests run inside
+          the real Cloudflare Workers runtime.</dd>
+      </dl>
+      <figure data-mechanism="yasmin-salla-cx"></figure>
+      <p class="note" data-i18n="k5-n"><b>Said against my own interest:</b> the measurement that found
+        this is the one I built, and what it found is that my own safety claim was wrong. The public
+        demo's model connection is down today, so there is no link here &mdash; a link to something
+        that will not answer is worse than no link. Zero users, zero payers.</p>
+      <p class="stack" data-i18n="k5-s">TypeScript &middot; Cloudflare Workers &middot; Hono &middot; D1 &middot; KV &middot; Claude API with prompt caching &middot; Vitest</p>
+    </article>
+
+    <article class="card k-in" data-project="tenant-guard-overfit-stats">
+      <header>
+        <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span>
+        <div class="titles">
+          <h3 data-i18n="k6-h">tenant-guard &mdash; a leak that the obvious test cannot see</h3>
+          <span class="tag lib"><span data-i18n="k6-t">Code sample, not a product &middot; zero users</span></span>
+        </div>
+      </header>
+      <dl class="par">
+        <dt data-i18n="lbl-p">The problem</dt>
+        <dd data-i18n="k6-p">SQLAlchemy's lambda cache keys on the code object and only tracks closure
+          variables. Write the tenant filter as a default argument and the cache cannot see it, so the
+          second tenant is served the first tenant's rows &mdash; with no error raised.</dd>
+        <dt data-i18n="lbl-a">What I built</dt>
+        <dd data-i18n="k6-a">The filter as a genuine closure so the cache rebinds it, and a test that
+          asserts the two tenants' result sets are <em>disjoint</em>. The tempting assertion,
+          <code>len(rows) &gt; 0</code>, passes happily on leaked data &mdash; which is how a leak like
+          this survives a green test suite.</dd>
+        <dt data-i18n="lbl-r">What it proves</dt>
+        <dd data-i18n="k6-r">20 tests passing, one runtime dependency, and a test-to-source line ratio of
+          0.89. Paired with overfit-stats, 41 tests, which refuses to certify a trading strategy that
+          is statistically indistinguishable from luck.</dd>
+      </dl>
+      <figure data-mechanism="tenant-guard-overfit-stats"></figure>
+      <p class="note" data-i18n="k6-n"><b>What these are not:</b> neither library is on PyPI, so
+        <code>pip install</code> does not work. There is no CI &mdash; the badges in the READMEs are
+        static images I wrote by hand. Five commits each, all landed within one hour on 16 August 2026,
+        nothing since. They are code meant to be read, not products.</p>
+      <p class="cta"><a class="btn" href="https://github.com/hani-amro/tenant-guard" target="_blank" rel="noopener">
+        <svg class="i" viewBox="0 0 24 24"><use href="#ic-github"/></svg> <span data-i18n="k6-go">Read the code</span></a></p>
+      <p class="stack" data-i18n="k6-s">Python 3.10+ &middot; SQLAlchemy 2.0 &middot; numpy &middot; scipy &middot; pytest &middot; MIT</p>
     </article>
 
   </div>
 </section>
 
 <!-- 5 ───────────────────────────── LIVE DEMOS ────────────────────────── -->
-<section data-reveal id="demos">
-  <div class="sec-head">
-    <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg></span>
-    <h2 data-i18n="d-h">Try it yourself</h2>
-  </div>
-  <p class="section-lede" data-i18n="d-l">These are running right now &mdash; not screenshots.</p>
-
-  <div class="grid pair">
-    <a class="demo" href="https://salla-cx.hani-wael-amro.workers.dev/demo/yasmin-store" data-project="yasmin-salla-cx">
-      <span class="demo-tag" data-i18n="d1-t">Interactive demo</span>
-      <b data-i18n="d1-h">An AI shop assistant that cites its sources</b>
-      <span class="desc" data-i18n="d1-p">Ask about any product and it answers from the store's actual
-        pages &mdash; naming the page it read. If the store never published the answer, it tells you
-        so and offers a human instead. Works in Arabic and English.</span>
-      <span class="demo-go"><span data-i18n="go1">Open the demo</span> <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></span>
-    </a>
-
-    <a class="demo" href="https://pdf.srv1564240.hstgr.cloud/docs">
-      <span class="demo-tag" data-i18n="d2-t">Listed API &middot; no paying use yet</span>
-      <b data-i18n="d2-h">26 PDF tools with Arabic OCR</b>
-      <span class="desc" data-i18n="d2-p">Merge, split, compress, protect, or extract text &mdash;
-        including from scanned Arabic documents. Files are processed in memory and never stored.
-        Listed on RapidAPI, where it has not yet served a single successful request.</span>
-      <span class="demo-go"><span data-i18n="go2">Open the docs</span> <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></span>
-    </a>
-  </div>
-</section>
-
 <!-- 6 ───────────────────────────── HOW I WORK ────────────────────────── -->
 <section data-reveal id="how">
   <div class="sec-head">
@@ -514,5 +557,10 @@
 <script src="i18n.js"></script>
 <script src="mechanism.js"></script>
 <script src="mech/wain-ticketing-ledger.js"></script>
+<script src="mech/altajir-position-pnl.js"></script>
+<script src="mech/quickdrop.js"></script>
+<script src="mech/gold-signals.js"></script>
+<script src="mech/yasmin-salla-cx.js"></script>
+<script src="mech/tenant-guard-overfit-stats.js"></script>
 </body>
 </html>

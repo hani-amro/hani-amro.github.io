@@ -46,7 +46,7 @@
       // الـUPDATE المشروط: الشرط داخل جملة الكتابة، لا قبلها
       '<rect id="q-upd" x="262" y="70" width="150" height="52" rx="8"/>' +
       '<text class="m-t" x="337" y="87" font-size="9" text-anchor="middle">UPDATE … WHERE</text>' +
-      '<text class="m-t" x="337" y="99" font-size="9" text-anchor="middle">dispatchRequestedAt IS NULL</text>' +
+      '<text class="m-t" x="337" y="99" font-size="8.5" text-anchor="middle">dispatchRequestedAt IS NULL</text>' +
       '<text id="q-rows" x="337" y="114" font-size="11" text-anchor="middle" font-weight="700"></text>' +
       '<path class="m-line" d="M236 108 L262 100"/>' +
 

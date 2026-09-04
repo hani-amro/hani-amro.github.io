@@ -910,10 +910,16 @@ footer span[dir="rtl"] { display: inline-block; }
    direction وحدها. وبدونها كان `BEGIN … COMMIT` يُرسَم من اليمين فيخرج عن
    الإطار ويظهر «MIT»، و`+1000` تنقلب إلى `1000+`، والعلامة ✗ تسبق اسم القيد.
    والعزل يمنع تسرّب اتجاه الصفحة إلى كل مقطع على حدة. */
-.mech svg text {
+/* الحجم يُورَّث من <svg> لا يُفرَض على <text>.
+
+   والفرق ليس أسلوبياً: قاعدة CSS على العنصر تغلب سمة العرض عليه، فكانت
+   font-size="22" على عدّاد الفرق تُلغى وتُرسَم 11 — أي أن تدرّج الأحجام الذي
+   يقوم عليه المخطّط لم يكن يصل الشاشة أصلاً (قِسته: أربع سمات من خمس مُلغاة).
+   والقيمة الموروثة لا تنافس السمة، فتعود لكل عنصر قيمته. */
+.mech svg {
   font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
-  direction: ltr; unicode-bidi: isolate;
 }
+.mech svg text { direction: ltr; unicode-bidi: isolate; }
 .mech svg .m-t   { fill: var(--ink-2); }
 .mech svg .m-tb  { fill: var(--ink); font-weight: 600; }
 .mech svg .m-box { fill: none; stroke: var(--line-strong); stroke-width: 1.2; rx: 5; }

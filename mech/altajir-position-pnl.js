@@ -30,6 +30,15 @@
 
   function rowY(i) { return 30 + i * 42; }
 
+  /** قِطع الخيط بين الدرجة الأولى والدرجة النشطة، كلٌّ منها في فراغٍ بين صندوقين. */
+  function dropPath(active) {
+    var d = "";
+    for (var i = 0; i < active; i++) {
+      d += "M157 " + (rowY(i) + ROW_H) + " L157 " + rowY(i + 1) + " ";
+    }
+    return d;
+  }
+
   function rungMarkup(i) {
     var y = rowY(i);
     return '<g class="rung">' +
@@ -46,11 +55,12 @@
 
   var SVG =
     '<svg xmlns="http://www.w3.org/2000/svg">' +
+      // خيط النزول: يُري أن الدرجات تُجرَّب بالترتيب لا أنها خيارات متوازية.
+      // يُرسَم قِطعاً في الفراغ بين الصناديق فقط — الخطّ المتّصل كان يمرّ فوق
+      // أسماء الحقول فيُقرأ شطباً لها، وهو ليس شطباً.
+      '<path id="a-drop" class="m-dash" d="" ' +
+        'stroke="var(--ink-3)" stroke-width="1.2" fill="none" opacity="0"/>' +
       rungMarkup(0) + rungMarkup(1) + rungMarkup(2) + rungMarkup(3) +
-
-      // سهم النزول: يُري أن الدرجات تُجرَّب بالترتيب، لا أنها خيارات متوازية.
-      '<path id="a-drop" class="m-dash" d="M157 ' + (rowY(0) + ROW_H) + ' L157 ' + rowY(1) +
-        '" stroke="var(--ink-3)" stroke-width="1.2" fill="none" opacity="0"/>' +
 
       // المخرَج المصرَّح: القيمة لا تُعاد وحدها، بل ومعها مصدرها وحال تحذيرها.
       '<rect id="a-out" x="336" y="42" width="170" height="104" rx="9"/>' +
@@ -120,7 +130,7 @@
         g.classList.toggle("m-dim", passed);
 
         var bg = g.querySelector(".rung-bg");
-        bg.setAttribute("fill", on ? (r.warn ? AMS : EMS) : "var(--surface)");
+        bg.setAttribute("fill", on ? (r.warn ? AMS : EMS) : "var(--surface-solid)");
         bg.setAttribute("stroke", on ? tone : "var(--line)");
 
         var n = g.querySelector(".rung-n");
@@ -137,10 +147,11 @@
       });
 
       var drop = root.querySelector("#a-drop");
+      // الهندسة تُكتب دائماً، لا تحت شرط. الحارس كان يترك خطوة 0 ترث مسار
+      // الاستدعاء السابق — ويسلكه المشغّل حرفياً عند الإعادة (play يرجع
+      // step إلى صفر ثم يرسم). دالةٌ خالصة لا تقرأ ما رسمته المرّة الماضية.
+      drop.setAttribute("d", dropPath(active));
       drop.setAttribute("opacity", active > 0 ? "1" : "0");
-      if (active > 0) {
-        drop.setAttribute("d", "M157 " + (rowY(0) + ROW_H) + " L157 " + rowY(active));
-      }
 
       var out = root.querySelector("#a-out");
       out.setAttribute("fill", res.warn ? AMS : EMS);
@@ -157,9 +168,9 @@
       warn.setAttribute("fill", res.warn ? AM : FAINT);
 
       var box = root.querySelector("#a-trap");
-      box.setAttribute("fill", trap ? AMS : "var(--surface)");
+      box.setAttribute("fill", trap ? AMS : "var(--surface-solid)");
       box.setAttribute("stroke", trap ? AM : "var(--line)");
-      box.classList.toggle("m-dash", !trap);
+      box.setAttribute("class", trap ? "" : "m-dash");
 
       var tcol = trap ? AM : FAINT;
       root.querySelector("#a-trapa").setAttribute("fill", tcol);
@@ -169,8 +180,10 @@
       tb.setAttribute("fill", tcol);
 
       var tc = root.querySelector("#a-trapc");
+      // وسمٌ قصير عمداً: صندوق المصيدة 170 وحدة والورقة تفرض 11px على كل نصّ
+      // داخل الـSVG، والجملة الكاملة كانت تتجاوز حدّه. تفصيلها في تعليق الخطوة.
       tc.textContent = trap
-        ? (ar ? "الصفر الصامت — مرفوض" : "the silent zero — rejected")
+        ? (ar ? "الصفر الصامت — مرفوض" : "silent zero — rejected")
         : (ar ? "الإصلاح الساذج" : "the naive fix");
       tc.setAttribute("fill", tcol);
 

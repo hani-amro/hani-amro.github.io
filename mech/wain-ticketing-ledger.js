@@ -102,16 +102,18 @@
       var f = frame(step);
       var ar = document.documentElement.lang === "ar";
 
+      // كل سمة تُكتب في كل خطوة، ولو كان الصفّ مخفياً. الخروج المبكر كان
+      // يترك الصفّ يحمل نصّ الخطوة السابقة تحت شفافية صفر — فيختلف الشكل
+      // باختلاف الطريق إلى الخطوة نفسها، وهو ما يمسكه tools/check_mechanisms.py.
       root.querySelectorAll(".row").forEach(function (g, i) {
         var r = f.rows[i];
         g.setAttribute("opacity", r ? "1" : "0");
-        if (!r) return;
-        g.querySelector(".row-label").textContent = r.label;
+        g.querySelector(".row-label").textContent = r ? r.label : "";
         var amt = g.querySelector(".row-amt");
-        amt.textContent = (r.debit ? "+" : "−") + r.amount;
-        amt.setAttribute("fill", r.debit ? EM : "var(--ink)");
+        amt.textContent = r ? (r.debit ? "+" : "−") + r.amount : "";
+        amt.setAttribute("fill", r && r.debit ? EM : "var(--ink)");
         var bg = g.querySelector(".row-bg");
-        bg.setAttribute("fill", r.debit ? EMS : "var(--surface)");
+        bg.setAttribute("fill", r && r.debit ? EMS : "var(--surface)");
         bg.setAttribute("stroke", "var(--line)");
       });
 
@@ -138,6 +140,8 @@
         gt.textContent = ar ? "مؤجَّل — يُفحَص عند COMMIT" : "DEFERRED — checked at COMMIT";
       }
 
+      // اللون يُكتب في الفروع الثلاثة. الفرع الفارغ كان لا يكتبه، فيبقى النصّ
+      // الفارغ حاملاً لون التحذير من زيارة سابقة — فرقٌ لا يُرى ويكفي لكسر الخلوص.
       var note = root.querySelector("#w-note");
       if (f.gate === "fail") {
         note.textContent = "ROLLBACK → 0 rows";
@@ -147,6 +151,7 @@
         note.setAttribute("fill", "var(--ink-3)");
       } else {
         note.textContent = "";
+        note.setAttribute("fill", "var(--ink-3)");
       }
     }
   });

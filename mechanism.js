@@ -30,7 +30,12 @@
   var VIEWBOX = "0 0 520 230";
 
   window.__mech = {
-    register: function (slug, def) { REG[slug] = def; }
+    register: function (slug, def) { REG[slug] = def; },
+    // منفذ فحص. الخلوص هنا شرطٌ لا تفصيل: المشغّل يعيد step إلى صفر عند
+    // الإعادة، فمخطّطٌ يقرأ ما رسمه سابقاً يعرض إطاراً لا يوافق خطوته.
+    // وقد وقع هذا فعلاً في سُلَّم التاجر. tools/check_mechanisms.py يفحصه.
+    _slugs: function () { return Object.keys(REG); },
+    _get: function (slug) { return REG[slug]; }
   };
 
   function lang() {

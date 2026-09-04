@@ -38,11 +38,11 @@
 
       // من يملك الجملة: المستأجر. وهذا هو مصدر العطل كلّه.
       '<g id="y-tenant">' +
-        '<path d="M240 176 L240 158" stroke="var(--amber)" stroke-width="1.2" fill="none"/>' +
-        '<text id="y-tenanttext" x="240" y="190" font-size="9" text-anchor="middle" ' +
+        '<path d="M240 158 L240 184" stroke="var(--amber)" stroke-width="1.2" fill="none"/>' +
+        '<text id="y-tenanttext" x="240" y="196" font-size="9" text-anchor="middle" ' +
           'fill="var(--amber)"></text>' +
       "</g>" +
-      '<text id="y-gap" x="240" y="204" font-size="9.5" text-anchor="middle" ' +
+      '<text id="y-gap" x="240" y="212" font-size="9.5" text-anchor="middle" ' +
         'font-weight="600" fill="var(--amber)"></text>' +
 
       '<path class="m-line" d="M116 100 L150 60"/>' +
@@ -63,8 +63,12 @@
       '<text id="y-measnum" x="430" y="161" font-size="19" text-anchor="middle" ' +
         'font-weight="700"></text>' +
       '<text id="y-measnote" x="430" y="176" font-size="9" text-anchor="middle"></text>' +
-      '<text id="y-measfoot" x="430" y="202" font-size="9" text-anchor="middle" ' +
-        'fill="var(--ink-3)"></text>' +
+      '<g id="y-measfoot">' +
+        '<text id="y-foot1" x="430" y="198" font-size="9" text-anchor="middle" ' +
+          'fill="var(--ink-3)"></text>' +
+        '<text id="y-foot2" x="430" y="212" font-size="9" text-anchor="middle" ' +
+          'fill="var(--ink-3)"></text>' +
+      "</g>" +
     "</svg>";
 
   /** الحالة عند كل خطوة — دالة خالصة، لا مؤقّت ولا ذاكرة. */
@@ -124,7 +128,7 @@
       var sent = root.querySelector("#y-sentbox");
       sent.setAttribute("fill", f.sentinel ? EMS : RAISED);
       sent.setAttribute("stroke", f.sentinel ? EM : LINE);
-      // متقطّع ما دامت الطبقة غير موجودة بعد: الحدّ المصمت يعني «قائم».
+      // متقطّع ما دامت الطبقة غير قائمة بعد: الحدّ المصمت يعني «موجود الآن».
       sent.setAttribute("stroke-dasharray", f.sentinel ? "none" : "4 3");
       root.querySelector("#y-sentvia").setAttribute("fill", f.sentinel ? EM : FAINT);
 
@@ -132,22 +136,25 @@
       old.setAttribute("fill", f.broken ? AMS : f.fallback ? EMS : RAISED);
       old.setAttribute("stroke", f.broken ? AM : (f.oldOnly || f.fallback) ? EM : LINE);
 
+      // النصّ داخل SVG مُجبَر على LTR، فالعلامة المحايدة في أول السطر العربي
+      // تُدفَع إلى أقصى اليسار فتُقرأ آخرًا. لذلك تُكتب ② في آخر السلسلة
+      // العربية و ✗ في أوّلها — لتظهرا حيث يقرؤهما العربي أولًا وآخرًا.
       root.querySelector("#y-oldhead").textContent = f.fallback
-        ? (ar ? "② الارتداد — محفوظ حرفيًا" : "② fallback — kept verbatim")
-        : (ar ? "مطابقة نصّية · أول ١٥ حرفًا" : "text match · first 15 chars");
+        ? (ar ? "الارتداد — محفوظ حرفيًا ②" : "② fallback — verbatim")
+        : (ar ? "مطابقة · أول ١٥ حرفًا" : "match · first 15 chars");
       root.querySelector("#y-oldcall").setAttribute("fill", f.broken ? AM : SOFT);
 
       var oldvia = root.querySelector("#y-oldvia");
       oldvia.textContent = f.fallback ? 'via: "legacy"'
-        : f.broken ? (ar ? "لا مطابقة · أُجيب ✗" : "no match → answered ✗")
+        : f.broken ? (ar ? "✗ لا مطابقة · أُجيب" : "no match → answered ✗")
           : (ar ? "أُجيب / امتنع" : "answered / refused");
       oldvia.setAttribute("fill", f.broken ? AM : f.fallback ? EM : FAINT);
 
       var tenant = root.querySelector("#y-tenant");
       tenant.setAttribute("class", f.oldOnly || f.broken ? "" : "m-hide");
       root.querySelector("#y-tenanttext").textContent = ar
-        ? "المستأجر يحرّر هذه الجملة من لوحته"
-        : "tenant edits this sentence from their panel";
+        ? "المستأجر يحرّرها من لوحته"
+        : "tenant edits this from their panel";
 
       var gap = root.querySelector("#y-gap");
       gap.setAttribute("class", f.broken ? "" : "m-hide");
@@ -161,11 +168,11 @@
       col.setAttribute("stroke-dasharray", f.column ? "none" : "4 3");
       var coltext = root.querySelector("#y-coltext");
       coltext.textContent = f.column
-        ? (ar ? "يُكتب مع كل ردّ" : "written with every reply")
+        ? (ar ? "يُكتب مع كل ردّ" : "written on every reply")
         : (ar ? "غير مخزَّن" : "not stored");
       coltext.setAttribute("fill", f.column ? EM : FAINT);
 
-      // القياس يخرج كهرماريًّا لا أخضر: الرقم صحيح، وما كشفه لم يصمد.
+      // القياس يخرج كهرمانيًّا لا أخضر: الاستعلام صحيح، والرقم الذي كشفه لم يصمد.
       var meas = root.querySelector("#y-measbox");
       meas.setAttribute("fill", f.measured ? AMS : RAISED);
       meas.setAttribute("stroke", f.measured ? AM : LINE);
@@ -179,11 +186,11 @@
       note.textContent = f.measured ? "39% via legacy" : (ar ? "لا يُقاس" : "unmeasurable");
       note.setAttribute("fill", f.measured ? AM : FAINT);
 
-      var foot = root.querySelector("#y-measfoot");
-      foot.setAttribute("class", f.measured ? "" : "m-hide");
-      foot.textContent = ar
-        ? "البوّابة ٢٤/٢٤ خضراء · صفر تكرار"
-        : "gate 24/24 green · 0 duplicates";
+      // ما كان ظاهراً للعين وقتَ العطل: بوّابة خضراء كاملة. سطران لا سطر
+      // واحد، لأن النصّ هنا يُقاس بـ11px مهما كتبنا في font-size.
+      root.querySelector("#y-measfoot").setAttribute("class", f.measured ? "" : "m-hide");
+      root.querySelector("#y-foot1").textContent = ar ? "البوّابة ٢٤/٢٤ خضراء" : "gate 24/24 green";
+      root.querySelector("#y-foot2").textContent = ar ? "صفر تكرار" : "0 duplicates";
     }
   });
 })();

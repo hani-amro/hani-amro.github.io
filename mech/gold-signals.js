@@ -21,7 +21,7 @@
       // والثاني هي كل الحكاية.
       '<text id="g-h1" x="14" y="16" font-size="9" fill="var(--ink-3)"></text>' +
       '<text id="g-h2" x="196" y="16" font-size="9" fill="var(--ink-3)"></text>' +
-      '<text id="g-h3" x="424" y="16" font-size="9" fill="var(--ink-3)"></text>' +
+      '<text id="g-h3" x="416" y="16" font-size="9" fill="var(--ink-3)"></text>' +
 
       // الاستعلام الجذر — ثابت في كل الخطوات: هو الجزء الذي لم يعطب قطّ.
       '<rect class="m-box m-fill" x="14" y="26" width="164" height="36" rx="7"/>' +
@@ -29,7 +29,7 @@
       '<rect class="m-box m-fill m-ok m-f" x="196" y="26" width="212" height="36" rx="7"/>' +
       '<text class="m-t" x="206" y="42" font-size="9">SELECT … FROM recs</text>' +
       '<text class="m-ok" x="206" y="55" font-size="9">WHERE tenant_id = 1 ✓</text>' +
-      '<text class="m-ok" x="424" y="48" font-size="10">t1 ✓</text>' +
+      '<text class="m-ok" x="416" y="48" font-size="10">t1 ✓</text>' +
 
       // قراءة العلاقة الكسولة: سطرٌ في العمود الأيسر، واستعلامٌ كامل في الأوسط.
       '<g id="g-lazy">' +
@@ -40,17 +40,21 @@
         '<rect id="g-lazysql" class="m-box m-fill" x="196" y="86" width="212" height="36" rx="7"/>' +
         '<text class="m-t" x="206" y="102" font-size="9">SELECT … FROM events</text>' +
         '<text id="g-lazywhere" x="206" y="115" font-size="9" fill="var(--ink-3)"></text>' +
-        '<text id="g-lazyrows" x="424" y="108" font-size="9.5" fill="var(--ink-3)"></text>' +
+        '<text id="g-lazyrows" x="416" y="108" font-size="9.5" fill="var(--ink-3)"></text>' +
       "</g>" +
       // العطل الصامت يحتاج أن يُكتب صراحةً، وإلا قرأه الناظر نجاحًا.
-      '<text id="g-noerr" class="m-warn" x="424" y="122" font-size="8.5"></text>' +
+      '<text id="g-noerr" class="m-warn" x="416" y="122" font-size="8.5"></text>' +
 
       // الطبقة المحقونة داخل المحرّك — تحت عمود الـSQL لأنها تعمل عليه.
-      '<rect id="g-listen" class="m-box m-fill m-dash" x="196" y="140" width="212" ' +
-        'height="40" rx="7"/>' +
-      '<text class="m-t" x="302" y="156" font-size="9" text-anchor="middle">' +
-        '@listens_for(Session, "do_orm_execute")</text>' +
-      '<text id="g-alias" x="302" y="170" font-size="9" text-anchor="middle" ' +
+      // والمُزخرِف مقطوع سطرين لا سطراً واحداً مصغَّراً: اسم الحدث هو المقصود،
+      // وتصغيره حتى يتّسع كان سيجعله أصغر من كل نصّ آخر في المخطّط.
+      '<rect id="g-listen" class="m-box m-fill m-dash" x="196" y="136" width="212" ' +
+        'height="44" rx="7"/>' +
+      '<text class="m-t" x="302" y="149" font-size="8.5" text-anchor="middle">' +
+        '@listens_for(Session,</text>' +
+      '<text class="m-t" x="302" y="161" font-size="8.5" text-anchor="middle">' +
+        '"do_orm_execute")</text>' +
+      '<text id="g-alias" x="302" y="174" font-size="9" text-anchor="middle" ' +
         'fill="var(--ink-3)">include_aliases=True</text>' +
 
       // طبقة الكتابة تحت عمود الكود: الكتابة العابرة ضرر لا يُلغى، فتُرفَض لا تُفلتَر.
@@ -60,10 +64,13 @@
       '<text id="g-raise" x="96" y="174" font-size="9" text-anchor="middle" ' +
         'fill="var(--ink-3)">raise CrossTenantWrite</text>' +
 
-      // شريط الحدّ: يظهر أخيرًا ليقول إنّ الحماية ليست تامّة.
-      '<rect id="g-limitbox" class="m-box m-fill m-hide" x="14" y="192" width="394" ' +
-        'height="26" rx="6"/>' +
-      '<text id="g-limit" class="m-warn" x="211" y="209" font-size="9" ' +
+      // شريط الحدّ: يظهر أخيرًا ليقول إنّ الحماية ليست تامّة. وسطران لا سطر:
+      // «يفشل مفتوحاً» و«١٦ موضعاً تتجاوزه» حدّان مختلفان لا جملة واحدة.
+      '<rect id="g-limitbox" class="m-box m-fill m-hide" x="14" y="186" width="394" ' +
+        'height="34" rx="6"/>' +
+      '<text id="g-limit1" class="m-warn" x="211" y="199" font-size="8.5" ' +
+        'text-anchor="middle"></text>' +
+      '<text id="g-limit2" class="m-warn" x="211" y="212" font-size="8.5" ' +
         'text-anchor="middle"></text>' +
     "</svg>";
 
@@ -135,7 +142,7 @@
         where.textContent = "WHERE rec_id = 7   ← " + (ar ? "بلا مستأجر" : "no tenant");
       } else if (f.alias) {
         where.setAttribute("class", "m-ok");
-        where.textContent = "WHERE tenant_id = 1 ✓ (" + (ar ? "محقون" : "injected") + ")";
+        where.textContent = "WHERE tenant_id = 1 ← " + (ar ? "محقون" : "injected");
       } else {
         where.setAttribute("class", "");
         where.textContent = "WHERE rec_id = 7";
@@ -169,10 +176,12 @@
 
       root.querySelector("#g-limitbox").setAttribute(
         "class", NEUTRAL + (f.limit ? " m-warn m-f" : " m-hide"));
-      root.querySelector("#g-limit").textContent = f.limit
-        ? (ar
-          ? "جلسة بلا مستأجر تخرج بلا فلترة · ١٦ موضعًا في ٧ ملفات تتجاوز هذه الحماية"
-          : "no tenant on session → fail-open · 16 call sites in 7 files bypass this")
+      root.querySelector("#g-limit1").textContent = f.limit
+        ? (ar ? "جلسة بلا مستأجر تخرج بلا فلترة" : "no tenant on session → fail-open")
+        : "";
+      root.querySelector("#g-limit2").textContent = f.limit
+        ? (ar ? "١٦ موضعًا في ٧ ملفات تتجاوز هذه الحماية"
+          : "16 call sites in 7 files bypass this")
         : "";
     }
   });
