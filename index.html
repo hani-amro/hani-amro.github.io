@@ -165,17 +165,19 @@
   </div>
 
   <ul class="counters">
-    <li><b>913</b><span data-i18n="c1">orders executed on live broker accounts &mdash; real money,
-      verified against broker statements</span></li>
-    <li><b>8</b><span data-i18n="c2">production services, built and operated end-to-end by one
-      person</span></li>
-    <li><b>64+</b><span data-i18n="c3">days of continuous uptime on self-managed infrastructure,
-      zero unplanned restarts</span></li>
-    <li><b>378,110</b><span data-i18n="c4">events processed by a single trading automation &mdash;
-      every one logged and auditable</span></li>
+    <li data-project="gold-signals"><b>$240</b><span data-i18n="c1">lifetime confirmed revenue
+      across six systems &mdash; five payments from two subscribers. That is everything these
+      systems have sold.</span></li>
+    <li data-project="altajir-position-pnl"><b>998</b><span data-i18n="c2">execution commands
+      recorded by the copy-trading platform; 175 of them still linked to a current subscriber</span></li>
+    <li data-project="wain-ticketing-ledger"><b>323</b><span data-i18n="c3">tests passing on Wain,
+      with 100% branch coverage on the money package enforced as a build gate</span></li>
+    <li data-project="wain-ticketing-ledger"><b>0.99</b><span data-i18n="c4">Lighthouse performance
+      on the live deployment &mdash; accessibility 1.00, SEO 1.00</span></li>
   </ul>
-  <p class="footnote" data-i18n="foot">Measured August 2026. Ask me for the source of any figure on
-    this page and I will show you.</p>
+  <p class="footnote" data-i18n="foot">Every number here is produced by a command I can run in front
+    of you, and what no command produces is not on this page. Including the number that matters
+    most: apart from those two subscribers, none of these systems has a paying customer.</p>
 </section>
 
 <!-- 4 ──────────────────────────── CASE STUDIES ───────────────────────── -->
@@ -189,12 +191,12 @@
 
   <div class="grid pair">
 
-    <article class="card">
+    <article class="card k-am" data-project="altajir-position-pnl">
       <header>
-        <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-trend"/></svg></span>
+        <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-trend"/></svg></span>
         <div class="titles">
           <h3 data-i18n="k1-h">ALTAJIR &mdash; copy-trading platform</h3>
-          <span class="tag live"><span class="pulse"></span> <span data-i18n="k1-t">Co-founder &amp; engineer &middot; Live &middot; Real money</span></span>
+          <span class="tag pilot"><span data-i18n="k1-t">Co-founder &amp; engineer &middot; execution stopped Aug 2026</span></span>
         </div>
       </header>
       <dl class="par">
@@ -206,8 +208,10 @@
           against eight automated checks, then places it on every subscriber's broker account. Daily
           and monthly performance reports go out on their own.</dd>
         <dt data-i18n="lbl-r">The result</dt>
-        <dd data-i18n="k1-r">913 orders and 110 completed trades on live accounts. Profit figures
-          verified to match the broker's exactly, on three real accounts.</dd>
+        <dd data-i18n="k1-r">998 execution commands recorded &mdash; 175 of them still linked to
+          a current subscriber, the rest orphaned when those accounts were deleted. The profit
+          identity was verified on three accounts named Demo, Demo2 and Demo10. No subscriber
+          balance has ever been read successfully, and the last execution was 24 August 2026.</dd>
       </dl>
       <p class="note" data-i18n="k1-n"><b>A decision I am often asked about:</b> the first version ran
         on a drag-and-drop automation tool. After 22 attempts to make it fast enough, the tool itself
@@ -215,33 +219,42 @@
       <p class="stack" data-i18n="k1-s">Node.js &middot; PostgreSQL &middot; MetaApi &middot; Telegram Bot API &middot; nginx &middot; PM2</p>
     </article>
 
-    <article class="card">
+    <article class="card" data-project="wain-ticketing-ledger">
       <header>
-        <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cpu"/></svg></span>
+        <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cart"/></svg></span>
         <div class="titles">
-          <h3 data-i18n="k2-h">Gold-AI &mdash; autonomous trading system</h3>
-          <span class="tag live"><span class="pulse"></span> <span data-i18n="k2-t">Live</span></span>
+          <h3 data-i18n="k2-h">Wain &mdash; UAE event discovery &amp; ticketing</h3>
+          <span class="tag lib"><span data-i18n="k2-t">Live demo &middot; no real users &middot; payment simulated</span></span>
         </div>
       </header>
       <dl class="par">
         <dt data-i18n="lbl-p">The problem</dt>
-        <dd data-i18n="k2-p">Markets move around the clock. A person cannot watch, judge and act
-          every thirty seconds, and should not be trusted to do it consistently.</dd>
+        <dd data-i18n="k2-p">On every ticket sold, three parties have to be paid out of one amount:
+          the organizer, the platform, and the tax authority. If that split is quietly wrong, nobody
+          notices until the money has already left.</dd>
         <dt data-i18n="lbl-a">What I built</dt>
-        <dd data-i18n="k2-a">A five-step loop running every 30 seconds: observe, judge, weigh risk,
-          act, watch. AI handles reading and judgment. The two steps that touch money are pure code,
-          guarded by six hard rules the AI cannot override. Each day the system reviews what won and
-          what lost, and rewrites its own instructions.</dd>
-        <dt data-i18n="lbl-r">The result</dt>
-        <dd data-i18n="k2-r">378,110 events processed &middot; 3,144 decisions &middot; 323 trades
-          with recorded outcomes.</dd>
+        <dd data-i18n="k2-a">Every sale writes its ledger entries inside one transaction, and a
+          deferred constraint trigger checks at COMMIT that they sum to exactly zero. A half-written
+          entry cannot be committed &mdash; Postgres rejects it, not a code reviewer. Ticket
+          reservation is one atomic conditional update, so twenty simultaneous buyers on two seats
+          produce exactly two winners and no oversell.</dd>
+        <dt data-i18n="lbl-r">What it proves</dt>
+        <dd data-i18n="k2-r">323 tests passing, 100% branch coverage on the money package as a build
+          gate, and 57 CHECK constraints across 16 migrations. Re-deriving the platform margin from
+          first principles caught a AED 1.90 error per order in my own project brief, which had been
+          counting collected tax as platform profit.</dd>
       </dl>
-      <p class="stack" data-i18n="k2-s">Python &middot; Claude API &middot; MetaTrader 5 &middot; SQLite &middot; Flask</p>
+      <p class="note" data-i18n="k2-n"><b>What this is not:</b> a demo, deliberately. Zero real
+        users, the payment gateway is fully simulated, mail is written to a file and never sent, and
+        the demo data is wiped and re-seeded by cron every day at 03:00 UTC. The repository stays
+        private because its history carries an inventory of a server hosting six client sites that
+        are not mine.</p>
+      <p class="stack" data-i18n="k2-s">TypeScript &middot; Next.js 16 &middot; NestJS 11 &middot; PostgreSQL 18 &middot; Drizzle &middot; Valkey &middot; Flutter &middot; Docker</p>
     </article>
 
-    <article class="card k-in">
+    <article class="card k-in" data-project="quickdrop">
       <header>
-        <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cart"/></svg></span>
+        <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-chat"/></svg></span>
         <div class="titles">
           <h3 data-i18n="k3-h">QuickDrop &mdash; WhatsApp ordering &amp; delivery SaaS</h3>
           <span class="tag lib"><span data-i18n="k3-t">Built &middot; Pre-launch</span></span>
@@ -257,19 +270,21 @@
           the customer gets a tracking link. Catalogue, pricing, coupons, loyalty and settlement
           included.</dd>
         <dt data-i18n="lbl-r">The proof</dt>
-        <dd data-i18n="k3-r">44,205 lines of code and 571 automated tests. One shop can never see
-          another shop's orders &mdash; enforced by the database itself (PostgreSQL Row-Level
-          Security).</dd>
+        <dd data-i18n="k3-r">44,205 lines of TypeScript, and 434 tests passing out of 567 cases
+          &mdash; 132 of them sit behind environment guards and did not run. One shop can never see
+          another shop's orders, enforced by the database itself (PostgreSQL Row-Level Security).
+          And no order has ever reached delivery: four test orders on 20 July 2026, all still
+          sitting at <em>confirmed</em>.</dd>
       </dl>
       <p class="stack" data-i18n="k3-s">TypeScript &middot; NestJS &middot; PostgreSQL (RLS, PostGIS) &middot; Redis &middot; WhatsApp Business API &middot; Docker</p>
     </article>
 
-    <article class="card k-am">
+    <article class="card k-in" data-project="gold-signals">
       <header>
-        <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-repeat"/></svg></span>
+        <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-repeat"/></svg></span>
         <div class="titles">
           <h3 data-i18n="k4-h">Subscription lifecycle automation</h3>
-          <span class="tag pilot"><span data-i18n="k4-t">Pilot</span></span>
+          <span class="tag lib"><span data-i18n="k4-t">3 active accounts &middot; two of them paid &middot; $240 to date</span></span>
         </div>
       </header>
       <dl class="par">
@@ -280,8 +295,10 @@
         <dd data-i18n="k4-a">Payment proof in, approval, a one-time invite, reminders three days and
           one day before expiry, removal on the day. Nobody watches a calendar.</dd>
         <dt data-i18n="lbl-r">The proof</dt>
-        <dd data-i18n="k4-r">173 automated checks, including one that proves no customer can ever see
-          another customer's data. Every client's credentials are encrypted at rest.</dd>
+        <dd data-i18n="k4-r">401 tests passing, 27 of which exist only to prove one tenant cannot
+          read another's rows. Every client's credentials are encrypted at rest. The honest caveat:
+          those tests all run on SQLite while production is PostgreSQL &mdash; and that exact gap
+          once hid a feature that passed a green board and was impossible in production.</dd>
       </dl>
       <p class="stack" data-i18n="k4-s">Python &middot; aiogram &middot; SQLAlchemy &middot; PostgreSQL &middot; Alembic &middot; Docker</p>
     </article>
@@ -298,7 +315,7 @@
   <p class="section-lede" data-i18n="d-l">These are running right now &mdash; not screenshots.</p>
 
   <div class="grid pair">
-    <a class="demo" href="https://salla-cx.hani-wael-amro.workers.dev/demo/yasmin-store">
+    <a class="demo" href="https://salla-cx.hani-wael-amro.workers.dev/demo/yasmin-store" data-project="yasmin-salla-cx">
       <span class="demo-tag" data-i18n="d1-t">Interactive demo</span>
       <b data-i18n="d1-h">An AI shop assistant that cites its sources</b>
       <span class="desc" data-i18n="d1-p">Ask about any product and it answers from the store's actual
@@ -308,11 +325,11 @@
     </a>
 
     <a class="demo" href="https://pdf.srv1564240.hstgr.cloud/docs">
-      <span class="demo-tag" data-i18n="d2-t">Commercial API</span>
+      <span class="demo-tag" data-i18n="d2-t">Listed API &middot; no paying use yet</span>
       <b data-i18n="d2-h">26 PDF tools with Arabic OCR</b>
       <span class="desc" data-i18n="d2-p">Merge, split, compress, protect, or extract text &mdash;
-        including from scanned Arabic documents. Files are processed in memory and never stored. Sold
-        commercially on RapidAPI.</span>
+        including from scanned Arabic documents. Files are processed in memory and never stored.
+        Listed on RapidAPI, where it has not yet served a single successful request.</span>
       <span class="demo-go"><span data-i18n="go2">Open the docs</span> <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></span>
     </a>
   </div>
@@ -377,7 +394,7 @@
     <div>
       <h3 class="sub" data-i18n="rel-h">Reliability, in practice</h3>
       <dl class="specs">
-        <div><dt data-i18n="o1-t">Uptime</dt><dd data-i18n="o1-d"><b>64+ days</b> without an unplanned restart</dd></div>
+        <div><dt data-i18n="o1-t">Restarts</dt><dd data-i18n="o1-d"><b>Zero</b> automatic restarts on four containers since 28 July 2026 &mdash; a date, not a running total</dd></div>
         <div><dt data-i18n="o2-t">Backups</dt><dd data-i18n="o2-d">Nightly, and tested by actually restoring them</dd></div>
         <div><dt data-i18n="o3-t">Access</dt><dd data-i18n="o3-d">Every service behind a single encrypted entry point</dd></div>
         <div><dt data-i18n="o4-t">Recovery</dt><dd data-i18n="o4-d">Automatic, with a three-strike limit instead of infinite loops</dd></div>
@@ -415,19 +432,19 @@
     word for it.</p>
 
   <div class="grid three">
-    <a class="repo" href="https://github.com/hani-amro/quickdrop">
+    <a class="repo" href="https://github.com/hani-amro/quickdrop" data-project="quickdrop">
       <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-server"/></svg></span><b>quickdrop</b></span>
-      <span class="desc" data-i18n="r1">The delivery platform above. 44,205 lines, 571 automated tests, TypeScript + PostgreSQL RLS.</span>
+      <span class="desc" data-i18n="r1">The delivery platform above. 44,205 lines of TypeScript, 434 tests passing of 567, PostgreSQL row-level security on 39 tables.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/qalb-ecg">
       <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-activity"/></svg></span><b>qalb-ecg</b></span>
-      <span class="desc" data-i18n="r2">12-lead ECG screening support: a calibrated deep-learning ensemble plus a 1,234-line clinical rule engine. Ships with an honest model card that leads with its failure modes &mdash; in medicine, knowing when <em>not</em> to trust the model is the point.</span>
+      <span class="desc" data-i18n="r2">12-lead ECG screening support: a calibrated deep-learning ensemble (macro-AUROC 0.9335 on the served model) plus a 1,234-line clinical rule engine. Ships with an honest model card that leads with its failure modes &mdash; in medicine, knowing when <em>not</em> to trust the model is the point.</span>
     </a>
-    <a class="repo" href="https://github.com/hani-amro/tenant-guard">
+    <a class="repo" href="https://github.com/hani-amro/tenant-guard" data-project="tenant-guard-overfit-stats">
       <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span><b>tenant-guard</b></span>
       <span class="desc" data-i18n="r3">Makes cross-tenant data leaks impossible to write by accident, in SQLAlchemy 2.0.</span>
     </a>
-    <a class="repo" href="https://github.com/hani-amro/overfit-stats">
+    <a class="repo" href="https://github.com/hani-amro/overfit-stats" data-project="tenant-guard-overfit-stats">
       <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-calc"/></svg></span><b>overfit-stats</b></span>
       <span class="desc" data-i18n="r4">Statistical tests (Deflated Sharpe, PBO/CSCV, permutation) that tell you whether a trading strategy found a real edge or just got lucky.</span>
     </a>

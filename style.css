@@ -353,7 +353,10 @@ h2 {
   display: inline-flex; align-items: center; gap: 5px; margin-top: 3px;
   font-size: 11.5px; font-weight: 660;
   letter-spacing: 0.05em; text-transform: uppercase;
-  padding: 3px 9px; border-radius: 999px; white-space: nowrap;
+  padding: 3px 9px; border-radius: 999px;
+  /* الوسم يحمل حالةً كاملة («التنفيذ متوقّف منذ…») لا كلمة واحدة.
+     nowrap كان يقصّها بصمت عند حافة البطاقة. */
+  white-space: normal; text-wrap: balance;
 }
 .tag.live  { color: var(--emerald); background: var(--emerald-soft); }
 .tag.pilot { color: var(--amber);   background: var(--amber-soft); }
