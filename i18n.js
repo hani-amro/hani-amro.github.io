@@ -276,6 +276,9 @@
       btn.setAttribute("aria-label", lang === "ar" ? "Switch to English" : "التبديل إلى العربية");
     }
     if (missing.length) console.warn("i18n: no " + lang + " for", missing);
+    // ما لا يعيش في الـDOM لا تصله الترجمة أعلاه — المخطّطات تبني نصّها
+    // بنفسها، فتُخطَر لتعيد رسم عناوينها وتعليقاتها باللغة الجديدة.
+    document.dispatchEvent(new CustomEvent("i18n:changed", { detail: { lang: lang } }));
   }
 
   // كل صفحة تعلن لغتها الافتراضية (data-default-lang): البوّابة والصفحة

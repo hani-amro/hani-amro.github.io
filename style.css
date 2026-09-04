@@ -859,3 +859,78 @@ footer span[dir="rtl"] { display: inline-block; }
 }
 .backbar a:hover { color: var(--accent); text-decoration: underline; }
 :root[dir="rtl"] .backbar .i { transform: scaleX(-1); }
+
+/* ───────────────────── مخطّطات الآليات ──────────────────────────────
+   مفردات ثابتة تشترك فيها المخطّطات الستّة، فتبدو نظاماً واحداً لا ستّة
+   رسوم. ولا لون خارج هذه القائمة: `m-ok` لما صمد، و`m-warn` لما سقط،
+   و`m-dim` لما مضى. اللون هنا معنى لا زينة — يتعلّمه القارئ مرّة. */
+
+.mech {
+  margin: 16px 0 0; padding: 0;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface-solid); overflow: hidden;
+}
+.mech-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+.mech-head b { font-weight: 620; flex: 1; min-width: 0; }
+.mech-btn {
+  flex: none; padding: 4px 12px; border-radius: 999px;
+  border: 1px solid var(--line-strong); background: var(--surface-solid);
+  color: var(--ink-2); font: inherit; font-size: 12.5px; cursor: pointer;
+}
+.mech-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.mech-stage { padding: 10px 12px 4px; }
+.mech-stage svg { display: block; width: 100%; height: auto; }
+
+/* شريط الخطوات: القطعة التي يقع فيها العطل تُصبغ بلون التحذير، فيرى القارئ
+   أين انكسر الشيء قبل أن يقرأ الشرح. */
+.mech-bar { display: flex; gap: 3px; padding: 0 14px 10px; }
+.mech-bar i {
+  flex: 1; height: 3px; border-radius: 2px;
+  background: var(--line); transition: background .3s ease;
+}
+.mech-bar i.on { background: var(--accent); }
+.mech-bar i.fails.on { background: var(--amber); }
+
+.mech-cap {
+  margin: 0; padding: 0 14px 14px;
+  color: var(--ink-2); font-size: 14px; line-height: 1.6; min-height: 3.2em;
+}
+.mech-steps {
+  margin: 0; padding: 0 14px 14px; padding-inline-start: 34px;
+  color: var(--ink-2); font-size: 14px; line-height: 1.65;
+}
+
+/* ── مفردات الرسم داخل الـSVG ── */
+/* سمة dir على <svg> لا تحكم نصّه: اتجاه النصّ داخل SVG تحكمه خاصية
+   direction وحدها. وبدونها كان `BEGIN … COMMIT` يُرسَم من اليمين فيخرج عن
+   الإطار ويظهر «MIT»، و`+1000` تنقلب إلى `1000+`، والعلامة ✗ تسبق اسم القيد.
+   والعزل يمنع تسرّب اتجاه الصفحة إلى كل مقطع على حدة. */
+.mech svg text {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
+  direction: ltr; unicode-bidi: isolate;
+}
+.mech svg .m-t   { fill: var(--ink-2); }
+.mech svg .m-tb  { fill: var(--ink); font-weight: 600; }
+.mech svg .m-box { fill: none; stroke: var(--line-strong); stroke-width: 1.2; rx: 5; }
+.mech svg .m-fill{ fill: var(--surface); }
+.mech svg .m-line{ stroke: var(--line-strong); stroke-width: 1.2; fill: none; }
+.mech svg .m-dash{ stroke-dasharray: 4 3; }
+
+/* الحالات الثلاث. الانتقال على الملء والحدّ والشفافية وحدها — لا حركة
+   موضع، لأن العنصر الذي يزحف يُقرأ حدثاً وهو ليس حدثاً. */
+.mech svg .m-ok, .mech svg .m-warn, .mech svg .m-dim, .mech svg .m-hide {
+  transition: fill .35s ease, stroke .35s ease, opacity .35s ease;
+}
+.mech svg .m-ok   { stroke: var(--emerald); }
+.mech svg .m-ok.m-f   { fill: var(--emerald-soft); }
+.mech svg .m-ok text, .mech svg text.m-ok { fill: var(--emerald); stroke: none; }
+.mech svg .m-warn { stroke: var(--amber); }
+.mech svg .m-warn.m-f { fill: var(--amber-soft); }
+.mech svg .m-warn text, .mech svg text.m-warn { fill: var(--amber); stroke: none; }
+.mech svg .m-dim  { opacity: .34; }
+.mech svg .m-hide { opacity: 0; }
