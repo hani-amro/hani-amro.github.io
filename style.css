@@ -104,8 +104,15 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 400 17px/1.62 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* خطٌّ واحد للنصَّين. IBM Plex Sans Arabic يحمل لاتينيةً مصمَّمة معه، فاسم
+     تقنية داخل جملة عربية لا يقفز وزناً ولا ارتفاعاً — وهو أظهر عيب في
+     الصفحة قبل هذا التغيير، إذ كانت العربية تسقط إلى Segoe UI. */
+  font: 400 17px/1.62 "IBM Plex Sans Arabic", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* أرقام لاتينية بعرض ثابت داخل العربية: الأرقام الهندية تُربك قارئاً تقنياً
+     في سياق مقاييس، والعرض الثابت يمنع اهتزاز الأعمدة عند تغيّر القيمة. */
+  font-variant-numeric: lining-nums tabular-nums;
   position: relative;
 }
 
@@ -143,7 +150,7 @@ a { color: inherit; }
 h1, h2, h3, p, li, span, b, code { overflow-wrap: anywhere; }
 
 code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.87em;
   background: color-mix(in srgb, var(--ink) 8%, transparent);
   padding: 0.12em 0.4em;
@@ -398,7 +405,7 @@ h2 {
    both and uses the full card width, so nothing is left floating. */
 .repo .rhead { display: flex; align-items: center; gap: 11px; margin-bottom: 9px; }
 .repo b {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 15.5px; color: var(--indigo); letter-spacing: -0.01em;
 }
 .repo .desc { display: block; color: var(--ink-2); font-size: 14.5px; line-height: 1.55; }
@@ -601,8 +608,9 @@ footer span[dir="rtl"] { display: inline-block; }
    ============================================================ */
 
 :root[dir="rtl"] body {
-  font-family: "Segoe UI", "Noto Naskh Arabic", "Geeza Pro", Tahoma, ui-sans-serif, system-ui, sans-serif;
-  line-height: 1.78;                 /* Arabic needs more leading than Latin */
+  /* العائلة نفسها في الاتجاهين — يتغيّر الإسناد وحده. العربية تحتاج فرجةً
+     أوسع بين السطور لأن الصاعدات والنازلات أطول. */
+  line-height: 1.85;
 }
 
 :root[dir="rtl"] h1 { letter-spacing: 0; font-weight: 700; }
@@ -733,7 +741,7 @@ footer span[dir="rtl"] { display: inline-block; }
   margin: 12px 0 0 !important;
   padding-top: 11px;
   border-top: 1px solid var(--line);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 12.5px !important;
   line-height: 1.6;
   color: var(--ink-3) !important;
