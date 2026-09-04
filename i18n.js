@@ -25,6 +25,18 @@
 
   var AR = {
     /* ---------- hero ---------- */
+    /* ---------- البوّابة ---------- */
+    "g-eyebrow": "مهندس أنظمة · بالعربية والإنجليزية",
+    "g-lede": "ببني أنظمة بتمسك مصاري وطلبات وبيانات زباين — وبتضلّ شغّالة لما ما يكون في حدا مراقبها. وفي مدخلان، حسب ليش إجيت.",
+    "g-d1-h": "عندي شركة",
+    "g-d1-p": "إنت بتعرف شو لسّا فريقك بيعمله بالإيد. هالجهة فيها شو بقدر أبنيلك، وكيف بيمشي الشغل من أول مكالمة لتسليم، وقدّيش بيكلّف — وشو ما بستلمه.",
+    "g-d1-go": "شو بقدر أبنيلك",
+    "g-d2-h": "أنا تقني",
+    "g-d2-p": "أربعة أنظمة، ومعها الآلية بالضبط اللي بتخلّي كل واحد آمن، والكود اللي بيفرضها، وأشياء حيّة بتقدر تفتحها هلق، وكل رقم جنبه الأمر اللي أنتجه — بما فيها الأرقام اللي صفر.",
+    "g-d2-go": "الهندسة",
+    "g-rule": "قاعدة واحدة بتحكم الصفحتين: رقمٌ بلا أمر يُنتجه مش موجود على الصفحة.",
+    "g-back": "المدخلان",
+
     "eyebrow": "مهندس أتمتة بالذكاء الاصطناعي",
     "h1": "هاني عمرو",
     "h1b": "هاني عمرو",
@@ -156,18 +168,99 @@
     "footer": "هذه النسخة العربية كُتبت بالعربية أصلاً — لم تُترجم آلياً."
   };
 
+
+  /* الإنجليزية لصفحة «أبني لك» وحدها.
+
+     بقيّة الصفحات مكتوبة بالإنجليزية في الـHTML وتُترجَم إلى العربية عند
+     الطلب. وهذه الصفحة معكوسة: قارئها صاحب شركة عربي، فالعربية هي المكتوبة
+     في الملف — لا لتفضيل، بل لأن البديل عيبان: وميضٌ إنجليزي قبل أن يعمل
+     الـJS، وزاحفُ بحث لا يرى إلا الإنجليزية على صفحة موجَّهة لقارئ عربي. */
+  var EN_BUILD = {
+    "g-back": "Both ways in",
+    "b-eyebrow": "For a business owner",
+    "b-h1": "What I can build for you",
+    "b-lede": "Tell me what your team still does by hand &mdash; and I will tell you honestly whether it is worth automating at all. Sometimes the answer is no, and that answer is free.",
+    "b-wa": "Tell me what is done by hand",
+    "b-see-limits": "Read what I will not take on first",
+    "b-can-h": "What I build",
+    "b-can-l": "Seven things. Behind each one is something I actually built, and where it is running you can open it yourself.",
+    "b1-h": "A site or a shop &mdash; front and back",
+    "b1-t": "Proof: a live ticketing platform",
+    "b1-p": "A site people actually buy from: catalogue, cart, payment, an emailed receipt, two languages, and a phone layout that is not an afterthought. The part that matters is underneath &mdash; on every sale the money has to split correctly between you, the platform and tax, and stay correct when two people buy the last item at the same second.",
+    "b1-n": "<b>You can open it:</b> a ticketing platform for events in the UAE, Arabic and English, running now. It is a demo with no real customers and simulated payment &mdash; but every screen and every calculation in it is real.",
+    "b1-go": "Open it",
+    "b2-h": "A dashboard that tells you where the money is",
+    "b2-t": "Proof: the organizer panel, open to try",
+    "b2-p": "Sales as they happen, what you are owed, what has been paid out, refunds and cancellations &mdash; and every figure showing the arithmetic that produced it, so you can argue with a number instead of quietly deciding not to trust it. Each client sees only their own data, and that is enforced by the database, not by a checkbox someone can forget.",
+    "b2-n": "<b>You can open it:</b> the organizer panel on the same platform has a published demo account on its sign-in screen. Half of any real product is the screen the owner logs into, and hiding it behind a password means nobody ever sees that half.",
+    "b2-go": "Take the tour",
+    "b3-h": "A Telegram bot with subscriptions and payments",
+    "b3-t": "Proof: running, and it has taken real money",
+    "b3-p": "A subscriber pays, you approve, the bot sends a one-time invite, reminds them before expiry and removes them on the day &mdash; without anyone watching a calendar. Payment proof, approval, invitation, reminders, removal, and a record of every step.",
+    "b3-n": "<b>The honest figure:</b> three active accounts, two of which actually paid, and $240 taken in total. That is small &mdash; and it is the only money any system on this site has taken, so you are seeing it rather than being told about volume.",
+    "b3-go": "Open it",
+    "b4-h": "Connecting the tools you already pay for",
+    "b4-t": "n8n where it fits, code where it must",
+    "b4-p": "One WhatsApp message becomes an order, an invoice, a delivery and a receipt, with nobody retyping anything between screens. For plumbing between services I use n8n, because it is quick to build and you can see the flow. For anything that touches money I write code, because a visual tool cannot be tested and cannot be reasoned about when it silently skips a step.",
+    "b4-n": "<b>Learned the hard way:</b> the first version of a trading platform I co-founded ran on a drag-and-drop automation tool. After 22 attempts to make it fast enough, the tool itself turned out to be the ceiling &mdash; so I rebuilt the core in code.",
+    "b5-h": "A small phone app for the people doing the work",
+    "b5-t": "Proof: a ticket scanner that works offline",
+    "b5-p": "Not an app store product &mdash; the narrow tool your staff actually need: scan this, confirm that, record what happened. The one on the ticketing platform scans tickets at the door <em>with no internet</em> and syncs when the signal comes back, because a door at 2 a.m. with no coverage is exactly when an app that needs a connection is useless.",
+    "b6-h": "An AI assistant that answers only from your own material",
+    "b6-t": "Built and measured &middot; demo currently down",
+    "b6-p": "It answers customers from your published pages and names the page it read. If you never published the answer, it says so and offers a human instead of inventing one. It works in Arabic and English, and one client can never see another client's material.",
+    "b6-n": "<b>Told against my own interest:</b> I built a check to count how often it refuses to answer &mdash; and that check found the refusal detection was passing through a fallback 9 times out of 23, while every visible indicator was green. That is why it is worth measuring rather than trusting a dashboard. The public demo's model connection is down today; I am not going to link you to something that will not answer.",
+    "b7-h": "Design, when the look is the product",
+    "b7-t": "Two builds you can open",
+    "b7-p": "Some sites are a form and a table. Others have to be felt &mdash; a gallery, a showroom, something a visitor remembers. I build those too, and I keep them fast and usable with a keyboard, because an experience that only works for a mouse on a fast laptop is a demo, not a product.",
+    "b7-n": "<b>Being straight with you:</b> both pieces below are my own builds, not commissioned client work, and neither has a real customer behind it.",
+    "b-how-h": "How the work runs",
+    "b-s1-h": "1 &middot; Half an hour on a call, free",
+    "b-s1-p": "You describe what is done by hand. I come back with a straight answer: worth automating, or not worth it. If it is not, I say so and we stop there.",
+    "b-s2-h": "2 &middot; A written brief before any code",
+    "b-s2-p": "Exactly what gets built, exactly what does <em>not</em>, and the measure of success as a number &mdash; \"an order takes 3 minutes instead of 20\", not \"it will be better\". Without a number, nobody can say afterwards whether it worked.",
+    "b-s3-h": "3 &middot; Built in slices you can use",
+    "b-s3-p": "Each slice works and gets tried by a real person before the next one starts. Not one delivery at the end, where the first time anyone sees it is also the first time anyone can object.",
+    "b-s4-h": "4 &middot; Handover means a running system",
+    "b-s4-p": "Hosted, monitored, backed up &mdash; with the backups tested by actually restoring them, not by trusting that they exist. And I am the one who answers when something breaks afterwards.",
+    "b-lim-h": "What I will not take on",
+    "b-lim-l": "This section exists because it is the one that makes the rest believable.",
+    "b-l1": "I do not promise sales or marketing results. I build the tool; whether it earns is not in my hands, and anyone who promises you otherwise is selling something.",
+    "b-l2": "I cannot guarantee anything that depends on somebody else's platform. WhatsApp, Telegram and payment providers change their terms, and when they do the work changes with them.",
+    "b-l3": "The team is one person. A project that genuinely needs five people working at once is not a project I should take.",
+    "b-l4": "Nothing touching health or safety without a qualified specialist alongside me who owns that judgment.",
+    "b-l5": "<b>And the one that costs me most to write:</b> two paying subscribers is the entire commercial history of everything on this site. The work is built, deployed and open for you to try &mdash; but I cannot hand you a client reference, and when you are choosing who to trust with your business, that absence is a real thing to weigh.",
+    "b-ct-h": "Let us talk",
+    "b-ct-l": "Tell me what your team still does by hand, and I will tell you honestly whether it is worth automating.",
+    "b-wa2": "Message me on WhatsApp",
+    "h1b": "Hani Amro",
+    "loc2": "Malaysia",
+    "footer": "Written in English and Arabic &mdash; both by hand."
+  };
+
   var root = document.documentElement;
   var KEY = "lang";
   var btn = document.getElementById("lang-toggle");
   var nodes = document.querySelectorAll("[data-i18n]");
-  var EN = {};
 
+  // لغة ما هو مكتوب فعلاً في هذه الصفحة.
+  var domLang = root.getAttribute("data-default-lang") || "en";
+
+  // اللغة المكتوبة تُلتقط من الصفحة نفسها لا تُكرَّر هنا: نسختان لنصٍّ واحد
+  // تفترقان بأول تعديل يُنسى في إحداهما. أما اللغة الأخرى فمن الجداول أدناه.
+  var captured = {};
   Array.prototype.forEach.call(nodes, function (el) {
-    EN[el.dataset.i18n] = el.innerHTML;
+    captured[el.dataset.i18n] = el.innerHTML;
   });
 
+  var LITERAL = { ar: AR, en: EN_BUILD };
+
+  function tableFor(lang) {
+    return lang === domLang ? captured : LITERAL[lang];
+  }
+
   function apply(lang) {
-    var table = lang === "ar" ? AR : EN;
+    var table = tableFor(lang) || {};
     var missing = [];
     Array.prototype.forEach.call(nodes, function (el) {
       var v = table[el.dataset.i18n];
@@ -182,12 +275,17 @@
       btn.textContent = lang === "ar" ? "English" : "العربية";
       btn.setAttribute("aria-label", lang === "ar" ? "Switch to English" : "التبديل إلى العربية");
     }
-    if (missing.length) console.warn("i18n: no Arabic for", missing);
+    if (missing.length) console.warn("i18n: no " + lang + " for", missing);
   }
 
+  // كل صفحة تعلن لغتها الافتراضية (data-default-lang): البوّابة والصفحة
+  // التقنية بالإنجليزية، وصفحة «أبني لك» بالعربية — لأن قارئها عربي.
+  // والاختيار المحفوظ يعلو على الافتراضي: من بدّل اللغة مرّة لا يُبدَّل له
+  // عند كل انتقال.
   var saved = null;
   try { saved = localStorage.getItem(KEY); } catch (e) {}
-  if (saved === "ar") apply("ar");
+  var initial = saved || root.getAttribute("data-default-lang") || "en";
+  if (initial === "ar") apply("ar");
 
   if (btn) {
     btn.addEventListener("click", function () {
