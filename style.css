@@ -484,9 +484,13 @@ footer span[dir="rtl"] { display: inline-block; }
 [data-reveal] > .specs > div,
 [data-reveal] > .cta,
 [data-reveal] > p {
-  opacity: 0;
-  transform: translate3d(0, 20px, 0);
-  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.2, 0.7, 0.25, 1);
+  /* الكشف بالإزاحة وحدها، بلا شفافية.
+     عنصرٌ في منتصف التلاشي يعطي لوناً ممزوجاً ليس لوناً على الصفحة، فيقرؤه
+     كل فاحص وصولية إخفاقَ تباين. قِسته: Lighthouse أعطى الصفحة a11y 0.96
+     في واحدة من كل خمس تشغيلات — إخفاقٌ وهمي، لكنه يظهر لمن يفحص من خارجي.
+     والإزاحة وحدها كشفٌ كافٍ، ولا تُنتج لوناً وسيطاً أبداً. */
+  transform: translate3d(0, 22px, 0);
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.25, 1);
 }
 [data-reveal].in > .sec-head,
 [data-reveal].in > .section-lede,
@@ -495,7 +499,7 @@ footer span[dir="rtl"] { display: inline-block; }
 [data-reveal].in > .specs > div,
 [data-reveal].in > .cta,
 [data-reveal].in > p {
-  opacity: 1; transform: none;
+  transform: none;
 }
 [data-reveal].in > .counters > li:nth-child(1),
 [data-reveal].in > .specs > div:nth-child(1) { transition-delay: 0.00s; }
