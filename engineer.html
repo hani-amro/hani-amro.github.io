@@ -105,7 +105,7 @@
       </div>
     </div>
 
-    <figure class="hero-viz" id="layer-stack"></figure>
+    <figure class="hero-viz" id="silent-zero"></figure>
    </div>
   </div>
 </header>
@@ -156,29 +156,6 @@
   </div>
 </section>
 
-<!-- 3 ────────────────────────────── PROOF BAR ────────────────────────── -->
-<section data-reveal id="proof">
-  <div class="sec-head">
-    <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-activity"/></svg></span>
-    <h2 data-i18n="pr-h">Numbers I can prove</h2>
-  </div>
-
-  <ul class="counters">
-    <li data-project="gold-signals"><b>$240</b><span data-i18n="c1">lifetime confirmed revenue
-      across six systems &mdash; five payments from two subscribers. That is everything these
-      systems have sold.</span></li>
-    <li data-project="altajir-position-pnl"><b>998</b><span data-i18n="c2">execution commands
-      recorded by the copy-trading platform; 175 of them still linked to a current subscriber</span></li>
-    <li data-project="wain-ticketing-ledger"><b>323</b><span data-i18n="c3">tests passing on Wain,
-      with 100% branch coverage on the money package enforced as a build gate</span></li>
-    <li data-project="wain-ticketing-ledger"><b>0.99</b><span data-i18n="c4">Lighthouse performance
-      on the live deployment &mdash; accessibility 1.00, SEO 1.00</span></li>
-  </ul>
-  <p class="footnote" data-i18n="foot">Every number here is produced by a command I can run in front
-    of you, and what no command produces is not on this page. Including the number that matters
-    most: apart from those two subscribers, none of these systems has a paying customer.</p>
-</section>
-
 <!-- 4 ──────────────────────────── CASE STUDIES ───────────────────────── -->
 <section data-reveal id="work">
   <div class="sec-head">
@@ -212,6 +189,23 @@
           identity was verified on three accounts named Demo, Demo2 and Demo10. No subscriber
           balance has ever been read successfully, and the last execution was 24 August 2026.</dd>
       </dl>
+      <ul class="metrics">
+        <li>
+          <b>564</b>
+          <span data-i18n="m-a0">✅ lines in the test output and zero ❌ — 24 of them are rollups (23 files + a final line), leaving 540 individual checks</span>
+          <details><summary data-i18n="m-src">Source</summary><code>node test/run-all.mjs | grep -cE '^(✅|❌)'</code></details>
+        </li>
+        <li>
+          <b>998</b>
+          <span data-i18n="m-a1">execution commands recorded in the production database (693 success · 276 skipped · 27 failed · 2 uncertain)</span>
+          <details><summary data-i18n="m-src">Source</summary><code>psql -d altajir -At -c "SELECT status, count(*) FROM execution_logs GROUP BY status"</code></details>
+        </li>
+        <li>
+          <b>0</b>
+          <span data-i18n="m-a2">estimated-profit rows out of 998 — not a single guessed number stored in the database</span>
+          <details><summary data-i18n="m-src">Source</summary><code>psql -d altajir -At -c "SELECT count(*) FILTER (WHERE profit_estimated) FROM execution_logs"</code></details>
+        </li>
+      </ul>
       <figure data-mechanism="altajir-position-pnl"></figure>
       <p class="note" data-i18n="k1-n"><b>A decision I am often asked about:</b> the first version ran
         on a drag-and-drop automation tool. After 22 attempts to make it fast enough, the tool itself
@@ -244,6 +238,23 @@
           first principles caught a AED 1.90 error per order in my own project brief, which had been
           counting collected tax as platform profit.</dd>
       </dl>
+      <ul class="metrics">
+        <li>
+          <b>323</b>
+          <span data-i18n="m-w0">tests passing on an actual run (205 in apps/api across 8 files + 118 in packages/money across 6)</span>
+          <details><summary data-i18n="m-src">Source</summary><code>cd apps/api &amp;&amp; npx vitest run &amp;&amp; cd packages/money &amp;&amp; npx vitest run</code></details>
+        </li>
+        <li>
+          <b>100%</b>
+          <span data-i18n="m-w1">branch coverage on packages/money — 62/62 branches, enforced as a build gate, not a report</span>
+          <details><summary data-i18n="m-src">Source</summary><code>cat packages/money/coverage/coverage-summary.json   # total.branches 62/62</code></details>
+        </li>
+        <li>
+          <b>26%</b>
+          <span data-i18n="m-w2">his own launch gate's verdict on his own project: 15 of 57 items met (then 21 after closing six)</span>
+          <details><summary data-i18n="m-src">Source</summary><code>grep -c '✅' docs/launch-gate.md   # 15 of 57 items met</code></details>
+        </li>
+      </ul>
       <figure data-mechanism="wain-ticketing-ledger"></figure>
       <p class="note" data-i18n="k2-n"><b>What this is not:</b> a demo, deliberately. Zero real
         users, the payment gateway is fully simulated, mail is written to a file and never sent, and
@@ -279,6 +290,23 @@
           And no order has ever reached delivery: four test orders on 20 July 2026, all still
           sitting at <em>confirmed</em>.</dd>
       </dl>
+      <ul class="metrics">
+        <li>
+          <b>434</b>
+          <span data-i18n="m-q0">tests passing on a real run — of 567 cases in 77 files; 132 gated behind env guards, 1 guard that fails on purpose</span>
+          <details><summary data-i18n="m-src">Source</summary><code>for p in packages/* apps/*; do (cd "$p" &amp;&amp; npx vitest run); done</code></details>
+        </li>
+        <li>
+          <b>39</b>
+          <span data-i18n="m-q1">tables under ENABLE + FORCE RLS in the migrations, out of 42 in the schema</span>
+          <details><summary data-i18n="m-src">Source</summary><code>grep -c 'ENABLE ROW LEVEL SECURITY' packages/db/migrations/*.sql</code></details>
+        </li>
+        <li>
+          <b>0</b>
+          <span data-i18n="m-q2">orders that reached delivery — all 4 are still at confirmed</span>
+          <details><summary data-i18n="m-src">Source</summary><code>psql -d quickdrop -tAc "select status, count(*) from orders group by status"</code></details>
+        </li>
+      </ul>
       <figure data-mechanism="quickdrop"></figure>
       <p class="stack" data-i18n="k3-s">TypeScript &middot; NestJS &middot; PostgreSQL (RLS, PostGIS) &middot; Redis &middot; WhatsApp Business API &middot; Docker</p>
     </article>
@@ -304,6 +332,23 @@
           those tests all run on SQLite while production is PostgreSQL &mdash; and that exact gap
           once hid a feature that passed a green board and was impossible in production.</dd>
       </dl>
+      <ul class="metrics">
+        <li>
+          <b>401</b>
+          <span data-i18n="m-g0">passing tests — all on in-memory SQLite, while production is PostgreSQL 16</span>
+          <details><summary data-i18n="m-src">Source</summary><code>python -m pytest -q   # 401 passed — on SQLite; production is PostgreSQL</code></details>
+        </li>
+        <li>
+          <b>27</b>
+          <span data-i18n="m-g1">tenant-isolation tests — 13 at the ORM layer, 14 at the HTTP layer</span>
+          <details><summary data-i18n="m-src">Source</summary><code>grep -c '^def test_' tests/test_isolation.py tests/test_panel_isolation.py</code></details>
+        </li>
+        <li>
+          <b>$240</b>
+          <span data-i18n="m-g2">confirmed revenue from 5 payments made by two subscribers ($145 + $95), the last on 2026-07-27</span>
+          <details><summary data-i18n="m-src">Source</summary><code>psql -d gold_signals -tAc "select status, amount from payments order by created_at"</code></details>
+        </li>
+      </ul>
       <figure data-mechanism="gold-signals"></figure>
       <p class="cta"><a class="btn" href="https://gold-signals.srv1564240.hstgr.cloud" target="_blank" rel="noopener">
         <svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="k4-go">Open it</span></a></p>
@@ -333,6 +378,23 @@
           while every visible indicator was green and the gate reported no gaps. 198 tests run inside
           the real Cloudflare Workers runtime.</dd>
       </dl>
+      <ul class="metrics">
+        <li>
+          <b>198</b>
+          <span data-i18n="m-y0">tests across 16 files inside the real Cloudflare Workers runtime. I ran the full suite five times: 198/198 in three, and in two runs under concurrent load one test (test/isolation.test.ts) failed on a 5000ms timeout — it passes when run alone. The count holds; the stability does not.</span>
+          <details><summary data-i18n="m-src">Source</summary><code>npx vitest run   # 16 files, 198 passed, in the real Workers runtime</code></details>
+        </li>
+        <li>
+          <b>0</b>
+          <span data-i18n="m-y1">TypeScript errors — strict mode, exit code 0</span>
+          <details><summary data-i18n="m-src">Source</summary><code>npx tsc --noEmit   # exit 0, strict</code></details>
+        </li>
+        <li>
+          <b>3,434</b>
+          <span data-i18n="m-y2">lines of tests against 4,106 lines of source in src/ — a 0.84:1 ratio</span>
+          <details><summary data-i18n="m-src">Source</summary><code>find src test -name '*.ts' -exec wc -l {} +   # 3,434 test / 4,106 source</code></details>
+        </li>
+      </ul>
       <figure data-mechanism="yasmin-salla-cx"></figure>
       <p class="note" data-i18n="k5-n"><b>Said against my own interest:</b> the measurement that found
         this is the one I built, and what it found is that my own safety claim was wrong. The public
@@ -364,6 +426,23 @@
           0.89. Paired with overfit-stats, 41 tests, which refuses to certify a trading strategy that
           is statistically indistinguishable from luck.</dd>
       </dl>
+      <ul class="metrics">
+        <li>
+          <b>20/20</b>
+          <span data-i18n="m-t0">tenant-guard tests passing — a live run, not a badge</span>
+          <details><summary data-i18n="m-src">Source</summary><code>cd tenant-guard &amp;&amp; python -m pytest -q   # 20 passed in 1.88s</code></details>
+        </li>
+        <li>
+          <b>41/41</b>
+          <span data-i18n="m-t1">overfit-stats tests passing — a live run</span>
+          <details><summary data-i18n="m-src">Source</summary><code>cd overfit-stats &amp;&amp; python -m pytest -q   # 41 passed</code></details>
+        </li>
+        <li>
+          <b>0</b>
+          <span data-i18n="m-t2">releases published to PyPI for either library</span>
+          <details><summary data-i18n="m-src">Source</summary><code>curl -s -o /dev/null -w '%{http_code}' https://pypi.org/pypi/tenant-guard/json   # 404</code></details>
+        </li>
+      </ul>
       <figure data-mechanism="tenant-guard-overfit-stats"></figure>
       <p class="note" data-i18n="k6-n"><b>What these are not:</b> neither library is on PyPI, so
         <code>pip install</code> does not work. There is no CI &mdash; the badges in the READMEs are
@@ -570,7 +649,7 @@
 <script src="stack.js"></script>
 <script src="hub.js"></script>
 <script src="i18n.js"></script>
-<script src="layers.js"></script>
+<script src="silentzero.js"></script>
 <script src="mechanism.js"></script>
 <script src="mech/wain-ticketing-ledger.js"></script>
 <script src="mech/altajir-position-pnl.js"></script>
