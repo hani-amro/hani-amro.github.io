@@ -31,11 +31,10 @@
   --accent: var(--emerald);
   --accent-ink: #ffffff;
 
-  --aurora-a: #34c79a;
-  --aurora-b: #7f8dff;
-  --aurora-c: #f0bf6b;
-  --aurora-opacity: 0.34;
-  --grid-line: rgba(18, 22, 26, 0.045);
+  --grid-line: rgba(18, 22, 26, 0.055);
+  --grid-fine: rgba(18, 22, 26, 0.022);
+  --ground-hi: rgba(18, 22, 26, 0.038);
+  --ground-lo: rgba(18, 22, 26, 0.022);
 
   --radius: 14px;
   --maxw: 1120px;
@@ -61,11 +60,10 @@
   --amber-soft: #2b2214;
   --accent: var(--emerald);
   --accent-ink: #07120e;
-  --aurora-a: #1f9c78;
-  --aurora-b: #4a58c8;
-  --aurora-c: #b5822f;
-  --aurora-opacity: 0.50;
-  --grid-line: rgba(237, 241, 244, 0.05);
+  --grid-line: rgba(237, 241, 244, 0.062);
+  --grid-fine: rgba(237, 241, 244, 0.026);
+  --ground-hi: rgba(237, 241, 244, 0.05);
+  --ground-lo: rgba(237, 241, 244, 0.028);
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 34px -22px rgba(0, 0, 0, 0.9);
   --shadow-lift: 0 20px 56px -24px rgba(67, 214, 163, 0.35);
 }
@@ -89,11 +87,10 @@
     --amber-soft: #2b2214;
     --accent: var(--emerald);
     --accent-ink: #07120e;
-    --aurora-a: #1f9c78;
-    --aurora-b: #4a58c8;
-    --aurora-c: #b5822f;
-    --aurora-opacity: 0.50;
-    --grid-line: rgba(237, 241, 244, 0.05);
+    --grid-line: rgba(237, 241, 244, 0.062);
+    --grid-fine: rgba(237, 241, 244, 0.026);
+    --ground-hi: rgba(237, 241, 244, 0.05);
+    --ground-lo: rgba(237, 241, 244, 0.028);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 34px -22px rgba(0, 0, 0, 0.9);
     --shadow-lift: 0 20px 56px -24px rgba(67, 214, 163, 0.35);
   }
@@ -120,20 +117,19 @@ body {
   position: relative;
 }
 
-/* ---------- living backdrop ---------- */
-#aurora {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  opacity: var(--aurora-opacity);
-  filter: blur(78px) saturate(135%);
-  transform: translateZ(0);      /* own compositor layer: never repaints the document */
-  pointer-events: none;
-}
+/* ---------- الأرضية ---------- */
 
-/* Depth grid over the light fields. Two gradients, no image request. */
+/* الأرضية: ورق قياس، لا حقول ضوء.
+ *
+ * قبلها كانت لوحةُ aurora ترسم بقعاً خضراء ونيلية وكهرمانية على الصفحة كلها.
+ * وهي مكتوبة جيداً — ربع دقّة العرض مع تمويه، ثلاثون إطاراً — لكن الاعتراض
+ * عليها ليس أداءً بل **معنى**: هذا الموقع يستعمل الأخضر لما صمد والكهرماني
+ * لما لم يصمد، وخلفيةٌ تسكب اللونين نفسيهما في كل مكان تُضعف قراءة الإشارة.
+ * وهي أيضاً العنصر الوحيد على صفحةٍ حجّتها أن لا شيء بلا مبرَّر — لا تعني شيئاً.
+ *
+ * وشبكةٌ ثابتة تعني: قياس. ولا تتحرّك، لأن الحركة على هذه الصفحة محجوزة
+ * لما يحمل معلومة — مخطّطات الآليات وحدها.
+ */
 body::before {
   content: "";
   position: fixed;
@@ -142,10 +138,25 @@ body::before {
   pointer-events: none;
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 35%, transparent 78%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 35%, transparent 78%);
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    /* شبكة أدقّ داخل كل مربّع — كورق الهندسة، تُعطي عمقاً بلا لون */
+    linear-gradient(var(--grid-fine) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-fine) 1px, transparent 1px);
+  background-size: 112px 112px, 112px 112px, 28px 28px, 28px 28px;
+  mask-image: radial-gradient(ellipse 92% 68% at 50% 0%, #000 30%, transparent 82%);
+  -webkit-mask-image: radial-gradient(ellipse 92% 68% at 50% 0%, #000 30%, transparent 82%);
+}
+
+/* حَجْمٌ محايد يمنع الورق من أن يكون مسطّحاً — بلا لون يخصّ شيئاً. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 46% at 50% -8%, var(--ground-hi), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 82% 12%, var(--ground-lo), transparent 72%);
 }
 
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
@@ -521,7 +532,10 @@ footer span[dir="rtl"] { display: inline-block; }
   .hero-grid { grid-template-columns: 1fr; gap: 22px; }
   .hero-copy .cta { margin-bottom: 4px; }
   #pipeline { height: 215px; }
-  .hero-viz figcaption { display: none; }
+  /* التعليق القديم كان شرحاً لرسمٍ زخرفي، فأُخفي على الشاشات الضيّقة.
+     أما تعليق مجسّم الطبقات فهو المحتوى نفسه — اسم الطبقة وما تفرضه —
+     وإخفاؤه يترك المجسّم أربع مستطيلات بلا معنى. */
+  .hero-viz > figcaption:not(.stack3d-note) { display: none; }
 }
 
 @media (max-width: 600px) {
@@ -944,3 +958,118 @@ footer span[dir="rtl"] { display: inline-block; }
 .mech svg .m-warn text, .mech svg text.m-warn { fill: var(--amber); stroke: none; }
 .mech svg .m-dim  { opacity: .34; }
 .mech svg .m-hide { opacity: 0; }
+
+/* ───────────────── ملكية العمل: لي / للنموذج ────────────────────────
+   السؤال الذي يقرّر المقابلة هو «قدّيش من هذا كتبتَه إنت؟»، وجوابه لا يكون
+   جملةً دفاعية بل قسمةً معلَنة: هذا قراري وهذا تنفيذه. ولذلك يظهر الفرق في
+   الشكل لا في النصّ وحده — «لي» بلون ما صمد، و«للنموذج» بلون الحياد. */
+
+.own-grid {
+  display: grid; gap: 14px; margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.own {
+  padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface-solid);
+}
+.own h4 {
+  margin: 0 0 10px; font-size: 1rem; letter-spacing: -0.012em;
+}
+.own p { margin: 0 0 9px; font-size: 14.5px; line-height: 1.6; color: var(--ink-2); }
+.own p:last-child { margin-bottom: 0; }
+.own b {
+  display: block; margin-bottom: 2px;
+  font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+}
+:root[dir="rtl"] .own b { letter-spacing: 0; text-transform: none; font-size: 12.5px; }
+.own-mine  b { color: var(--emerald); }
+.own-model b { color: var(--ink-3); }
+/* الحدّ الجانبي يجعل القسمة مقروءةً بالمسح لا بالقراءة. */
+.own-mine  { padding-inline-start: 10px; border-inline-start: 2px solid var(--emerald); }
+.own-model { padding-inline-start: 10px; border-inline-start: 2px solid var(--line-strong); }
+
+/* جواب السبورة: مطويّ لأنه طويل ومحدَّد، ومفتوح لمن يسأله — وهو يُسأل. */
+.wb { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 14px; }
+.wb summary {
+  cursor: pointer; font-weight: 620; color: var(--ink);
+  list-style: none; display: flex; align-items: center; gap: 8px;
+}
+.wb summary::-webkit-details-marker { display: none; }
+.wb summary::before {
+  content: "+"; flex: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1px solid var(--line-strong); color: var(--ink-3);
+  font-size: 13px; line-height: 16px; text-align: center;
+}
+.wb[open] summary::before { content: "−"; border-color: var(--accent); color: var(--accent); }
+.wb summary:hover { color: var(--accent); }
+.wb p {
+  margin: 12px 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.72;
+  max-width: 72ch;
+}
+
+/* ───────────────── مجسّم الطبقات: القيد في القاع ────────────────────
+   أربع شرائح، الأعمق أوطأ وأبعد. والمختارة ابتداءً هي القاع — لأنها الجواب
+   لا مكافأةٌ لمن يستكشف. وثلاثيّة الأبعاد هنا معنى لا زينة: العمق هو
+   المسافة التي لا يستطيع مسارٌ جديد أن يتخطّاها. */
+
+.stack3d { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.stack3d-scene {
+  position: relative; height: 268px;
+  /* منظورٌ قريب وعينٌ أعلى: ننظر إلى الرصّة من فوق، فتُقرأ المسافة بين
+     الطبقات مسافةً لا مجرّد إزاحة. */
+  perspective: 620px; perspective-origin: 50% 26%;
+  display: flex; align-items: center; justify-content: center;
+}
+.slab {
+  position: absolute; width: min(300px, 76%); height: 64px;
+  border: 1px solid var(--line-strong); border-radius: 10px;
+  background: var(--surface-solid); color: var(--ink-2);
+  font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  /* الأعمق أوطأ وأبعد وأصغر. التصاغر هو ما يجعل البُعد بُعداً لا هبوطاً. */
+  transform:
+    rotateX(46deg)
+    translateY(calc(var(--i) * 52px - 78px))
+    translateZ(calc(var(--i) * -30px))
+    scale(calc(1 - var(--i) * 0.035));
+  transition: transform .28s ease, border-color .2s ease,
+              background .2s ease, color .2s ease, box-shadow .28s ease;
+  box-shadow: 0 10px 22px -14px rgba(16, 24, 32, .5);
+}
+/* النصّ يعود موازياً للشاشة: العمق في الشريحة، والقراءة لا تُضحّى به —
+   ومحرّك نصّ مائل يقتل العربية قبل غيرها. */
+.slab span { transform: rotateX(-46deg); display: block; white-space: nowrap; }
+.slab:hover, .slab.on { border-color: var(--accent); color: var(--ink); }
+.slab.on {
+  transform:
+    rotateX(46deg)
+    translateY(calc(var(--i) * 52px - 92px))
+    translateZ(calc(var(--i) * -30px + 16px))
+    scale(calc(1 - var(--i) * 0.035));
+  box-shadow: 0 16px 30px -16px rgba(16, 24, 32, .55);
+}
+.slab-guard {
+  border-color: var(--accent); color: var(--emerald);
+  background: var(--emerald-soft);
+  box-shadow: 0 14px 30px -16px var(--accent);
+}
+.slab:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.stack3d-note { display: flex; flex-direction: column; gap: 4px; min-height: 5.4em; }
+.stack3d-note b { font-size: 15px; color: var(--ink); }
+.stack3d-enforces { color: var(--ink-2); font-size: 14px; line-height: 1.55; }
+.stack3d-guard {
+  align-self: flex-start; margin-top: 2px;
+  padding: 2px 9px; border-radius: 999px;
+  background: var(--emerald-soft); color: var(--emerald);
+  font-size: 11.5px; font-weight: 640;
+}
+.stack3d-hint { color: var(--ink-3); font-size: 12.5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* بلا حركة تبقى القسمة مقروءة: العمق يصير إزاحةً ثابتة لا دورانًا. */
+  .slab { transition: none; transform: translateY(calc(var(--i) * 58px - 84px)); }
+  .slab span { transform: none; }
+  .slab.on { transform: translateY(calc(var(--i) * 58px - 84px)); }
+}

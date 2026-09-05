@@ -66,8 +66,6 @@
   </defs>
 </svg>
 
-<canvas id="aurora" aria-hidden="true"></canvas>
-
 <button id="lang-toggle" type="button" aria-label="Switch to Arabic">العربية</button>
 <button id="theme-toggle" type="button" aria-label="Toggle colour theme">
   <span data-icon="dark">☾</span><span data-icon="light">☀</span>
@@ -107,13 +105,7 @@
       </div>
     </div>
 
-    <figure class="hero-viz">
-      <canvas id="pipeline" aria-hidden="true"></canvas>
-      <figcaption data-i18n="viz">
-        A request arrives, is read, then meets a check. Whatever fails the check stops there
-        instead of carrying on.
-      </figcaption>
-    </figure>
+    <figure class="hero-viz" id="layer-stack"></figure>
    </div>
   </div>
 </header>
@@ -433,11 +425,36 @@
 
   <div class="disclosure">
     <h3 data-i18n="ai-h">Built with AI, owned by me</h3>
-    <p data-i18n="ai-p">I build with AI coding assistants &mdash; and I own every line that ships. I
-      set the architecture, review and correct everything the AI produces, decide what goes to
-      production, and operate it afterwards. The judgment, the decisions, and the 3 a.m. fixes are
-      mine. Every technical decision on this page is one I made and can explain &mdash; including the
-      ones that turned out wrong.</p>
+    <p data-i18n="ai-p">The architecture decision is mine, the spec is mine, and the acceptance bar that kills the work or ships it is mine; the model writes the implementation inside those three. That is not a delegation of trust: when I doubted the refusal mechanism in an assistant I had built, I added a database column (<code>messages.refusal_via</code>) that measures the mechanism against itself instead of describing it, and it showed nine refusals out of twenty-three going through the old fallback path while every other indicator was green — a failure no behavioural test would have caught. The harshest document I have written is a 57-item launch gate that scored my own project at 26% green, with the command that proved each gap written beside it. When 401 tests failed to catch a complete production outage in the gold bot — tests on SQLite, production on PostgreSQL — I wrote the reason for that failure into the commit message rather than fixing it quietly. The speed is real: 137 commits in seven days on Wain, but behind a seven-job CI gate, 323 tests, and an architecture decision record that states why each path was chosen. I am measured by what runs: the system is deployed, operated and watched, and I am the one who takes the 3 a.m. page and signs off on the fix.</p>
+
+    <div class="own-grid">
+      <article class="own">
+        <h4 data-i18n="ow1-h">The definition of correct</h4>
+        <p class="own-mine"><b data-i18n="ow-mine">Mine</b>
+          <span data-i18n="ow1-m">I set the invariant that must never break, and enforce it at the lowest layer capable of enforcing it — the database — not in a comment and not in a code review.</span></p>
+        <p class="own-model"><b data-i18n="ow-model">The model's</b>
+          <span data-i18n="ow1-a">The model writes the migration, the constraint, and the test that turn that rule into working code.</span></p>
+      </article>
+      <article class="own">
+        <h4 data-i18n="ow2-h">What gets measured</h4>
+        <p class="own-mine"><b data-i18n="ow-mine">Mine</b>
+          <span data-i18n="ow2-m">I decided that a safety claim is worthless until it measures itself, so I added a column that counts the fallback path instead of trusting a dashboard that was entirely green.</span></p>
+        <p class="own-model"><b data-i18n="ow-model">The model's</b>
+          <span data-i18n="ow2-a">The model wrote the migration, the computation and the test in minutes — but it would never have asked the question that exposed nine refusals out of twenty-three.</span></p>
+      </article>
+      <article class="own">
+        <h4 data-i18n="ow3-h">The call to ship</h4>
+        <p class="own-mine"><b data-i18n="ow-mine">Mine</b>
+          <span data-i18n="ow3-m">Saying «this does not ship» is my job: a 57-item gate that scored my own project 26% green, and the reason 401 tests missed an outage written into the commit message rather than buried.</span></p>
+        <p class="own-model"><b data-i18n="ow-model">The model's</b>
+          <span data-i18n="ow3-a">The model produces the speed — 137 commits in seven days — and I am the one who puts a seven-job CI gate, 323 tests and a decision record in front of it.</span></p>
+      </article>
+    </div>
+
+    <details class="wb">
+      <summary data-i18n="wb-q">&ldquo;Can you write code on a whiteboard?&rdquo;</summary>
+      <p data-i18n="wb-a">I will not stand at a whiteboard writing code while implying that is how I work; it is not, and performing it hides the thing I am actually good at. The alternative is stronger and far closer to what you would be buying: hand me a real failure from your system — a log, a stack trace, a slow query — and I will diagnose it out loud: the hypothesis, the command that settles it, and what would disprove it if I am wrong. Or reverse it: open any file in my systems and ask me about any line — why that column is a varchar and not an enum, why that guard lives in the database and not in code review, which limits are proven by a test and which are merely written down. If a line is wrong, I will say it is wrong and say what it should have been. As for the whiteboard algorithm: if passing one is a requirement on your side, I will prepare for it the way anyone prepares for an exam — but the result will tell you nothing about what I hand you in the first week.</p>
+    </details>
   </div>
 
   <div class="ops-grid">
@@ -550,11 +567,10 @@
 </footer>
 
 <script src="main.js"></script>
-<script src="pipeline.js"></script>
-<script src="background.js"></script>
 <script src="stack.js"></script>
 <script src="hub.js"></script>
 <script src="i18n.js"></script>
+<script src="layers.js"></script>
 <script src="mechanism.js"></script>
 <script src="mech/wain-ticketing-ledger.js"></script>
 <script src="mech/altajir-position-pnl.js"></script>
