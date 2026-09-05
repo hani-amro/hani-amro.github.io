@@ -9,7 +9,7 @@
 
 <meta property="og:type" content="article">
 <meta property="og:title" content="Two Open-Source Libraries: tenant-guard and overfit-stats &mdash; case file">
-<meta property="og:description" content="Two small pieces of free software anyone can open and read: the first stops a system serving many companies from accidentally showing one company&#x27;s data to another, and the second tells you whether a promising test result is a real finding or just luck.">
+<meta property="og:description" content="Two deterministic guardrails: tenant isolation in SQLAlchemy, and a verdict on a backtest">
 <meta property="og:url" content="https://hani-amro.github.io/work/tenant-guard.html">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
@@ -26,12 +26,6 @@
     <g id="ic-arrow"><path d="M5 12h13"/><polyline points="13 6 19 12 13 18"/></g>
     <g id="ic-eye"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
     <g id="ic-github"><path d="M9 19c-4.5 1.5-4.5-2.5-6-3m12 5v-3.4a3 3 0 0 0-.8-2.3c2.7-.3 5.6-1.3 5.6-6a4.7 4.7 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.6 2.3 5.5 2.6 5.5 2.6a4.3 4.3 0 0 0-.1 3.2A4.7 4.7 0 0 0 4 9.1c0 4.6 2.9 5.6 5.6 6a3 3 0 0 0-.8 2.3V21"/></g>
-    <g id="ic-trend"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></g>
-    <g id="ic-cart"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></g>
-    <g id="ic-chat"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-4.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 0 1 8.5-8.4 8.4 8.4 0 0 1 8.5 8.4z"/></g>
-    <g id="ic-repeat"><polyline points="17 2 21 6 17 10"/><path d="M3 12V10a4 4 0 0 1 4-4h14"/><polyline points="7 22 3 18 7 14"/><path d="M21 12v2a4 4 0 0 1-4 4H3"/></g>
-    <g id="ic-cpu"><rect x="5" y="5" width="14" height="14" rx="2.5"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></g>
-    <g id="ic-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15.5 9.5"/></g>
   </defs>
 </svg>
 
@@ -45,67 +39,62 @@
     <span data-i18n="wk-back">All six systems</span></a>
 </nav>
 
-<header class="hero cf-hero">
+<!-- ── الرأس: الرقم، ثم العنوان صغيراً، ثم الأطروحة كبيرة ───────────── -->
+<header class="cf-hero">
   <div class="wrap">
-    <p class="cf-eyebrow">
-      <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span>
-      <span class="cf-num"><span data-i18n="wk-cf">Case file</span> <span class="cf-idx">06 / 06</span></span>
-    </p>
+    <p class="cf-idx" aria-hidden="true"><b>06</b><span>/ 06</span></p>
     <h1 data-i18n="wk-title">Two Open-Source Libraries: tenant-guard and overfit-stats</h1>
     <p class="cf-thesis" data-i18n="wk-tag">Two deterministic guardrails: tenant isolation in SQLAlchemy, and a verdict on a backtest</p>
-    <p class="cf-plain"><span class="cf-lbl" data-i18n="wk-plain-l">In plain words</span> <span data-i18n="wk-plain">Two small pieces of free software anyone can open and read: the first stops a system serving many companies from accidentally showing one company&#x27;s data to another, and the second tells you whether a promising test result is a real finding or just luck.</span></p>
   </div>
 </header>
 
-<main class="wrap cf-main">
-<!-- 1 ── المقياس قبل الادّعاء ─────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="sc-h">
-  <h2 class="cf-h" id="sc-h" data-i18n="wk-scale-h">The scale, before any claim</h2>
-  <div class="ruler"><p data-i18n="wk-scale">Zero users · zero downloads · not on PyPI (the PyPI JSON API returns 404 for both names) · five commits each, all landed on 2026-08-16 inside one hour, with no commit in the 19 days since · no CI. These are code samples, not products, and nobody uses them today.</p></div>
+<main>
+<section class="cf-sec" aria-labelledby="sc-h">
+  <div class="wrap">
+    <h2 class="cf-lbl" id="sc-h" data-i18n="wk-scale-h">The scale</h2>
+    <ul class="scale">
+      <li data-i18n="wk-sc0">Zero users, zero downloads</li>
+      <li data-i18n="wk-sc1">Not on PyPI</li>
+      <li data-i18n="wk-sc2">5 commits each, all on 2026-08-16</li>
+      <li data-i18n="wk-sc3">No CI</li>
+    </ul>
+  </div>
 </section>
 
-<!-- 2 ── المشكلة · ما يُثبته ────────────────────────────────────── -->
-<section data-reveal class="cf-sec">
-  <dl class="par cf-par k-in">
-    <div><dt data-i18n="wk-prob-l">The problem</dt><dd data-i18n="wk-prob">The defect lives in `src/tenant_guard/guard.py` at line 91: the lambda handed to `with_loader_criteria` that injects a `tenant_id` predicate into every query, including the lazy relationship loads whose SQL is never written down anywhere. SQLAlchemy compiles that lambda through its lambda cache, which keys on the code object and tracks *closure* variables to re-bind them per call — but it is blind to parameter default values. So writing `lambda cls, _tid=tenant_id: cls.tenant_id == _tid`, the common formulation against late binding in Python, bakes the first tenant into the cached criteria and applies it to every tenant afterwards. I reproduced this in a standalone script on SQLAlchemy 2.0.51: the default-argument form let the second tenant read the first tenant&#x27;s rows (`default_arg   tenant1 sees [1, 1]  tenant2 sees [1, 1]  -&gt; LEAK`), while the closure form isolated correctly (`closure       tenant1 sees [1, 1]  tenant2 sees [2, 2]  -&gt; ok`) — no exception, no warning, and two rows returned either way, a perfectly plausible count. That is exactly a customer-to-customer data leak nobody notices. The harder part was not diagnosing the cause but designing a test that exposes it: a test asserting &quot;each tenant sees some rows&quot; passes while the bug is live, so `tests/test_read_scoping.py` line 46 asserts `a_ids.isdisjoint(b_ids)` — full disjointness of the id sets — preceded at line 13 by `test_ground_truth_has_both_tenants`, a ground-truth assertion that all four rows really exist, without which every isolation test would pass against an empty database. The fix is one line; the comment explaining why it must never be rewritten runs seven lines (84-90), longer than the fix. The same principle drives overfit-stats: eight guard sites across `pbo.py`, `sharpe.py` and `validation.py` return NaN outright when the input cannot support a conclusion, rather than a falsely reassuring number.</dd></div>
-    <div><dt data-i18n="wk-proves-l">What it proves</dt><dd data-i18n="wk-proves">Two public MIT repositories — a code sample a hiring manager can open and read end to end: 435 source lines against 386 test lines in tenant-guard, 457 against 314 in overfit-stats. What they prove is not volume but the class of defect he hunts: one that throws no exception, drops no row, and survives code review — visible only to someone who designed a test on the assumption it exists. And each README carries a Limitations section stating where the library can be bypassed, before anyone has to ask.</dd></div>
-  </dl>
+<section class="cf-band">
+  <div class="wrap">
+    <p class="band-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that stops it.</p>
+    <figure data-mechanism="tenant-guard-overfit-stats"></figure>
+    <p class="mech-hint" data-i18n="wk-mech-scroll">The diagram is wider than this screen — drag it sideways.</p>
+    <ol class="readings">
+        <li class="v-held">
+          <b>20/20</b>
+          <span data-i18n="wk-m0">tenant-guard tests passing — a live run, not a badge</span>
+          <details><summary data-i18n="m-src">Source</summary><code>cd GIT-cv/publish/tenant-guard &amp;&amp; python -m pytest -q  →  &quot;20 passed in 1.88s&quot;  (تشغيل 2026-09-04)</code></details>
+        </li>
+        <li class="v-held">
+          <b>41/41</b>
+          <span data-i18n="wk-m1">overfit-stats tests passing — a live run</span>
+          <details><summary data-i18n="m-src">Source</summary><code>cd GIT-cv/publish/overfit-stats &amp;&amp; python -m pytest -q  →  &quot;41 passed in 177.67s (0:02:57)&quot;  (تشغيل 2026-09-04؛ المدة تختلف حسب الجهاز)</code></details>
+        </li>
+        <li class="v-limit">
+          <b>0</b>
+          <span data-i18n="wk-m2">releases published to PyPI for either library</span>
+          <details><summary data-i18n="m-src">Source</summary><code>urllib.request على https://pypi.org/pypi/tenant-guard/json و https://pypi.org/pypi/overfit-stats/json  →  HTTP 404 لكليهما</code></details>
+        </li>
+    </ol>
+  </div>
 </section>
 
-<!-- 3 ── الآلية، بعرض الصفحة ────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="mech-h">
-  <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
-  <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
-  <figure data-mechanism="tenant-guard-overfit-stats"></figure>
-  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">SQLAlchemy&#x27;s lambda cache tracks closure variables only; a default-argument tenant_id goes unseen, so the first tenant&#x27;s value is cached and tenant 2 reads tenant 1&#x27;s rows with no error. The closure form, one line away, is rebound per call: the leak stops there. Last step: `len(rows) &gt; 0` passes on leaked data, so the test asserts disjoint id sets.</span></p>
-</section>
-
-<!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="scr-h">
-  <h2 class="cf-h" id="scr-h" data-i18n="wk-scr-h">Screens</h2>
-  <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
-  <div class="shots">
-    <figure class="shot desktop">
+<section class="cf-sec">
+  <div class="wrap">
+    <figure class="screens n2">
       <div class="dev desktop"><img src="../img/work/tenant-guard/tenant-guard-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="tenant-guard&#x27;s public GitHub page: a code repository, not a running service — 5 commits, 0 stars, no releases, and hand-written static badges."></div>
-      <figcaption><span data-i18n="wk-sh0">tenant-guard&#x27;s public GitHub page: a code repository, not a running service — 5 commits, 0 stars, no releases, and hand-written static badges.</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://github.com/hani-amro/tenant-guard</span></span></figcaption>
-    </figure>
-    <figure class="shot phone">
-      <div class="dev phone"><img src="../img/work/tenant-guard/tenant-guard-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same repository at phone width: file tree and README head; not on PyPI, so it installs from this source tree only."></div>
-      <figcaption><span data-i18n="wk-sh1">The same repository at phone width: file tree and README head; not on PyPI, so it installs from this source tree only.</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://github.com/hani-amro/tenant-guard</span></span></figcaption>
-    </figure>
-    <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/tenant-guard/overfit-stats-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="overfit-stats on GitHub, same shape as its sibling: 5 commits, 0 stars, no releases, a static &quot;tests 41/41&quot; badge, no CI."></div>
-      <figcaption><span data-i18n="wk-sh2">overfit-stats on GitHub, same shape as its sibling: 5 commits, 0 stars, no releases, a static &quot;tests 41/41&quot; badge, no CI.</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://github.com/hani-amro/overfit-stats</span></span></figcaption>
-    </figure>
-    <figure class="shot phone">
       <div class="dev phone"><img src="../img/work/tenant-guard/overfit-stats-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="overfit-stats at phone width: the badge&#x27;s 41/41 is a claim typed into the README; the pytest run below is the real count."></div>
-      <figcaption><span data-i18n="wk-sh3">overfit-stats at phone width: the badge&#x27;s 41/41 is a claim typed into the README; the pytest run below is the real count.</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://github.com/hani-amro/overfit-stats</span></span></figcaption>
+      <figcaption><span data-i18n="wk-scap">Two GitHub repositories, not a running service; the test run is the only live number.</span>
+        <span class="cap-meta">2026-09-05</span></figcaption>
     </figure>
-    <figure class="shot shot-term">
+    <figure class="screens term-wrap">
       <div class="term"><div class="term-bar"></div><pre tabindex="0"><code><span class="prompt">$</span> cd publish/tenant-guard &amp;&amp; python -m pytest -q ; cd ../overfit-stats &amp;&amp; python -m pytest -q
 $ cd publish/tenant-guard &amp;&amp; python -m pytest -q
 ....................                                                     [100%]
@@ -119,12 +108,23 @@ $ cd ../overfit-stats &amp;&amp; python -m pytest -q
   </div>
 </section>
 
-<!-- 5 ── الكود، حرفياً ───────────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="code-h">
-  <h2 class="cf-h" id="code-h" data-i18n="wk-code-h">The code, verbatim</h2>
-  <div class="codebox">
-    <div class="codehead"><b>tenant-guard/src/tenant_guard/guard.py</b><span>L69&ndash;L94 &middot; <span data-i18n="wk-nl">26 lines</span></span></div>
-    <pre class="codebody" tabindex="0" style="counter-reset: line 68"><code class="lang-python"><span class="ln">def _scope_reads(execute_state) -&gt; None:</span>
+<section class="cf-limits" aria-labelledby="lim-h">
+  <div class="wrap">
+    <h2 id="lim-h" data-i18n="wk-lim-h">What it does not do</h2>
+    <ul>
+        <li data-i18n="wk-lim0">Not on PyPI; the README&#x27;s pip install line does not work as written.</li>
+        <li data-i18n="wk-lim1">No CI; the badges are hand-written images, not build output.</li>
+        <li data-i18n="wk-lim2">An application-level guard: raw SQL and bulk statements bypass it.</li>
+        <li data-i18n="wk-lim3">No benchmarks; the cost of injecting the predicate is unmeasured.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="cf-sec">
+  <div class="wrap">
+    <details class="codebox">
+      <summary data-i18n="wk-code-s">The code, verbatim &mdash; tenant-guard/src/tenant_guard/guard.py &middot; L69&ndash;L94</summary>
+      <pre class="codebody" tabindex="0" style="counter-reset: line 68"><code class="lang-python"><span class="ln">def _scope_reads(execute_state) -&gt; None:</span>
 <span class="ln">    &quot;&quot;&quot;Inject ``tenant_id = :current`` into every scoped SELECT.&quot;&quot;&quot;</span>
 <span class="ln">    if not execute_state.is_select or execute_state.is_column_load:</span>
 <span class="ln">        return</span>
@@ -151,75 +151,22 @@ $ cd ../overfit-stats &amp;&amp; python -m pytest -q
 <span class="ln">            )</span>
 <span class="ln">        )</span>
 </code></pre>
+    </details>
   </div>
-  <p class="cf-fine" data-i18n="wk-code-n">Copied verbatim from the repository; nothing elided.</p>
 </section>
 
-<!-- 6 ── كل رقم، والأمر الذي أنتجه ───────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="num-h">
-  <h2 class="cf-h" id="num-h" data-i18n="wk-num-h">Every number, and the command that produced it</h2>
-  <ul class="metrics cf-metrics">
-    <li>
-      <b>20/20</b>
-      <span data-i18n="wk-m0">tenant-guard tests passing — a live run, not a badge</span>
-      <details><summary data-i18n="m-src">Source</summary><code>cd GIT-cv/publish/tenant-guard &amp;&amp; python -m pytest -q  →  &quot;20 passed in 1.88s&quot;  (تشغيل 2026-09-04)</code></details>
-    </li>
-    <li>
-      <b>41/41</b>
-      <span data-i18n="wk-m1">overfit-stats tests passing — a live run</span>
-      <details><summary data-i18n="m-src">Source</summary><code>cd GIT-cv/publish/overfit-stats &amp;&amp; python -m pytest -q  →  &quot;41 passed in 177.67s (0:02:57)&quot;  (تشغيل 2026-09-04؛ المدة تختلف حسب الجهاز)</code></details>
-    </li>
-    <li>
-      <b>0.89</b>
-      <span data-i18n="wk-m2">test-lines to source-lines ratio in tenant-guard (386 ÷ 435)</span>
-      <details><summary data-i18n="m-src">Source</summary><code>wc -l src/tenant_guard/*.py  →  435 total ؛ wc -l tests/*.py  →  386 total</code></details>
-    </li>
-    <li>
-      <b>1</b>
-      <span data-i18n="wk-m3">tenant-guard&#x27;s runtime dependencies: SQLAlchemy alone</span>
-      <details><summary data-i18n="m-src">Source</summary><code>tenant-guard/pyproject.toml سطر 25 → dependencies = [&quot;SQLAlchemy&gt;=2.0,&lt;3.0&quot;]  (overfit-stats سطر 25: numpy&gt;=1.24, scipy&gt;=1.10)</code></details>
-    </li>
-    <li>
-      <b>0</b>
-      <span data-i18n="wk-m4">releases published to PyPI for either library</span>
-      <details><summary data-i18n="m-src">Source</summary><code>urllib.request على https://pypi.org/pypi/tenant-guard/json و https://pypi.org/pypi/overfit-stats/json  →  HTTP 404 لكليهما</code></details>
-    </li>
-    <li>
-      <b>0</b>
-      <span data-i18n="wk-m5">CI workflows in either repo — the badges are hand-written static images</span>
-      <details><summary data-i18n="m-src">Source</summary><code>ls -a tenant-guard overfit-stats  →  لا مجلد .github في أي منهما ؛ الشارات روابط img.shields.io ثابتة (tenant-guard السطور 5-9، overfit-stats السطور 5-8)</code></details>
-    </li>
-  </ul>
-</section>
-
-<!-- 7 ── ما لا يفعله ─────────────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="lim-h">
-  <h2 class="cf-h am" id="lim-h" data-i18n="wk-lim-h">What it does not do</h2>
-  <ol class="limits">
-    <li data-i18n="wk-lim0">Neither is published to PyPI. tenant-guard&#x27;s README prints `pip install tenant-guard` in its install instructions and admits on that same line (171) that it is &quot;not yet on PyPI&quot; — so the command does not work as written; source install only. overfit-stats&#x27; README does not mention PyPI at all.</li>
-    <li data-i18n="wk-lim1">There is no CI in either repository and no `.github/workflows` directory. The badges are hand-written static shields.io images (tenant-guard lines 5-9, overfit-stats lines 5-8), so the &quot;20/20&quot; on them is a claim rather than a build output — the numbers shown here come from an actual run instead.</li>
-    <li data-i18n="wk-lim2">tenant-guard is an application-level layer, not a database one: it is bypassed by a raw `text()` query, a direct psycopg cursor, or bulk update/delete statements that never reach `before_flush`. It complements PostgreSQL Row-Level Security rather than replacing it, and the README&#x27;s Limitations section (line 151) says so verbatim.</li>
-    <li data-i18n="wk-lim3">Neither library is benchmarked, and neither is compared numerically against reference implementations. &quot;What does injecting the predicate into every query cost?&quot; has no numeric answer yet, and both READMEs concede it (tenant-guard line 163, overfit-stats line 165).</li>
-  </ol>
-</section>
-
-<!-- 8 ── التقنيات · الروابط ─────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="stack-h">
-  <h2 class="cf-h" id="stack-h" data-i18n="wk-stack-h">Stack</h2>
-  <ul class="chips">
-    <li>Python 3.10+ (requires-python = &quot;&gt;=3.10&quot; في كلا الـ pyproject)</li>
-    <li>SQLAlchemy 2.0 — do_orm_execute, before_flush, with_loader_criteria, ContextVar</li>
-    <li>numpy + scipy</li>
-    <li>pytest + pytest-asyncio + aiosqlite</li>
-    <li>hatchling + pyproject.toml</li>
-    <li>MIT License</li>
-  </ul>
-  <p class="cta cf-links">
-    <a class="btn" href="https://github.com/hani-amro/tenant-guard" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><use href="#ic-github"/></svg> <span data-i18n="wk-repo0">Read tenant-guard</span></a>
-    <a class="btn" href="https://github.com/hani-amro/overfit-stats" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><use href="#ic-github"/></svg> <span data-i18n="wk-repo1">Read overfit-stats</span></a>
-  </p>
-  <p class="cf-fine" data-i18n="wk-nolive">No running service: these are libraries, not products.</p>
-  <p class="cf-backline"><a class="quiet" href="../engineer.html#work"><svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg> <span data-i18n="wk-back">All six systems</span></a></p>
+<section class="cf-end">
+  <div class="wrap">
+    <p class="cf-stack" data-i18n="wk-stack">Python 3.10+ &middot; SQLAlchemy 2.0 &middot; numpy &middot; scipy &middot; pytest &middot; MIT</p>
+    <p class="cta">
+      <a class="btn" href="https://github.com/hani-amro/tenant-guard" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><use href="#ic-github"/></svg> <span data-i18n="wk-repo0">Read tenant-guard</span></a>
+      <a class="btn" href="https://github.com/hani-amro/overfit-stats" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><use href="#ic-github"/></svg> <span data-i18n="wk-repo1">Read overfit-stats</span></a>
+    </p>
+    <p class="cf-fine" data-i18n="wk-nolive">No running service: these are libraries, not products.</p>
+    <p class="cf-backline"><a class="quiet" href="../engineer.html#work">
+      <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg>
+      <span data-i18n="wk-back">All six systems</span></a></p>
+  </div>
 </section>
 
 </main>

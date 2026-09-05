@@ -1311,80 +1311,156 @@ section[id] { scroll-margin-top: 76px; }
 }
 
 /* ═══════════════ ملفّ الحالة — work/<slug>.html ═══════════════════════
-   صفحةٌ لكل نظام، مولَّدة من content/projects.json بـtools/build_work_pages.py.
-   البطاقة في engineer.html عادت مختصرة بعمودين، وهذه الصفحة هي العمق الذي
-   خرج منها: المقياس قبل الادّعاء، ثم الآلية بعرض الصفحة كلّه (كانت في نصف
-   بطاقة فرُسم خطّها 9.2px)، ثم الشاشات كما التُقطت، ثم الكود حرفياً، ثم
-   الأرقام الستّة كلٌّ مع أمره، ثم ما لا يفعله.
-   كلّ شيء بخصائص منطقية: الصفحة تُقرأ بالعربية من اليمين بلا قاعدة إضافية. */
+   صفحةٌ لكل نظام، مولَّدة بـtools/build_work_pages.py.
 
-.cf-hero { padding: 34px 0 26px; }
-.cf-eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
-.cf-num {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--ink-3);
+   حكم صاحب الصفحة على النسخة الأولى: «كثرت كثير محتوى، كل ما كانت أبسط
+   ومختصرة وجذابة كان أفضل، وزيد الجماليات، كون أجرأ». فبُنيت هذه حول شيء
+   واحد: **لوحٌ غامق يبلغ حافّتي الشاشة، فيه الآلية وأرقامها**. على أرضيةٍ
+   بيضاء يموت «الصفر» الزمردي في المخطّط؛ وعلى اللوح يصير ألمعَ نقطة في
+   الصفحة. وكل ما عداه هادئ: نصّ على بياض.
+
+   لوحٌ ثقيل واحد لا ثلاثة. المشروع الذي لا لقطات له لا يتركه لوحين
+   متجاورين، وهذا يحدث فعلاً في اثنين من الستّة.
+
+   الألوان تعني ما تعنيه في باقي الموقع ولا تتوسّع: الزمردي ادّعاءٌ صمد،
+   والكهرماني حدّ. ولذلك شرائح المقياس **محايدة** والشريط وحده معلَّم — لأن
+   «137 commit في 7 أيام» ليست حدّاً، والشريط كلّه هو سياقٌ يحدّ ما بعده. */
+
+.cf-hero { padding: 30px 0 34px; }
+/* الرقم أولاً، ثم العنوان صغيراً، ثم الأطروحة كبيرة: الأطروحة هي ما جاء
+   القارئ لأجله، والعنوان تسمية. */
+.cf-idx { margin: 0 0 18px; display: flex; align-items: baseline; gap: 8px; }
+.cf-idx b {
+  font: 700 clamp(2.6rem, 1.6rem + 4.4vw, 4.6rem)/0.85 "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: -0.04em; color: var(--ink); font-variant-numeric: tabular-nums;
 }
-.cf-idx { font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+.cf-idx span {
+  font: 500 13px/1 "IBM Plex Mono", ui-monospace, monospace;
+  color: var(--ink-3); font-variant-numeric: tabular-nums;
+  direction: ltr; unicode-bidi: isolate;
+}
 .cf-hero h1 {
-  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.7rem); line-height: 1.12;
-  margin: 0 0 16px; max-width: 28ch; letter-spacing: -0.02em;
+  margin: 0 0 12px; max-width: 46ch;
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.16rem); font-weight: 620;
+  letter-spacing: 0; color: var(--ink-2);
 }
-/* الأطروحة: الجملة الواحدة التي يُبنى عليها المشروع كلّه — فلها وزن العنوان. */
 .cf-thesis {
-  margin: 0 0 16px; max-width: 38ch;
-  font-size: clamp(1.15rem, 1rem + 1vw, 1.55rem); line-height: 1.38; font-weight: 600;
-  color: var(--ink); letter-spacing: -0.012em; text-wrap: balance;
+  margin: 0; max-width: 22ch;
+  font-size: clamp(1.85rem, 1.15rem + 3.1vw, 3.15rem); line-height: 1.09;
+  font-weight: 700; letter-spacing: -0.028em; color: var(--ink);
+  text-wrap: balance;
 }
-.cf-plain { margin: 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.6; max-width: 70ch; }
+
+.cf-sec { padding: 34px 0; }
 .cf-lbl {
-  display: inline-block; margin-inline-end: 8px;
-  font-size: 11.5px; font-weight: 680; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--ink-3);
+  margin: 0 0 12px; font-size: 11.5px; font-weight: 680;
+  letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3);
 }
 
-.cf-main > .cf-sec { margin: 0 0 56px; }
-.cf-h { margin: 0 0 10px; font-size: 1.28rem; letter-spacing: -0.012em; }
-.cf-h.am { color: var(--amber); }
-
-/* المقياس: مسطرةٌ بعلامات قياس — لأنه بالضبط ذلك: حجم الشيء قبل وصفه.
-   كهرمانيّ لأن المقام هو ما يحدّ الادّعاء، لا ما يزيّنه. */
-.ruler {
-  position: relative; margin: 8px 0 0; padding: 28px 22px 20px;
-  max-width: 78ch;
-  border: 1px solid color-mix(in srgb, var(--amber) 32%, var(--line));
-  border-radius: var(--radius); background: var(--amber-soft);
-  color: var(--ink); font-size: 15.5px; line-height: 1.65;
+/* المقياس: كتلة السياق التي تحدّ كل ادّعاء بعدها — معلَّمة بحدٍّ كهرماني
+   عريض، وشرائحها محايدة لأن أكثرها وقائع لا حدود. */
+.scale {
+  list-style: none; margin: 0; padding: 0 0 0 0;
+  padding-inline-start: 16px; border-inline-start: 4px solid var(--amber);
+  display: flex; flex-wrap: wrap; gap: 8px; max-width: 82ch;
 }
-.ruler::before {
-  content: ""; position: absolute; top: 10px; inset-inline: 16px; height: 9px;
-  background:
-    repeating-linear-gradient(to right, var(--amber) 0 1px, transparent 1px 10px) 0 0 / 100% 5px no-repeat,
-    repeating-linear-gradient(to right, var(--amber) 0 1px, transparent 1px 50px) 0 0 / 100% 9px no-repeat;
-  opacity: 0.6;
+.scale li {
+  padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: 999px;
+  background: var(--surface-solid); color: var(--ink-2);
+  font: 13px/1.45 "IBM Plex Mono", ui-monospace, monospace;
+  unicode-bidi: plaintext;
 }
-.ruler p { margin: 0; }
 
-.cf-par { display: grid; gap: 22px 28px; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); margin: 0; }
-.cf-par > div { min-width: 0; }
-.cf-par dd { max-width: 62ch; }
-.cf-par.k-in dt { color: var(--indigo); }
-.cf-par.k-am dt { color: var(--amber); }
+/* ── اللوح ──────────────────────────────────────────────────────────
+   يبلغ حافّتي الشاشة لأنه قسمٌ في المستند لا صندوقٌ داخل عمود — فلا حساب
+   بـ100vw ولا فيضٌ بعرض شريط التمرير. وتُعاد فيه توكنات الوضع الغامق، فيُعيد
+   المخطّط طلاءَ نفسه بلا سطر JS واحد. */
+.cf-band {
+  --bg: #0b0e12; --surface: rgba(23, 28, 35, 0.66); --surface-solid: #12171d;
+  --line: #262d36; --line-strong: #39424e;
+  --ink: #edf1f4; --ink-2: #aeb8c2; --ink-3: #8b97a3;
+  --emerald: #43d6a3; --emerald-soft: #0e2a22;
+  --indigo: #8f9dff; --indigo-soft: #171c3a;
+  --amber: #e9b263; --amber-soft: #2b2214;
+  --accent: var(--emerald); --accent-ink: #07120e;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 34px -22px rgba(0, 0, 0, 0.9);
+  background: var(--bg); color: var(--ink);
+  padding: 40px 0 44px; margin: 8px 0 0;
+  border-block: 1px solid #000;
+}
+/* في الوضع الغامق تصير خلفية الصفحة بلون اللوح، فيختفي اللوح — وهو الجهاز
+   البصري الوحيد في الصفحة. فيُرفَع درجةً فوقها بدل أن يُغرَق فيها. */
+:root[data-theme="dark"] .cf-band { --bg: #161c24; --surface-solid: #1d242d; border-block-color: #2b333d; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .cf-band { --bg: #161c24; --surface-solid: #1d242d; border-block-color: #2b333d; }
+}
 
-.cf-read { margin: 16px 0 0; max-width: 72ch; color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+.band-lede {
+  margin: 0 0 18px; max-width: 60ch; color: var(--ink-2);
+  font-size: 15px; line-height: 1.6;
+}
+.cf-band .mech { margin: 0; border-color: var(--line); background: var(--surface-solid); }
+.cf-band .mech-head { border-bottom-color: var(--line); }
+.cf-band .mech-btn { background: transparent; border-color: var(--line-strong); }
+.mech-hint {
+  display: none; margin: 8px 0 0; color: var(--ink-3);
+  font: 12px/1.5 "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (max-width: 700px) { .mech-hint { display: block; } }
 
-/* الشاشات: أطرٌ بالـCSS وحدها. الصورة كما التُقطت، والإطار يقول أيّ جهاز. */
-.shots { display: grid; gap: 22px; grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: 14px; }
-.shot { margin: 0; grid-column: span 6; min-width: 0; }
-@media (min-width: 720px) { .shot.phone { grid-column: span 2; } }
-@media (min-width: 480px) and (max-width: 719.98px) { .shot.phone { grid-column: span 3; } }
-.dev {
+/* الأرقام داخل اللوح: هي ما يُثبت ما رآه القارئ للتوّ. */
+.readings {
+  list-style: none; margin: 30px 0 0; padding: 0;
+  display: grid; gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+}
+.readings li {
+  min-width: 0; display: flex; flex-direction: column;
+  padding-top: 14px; border-top: 3px solid var(--line-strong);
+}
+.readings .v-held { border-top-color: var(--emerald); }
+.readings .v-limit { border-top-color: var(--amber); }
+.readings b {
+  display: block; margin-bottom: 6px;
+  font-size: clamp(2.1rem, 1.4rem + 2.6vw, 3.1rem); font-weight: 700;
+  line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+  color: var(--ink); direction: ltr; unicode-bidi: isolate;
+}
+.readings .v-held b { color: var(--emerald); }
+.readings .v-limit b { color: var(--amber); }
+.readings > li > span {
+  display: block; color: var(--ink-2); font-size: 13.5px; line-height: 1.5; max-width: 34ch;
+}
+/* «المصدر» في القاع، فتتحاذى الثلاثة مهما اختلف طول الوصف. */
+.readings details { margin-top: auto; padding-top: 12px; }
+.readings summary {
+  display: inline-block; cursor: pointer; list-style: none; position: relative;
+  color: var(--indigo); font-size: 11.5px; font-weight: 620;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  border-bottom: 1px dashed currentColor; line-height: 1.3;
+}
+.readings summary::-webkit-details-marker { display: none; }
+.readings summary::after { content: ""; position: absolute; inset: -13px -10px; }
+.readings summary:hover { border-bottom-style: solid; }
+.readings code {
+  display: block; margin-top: 9px; padding: 9px 11px;
+  background: #0a0d11; border: 1px solid var(--line); border-radius: 8px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11.5px; line-height: 1.55; color: var(--ink-2);
+  white-space: pre-wrap; overflow-wrap: anywhere;
+  direction: ltr; text-align: start; unicode-bidi: isolate;
+}
+.readings li:has(details[open]) { grid-column: 1 / -1; }
+
+/* ── الشاشات: مكتبيّ يحمل هاتفاً على حافّته ─────────────────────────── */
+.screens { margin: 0; position: relative; }
+.screens .dev {
   border: 1px solid var(--line-strong); background: var(--surface-solid);
   box-shadow: var(--shadow); overflow: hidden;
 }
-.dev img { display: block; width: 100%; height: auto; }
-.dev.desktop { border-radius: 12px; }
-.dev.desktop::before {
+.screens .dev img { display: block; width: 100%; height: auto; }
+.screens .dev.desktop { border-radius: 12px; }
+.screens .dev.desktop::before {
   content: ""; display: block; height: 26px; border-bottom: 1px solid var(--line);
   background:
     radial-gradient(circle at 16px 13px, var(--line-strong) 4.5px, transparent 5px),
@@ -1392,13 +1468,24 @@ section[id] { scroll-margin-top: 76px; }
     radial-gradient(circle at 52px 13px, var(--line-strong) 4.5px, transparent 5px),
     var(--surface);
 }
-.dev.phone { max-width: 320px; margin-inline: auto; padding: 10px; border-width: 2px; border-radius: 30px; }
-.dev.phone img { border-radius: 20px; }
-.shot figcaption { margin-top: 10px; color: var(--ink-2); font-size: 13.5px; line-height: 1.55; }
-.shot.phone figcaption { max-width: 320px; margin-inline: auto; }
+.screens .dev.phone { border-width: 2px; border-radius: 26px; padding: 8px; }
+.screens .dev.phone img { border-radius: 18px; }
+/* فوق 720px يجلس الهاتف على حافّة المكتبيّ: تركيبٌ واحد يعمل لستّة مشاريع
+   بلا ضبطٍ لكلٍّ منها — ولا ميلان، لأن الميلان يحتاج معايرة بكل نسبة أبعاد. */
+@media (min-width: 720px) {
+  .screens.n2 { padding-bottom: 26px; }
+  .screens.n2 .dev.phone {
+    position: absolute; inset-inline-end: 3%; bottom: 0;
+    width: 19%; min-width: 132px; margin: 0;
+  }
+}
+@media (max-width: 719.98px) {
+  .screens .dev.phone { max-width: 300px; margin: 16px auto 0; }
+}
+.screens figcaption { margin-top: 12px; color: var(--ink-2); font-size: 14px; line-height: 1.55; max-width: 66ch; }
 .cap-meta {
-  display: block; margin-top: 5px; color: var(--ink-3); font-size: 12px;
-  font-family: "IBM Plex Mono", ui-monospace, monospace; overflow-wrap: anywhere;
+  display: block; margin-top: 4px; color: var(--ink-3); font-size: 12px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 /* الطرفية: اللقطة الصادقة لمكتبةٍ لا واجهة لها هي ناتج اختبارها كما طُبع. */
@@ -1420,61 +1507,73 @@ section[id] { scroll-margin-top: 76px; }
   font: 12.5px/1.55 "IBM Plex Mono", ui-monospace, monospace; color: inherit;
 }
 .term .prompt { color: #43d6a3; }
+.term-wrap { margin-top: 26px; }
 
 .cf-empty {
-  margin: 8px 0 0; padding: 18px 20px; max-width: 70ch;
+  margin: 0; padding: 18px 20px; max-width: 70ch;
   border: 1px dashed var(--line-strong); border-radius: var(--radius);
   background: var(--surface); color: var(--ink-2);
 }
 
-/* الكود حرفياً: أرقام الأسطر الأصلية، لا من واحد. الكود يبقى LTR دائماً. */
-.codebox {
-  border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden;
-  background: var(--surface-solid); direction: ltr; text-align: start;
+/* ── ما لا يفعله: عنوانٌ حقيقي بحجمه، لا تسمية صغيرة ─────────────────
+   هذا القسم يبني الثقة أكثر من أي قسم آخر، فلا يُلطَّف ولا يُصغَّر. */
+.cf-limits { padding: 34px 0 38px; background: var(--amber-soft); border-block: 1px solid color-mix(in srgb, var(--amber) 30%, transparent); }
+.cf-limits h2 {
+  margin: 0 0 16px; color: var(--amber);
+  font-size: clamp(1.2rem, 1.05rem + 0.7vw, 1.5rem); letter-spacing: -0.012em;
 }
-.codehead {
-  display: flex; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap;
-  padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--surface);
-  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12.5px; color: var(--ink-2);
+.cf-limits ul { list-style: none; margin: 0; padding: 0; max-width: 78ch; }
+.cf-limits li {
+  padding: 12px 0 12px 0; padding-inline-start: 26px; position: relative;
+  border-top: 1px solid color-mix(in srgb, var(--amber) 26%, transparent);
+  color: var(--ink); font-size: clamp(15px, 14px + 0.25vw, 16.5px);
+  font-weight: 560; line-height: 1.5;
 }
-.codehead b { font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+.cf-limits li::before {
+  content: ""; position: absolute; inset-inline-start: 0; top: 1.15em;
+  width: 12px; height: 2px; background: var(--amber);
+}
+
+/* الكود مطويّ: صفر وزنٍ بصري مغلقاً، وحرفيٌّ مفتوحاً. */
+.codebox { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-solid); }
+.codebox > summary {
+  display: block; cursor: pointer; list-style: none; position: relative;
+  padding: 13px 16px; padding-inline-start: 40px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12.5px; line-height: 1.5; color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.codebox > summary::-webkit-details-marker { display: none; }
+.codebox > summary::before {
+  content: "+"; position: absolute; inset-inline-start: 15px; top: 12px;
+  width: 15px; height: 15px; line-height: 14px; text-align: center;
+  border: 1px solid var(--line-strong); border-radius: 4px; color: var(--ink-3);
+}
+.codebox[open] > summary::before { content: "\2212"; }
+.codebox > summary:hover { color: var(--ink); }
 .codebody {
-  margin: 0; padding: 12px 20px 12px 14px; max-height: 640px; overflow: auto;
+  margin: 0; padding: 12px 20px 14px 14px; max-height: 560px; overflow: auto;
+  border-top: 1px solid var(--line);
   font: 12.5px/1.6 "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); tab-size: 2;
+  direction: ltr; text-align: start;
 }
 .codebody code { display: block; min-width: max-content; }
-/* السطر inline لا block: فاصل السطر هو الـnewline الحقيقي داخل <pre>، فيُنسخ
-   الكود بأسطره — ورقم السطر عنصرٌ زائف لا يُنسخ معه. block كان يضاعف التباعد. */
+/* السطر inline لا block: فاصل السطر هو الـnewline داخل <pre>، فيُنسخ الكود
+   بأسطره — ورقم السطر عنصرٌ زائف لا يُنسخ معه. */
 .ln { display: inline; white-space: pre; }
 .ln::before {
   content: counter(line); counter-increment: line;
   display: inline-block; width: 3.4ch; margin-inline-end: 18px;
   color: var(--ink-3); text-align: end; user-select: none;
 }
-.cf-fine { margin: 10px 0 0; color: var(--ink-3); font-size: 13.5px; line-height: 1.55; max-width: 72ch; }
 
-/* الأرقام الستّة: القاعدة نفسها التي على البطاقة، بلا خطّها العلوي. */
-.cf-metrics { border-top: 0; padding-top: 6px; margin: 0; }
-.cf-metrics b { font-size: 1.75rem; }
-
-/* ما لا يفعله: كهرمانيّ، لأنه القسم الذي يبني الثقة — فلا يُلطَّف. */
-.limits {
-  margin: 8px 0 0; padding: 18px 22px; padding-inline-start: 46px; max-width: 78ch;
-  border-inline-start: 3px solid var(--amber);
-  border-start-end-radius: var(--radius); border-end-end-radius: var(--radius);
-  background: var(--surface); color: var(--ink-2); font-size: 15px; line-height: 1.62;
+.cf-end { padding: 30px 0 40px; }
+.cf-stack {
+  margin: 0 0 20px; padding-bottom: 18px; border-bottom: 1px solid var(--line);
+  font: 12.5px/1.7 "IBM Plex Mono", ui-monospace, monospace; color: var(--ink-3);
+  direction: ltr; text-align: start;
 }
-.limits li { margin-bottom: 12px; }
-.limits li:last-child { margin-bottom: 0; }
-.limits li::marker { color: var(--amber); font-weight: 700; }
-
-.chips { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.chips li {
-  padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px;
-  background: var(--surface-solid); color: var(--ink-2);
-  font: 12.5px/1.45 "IBM Plex Mono", ui-monospace, monospace;
-  unicode-bidi: plaintext;
-}
-.cf-links { margin: 18px 0 0; }
-.cf-backline { margin: 22px 0 0; }
+.cf-end .cta { margin-bottom: 14px; }
+.cf-fine { margin: 0 0 10px; color: var(--ink-3); font-size: 13.5px; line-height: 1.55; max-width: 72ch; }
+.cf-backline { margin: 16px 0 0; }
 .cf-backline .quiet { display: inline-flex; align-items: center; gap: 6px; }

@@ -9,7 +9,7 @@
 
 <meta property="og:type" content="article">
 <meta property="og:title" content="ALTAJIR — Copy-Trading over MetaAPI &mdash; case file">
-<meta property="og:description" content="Software that opens the analyst&#x27;s trade automatically on his followers&#x27; broker accounts, plus a fix for a defect that displayed a trade&#x27;s profit with the wrong sign after half of it had been closed.">
+<meta property="og:description" content="Every profit number declares its source; the last tier returns null, not zero.">
 <meta property="og:url" content="https://hani-amro.github.io/work/altajir.html">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
@@ -26,12 +26,6 @@
     <g id="ic-arrow"><path d="M5 12h13"/><polyline points="13 6 19 12 13 18"/></g>
     <g id="ic-eye"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
     <g id="ic-github"><path d="M9 19c-4.5 1.5-4.5-2.5-6-3m12 5v-3.4a3 3 0 0 0-.8-2.3c2.7-.3 5.6-1.3 5.6-6a4.7 4.7 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.6 2.3 5.5 2.6 5.5 2.6a4.3 4.3 0 0 0-.1 3.2A4.7 4.7 0 0 0 4 9.1c0 4.6 2.9 5.6 5.6 6a3 3 0 0 0-.8 2.3V21"/></g>
-    <g id="ic-trend"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></g>
-    <g id="ic-cart"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></g>
-    <g id="ic-chat"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-4.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 0 1 8.5-8.4 8.4 8.4 0 0 1 8.5 8.4z"/></g>
-    <g id="ic-repeat"><polyline points="17 2 21 6 17 10"/><path d="M3 12V10a4 4 0 0 1 4-4h14"/><polyline points="7 22 3 18 7 14"/><path d="M21 12v2a4 4 0 0 1-4 4H3"/></g>
-    <g id="ic-cpu"><rect x="5" y="5" width="14" height="14" rx="2.5"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></g>
-    <g id="ic-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15.5 9.5"/></g>
   </defs>
 </svg>
 
@@ -45,75 +39,81 @@
     <span data-i18n="wk-back">All six systems</span></a>
 </nav>
 
-<header class="hero cf-hero">
+<!-- ── الرأس: الرقم، ثم العنوان صغيراً، ثم الأطروحة كبيرة ───────────── -->
+<header class="cf-hero">
   <div class="wrap">
-    <p class="cf-eyebrow">
-      <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-trend"/></svg></span>
-      <span class="cf-num"><span data-i18n="wk-cf">Case file</span> <span class="cf-idx">01 / 06</span></span>
-    </p>
+    <p class="cf-idx" aria-hidden="true"><b>01</b><span>/ 06</span></p>
     <h1 data-i18n="wk-title">ALTAJIR — Copy-Trading over MetaAPI</h1>
     <p class="cf-thesis" data-i18n="wk-tag">Every profit number declares its source; the last tier returns null, not zero.</p>
-    <p class="cf-plain"><span class="cf-lbl" data-i18n="wk-plain-l">In plain words</span> <span data-i18n="wk-plain">Software that opens the analyst&#x27;s trade automatically on his followers&#x27; broker accounts, plus a fix for a defect that displayed a trade&#x27;s profit with the wrong sign after half of it had been closed.</span></p>
   </div>
 </header>
 
-<main class="wrap cf-main">
-<!-- 1 ── المقياس قبل الادّعاء ─────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="sc-h">
-  <h2 class="cf-h" id="sc-h" data-i18n="wk-scale-h">The scale, before any claim</h2>
-  <div class="ruler"><p data-i18n="wk-scale">Version one carried 15 real subscribers before it was stopped — and their trace is still measurable in the production database: 823 of 998 execution records lost their subscriber link when those accounts were deleted (sub_id = NULL). This version was rebuilt from scratch: two current subscribers, neither of whose balance has ever been read successfully (`last_account_info_at` = NULL for both), with 175 executions between them · 4 staff accounts on separate roles (admin 1 · analyst 2 · marketer 1) · 127 trades on a single symbol (XAUUSD), zero open positions · last execution 2026-08-24, execution halted today · the domain is live and returns 200.</p></div>
+<main>
+<section class="cf-sec" aria-labelledby="sc-h">
+  <div class="wrap">
+    <h2 class="cf-lbl" id="sc-h" data-i18n="wk-scale-h">The scale</h2>
+    <ul class="scale">
+      <li data-i18n="wk-sc0">Execution halted since 2026-08-24</li>
+      <li data-i18n="wk-sc1">2 subscribers, no balance ever read</li>
+      <li data-i18n="wk-sc2">127 trades on one symbol, zero open</li>
+      <li data-i18n="wk-sc3">Version 1 carried 15 subscribers, then stopped</li>
+    </ul>
+  </div>
 </section>
 
-<!-- 2 ── المشكلة · ما يُثبته ────────────────────────────────────── -->
-<section data-reveal class="cf-sec">
-  <dl class="par cf-par k-am">
-    <div><dt data-i18n="wk-prob-l">The problem</dt><dd data-i18n="wk-prob">MetaAPI&#x27;s `profit` field is cumulative, not floating: their documentation defines it as the position&#x27;s cumulative profit — the unrealized part of what is still open plus the realized part of what was closed. It also changes its own definition mid-trade: before any partial close it excludes swap and commission; after the first partial close it includes them, through `realizedProfit`, defined as &quot;including commissions and swap&quot;. So after booking half of a winning trade, the cell still reads the old profit while the volume has halved, producing an impossible row such as &quot;0.05 lots · +$10.00&quot; while the still-open part is in fact losing — and this is what both the analyst and the subscriber were shown. In `docs/broker-pnl-evidence.md:36` the screen says &quot;winning +$5.91&quot; while the truth about the open part is &quot;losing −$1.34&quot;. The naive fix, `Number(x) || 0`, fails silently twice: it swallows and replaces the legitimate zero at break-even, and it turns &quot;we don&#x27;t know&quot; into &quot;nothing&quot;, so a missing number looks reassuring. The fix is in `packages/backend/src/services/positionPnl.js:37-67`: a four-tier ladder in which each tier declares the number&#x27;s origin in a `source` field and its need for a visible warning in `warn` — `unrealizedProfit` directly, then deriving `profit − realizedProfit`, then the cumulative value flagged with a warning, then `null` rather than zero; validity is checked with `Number.isFinite` alone, with no `|| 0` (line 24). On top of that sits a standing guard: `identityBreach` checks `profit ≡ unrealized + realized` on every positions read and inserts an alert row throttled to once per hour (`packages/backend/src/routes/analyst.js:1245` and `:1254`).</dd></div>
-    <div><dt data-i18n="wk-proves-l">What it proves</dt><dd data-i18n="wk-proves">That Hani distinguishes a wrong number from an unknown one, and refuses to hide the second behind a reassuring zero — a decision baked into the return type itself (`{value, source, warn, reason}`), not a comment in the margin. And that he builds a guard which tests his own assumption automatically on every read, and keeps the frontend copy from drifting with a test that compares both functions field by field (`test/bookLotsMirror.test.mjs`) — meaning he assumes his understanding might be wrong and builds the detector before anyone catches the error for him.</dd></div>
-  </dl>
+<section class="cf-band">
+  <div class="wrap">
+    <p class="band-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that stops it.</p>
+    <figure data-mechanism="altajir-position-pnl"></figure>
+    <p class="mech-hint" data-i18n="wk-mech-scroll">The diagram is wider than this screen — drag it sideways.</p>
+    <ol class="readings">
+        <li class="v-held">
+          <b>564</b>
+          <span data-i18n="wk-m0">✅ lines in the test output and zero ❌ — 24 of them are rollups (23 files + a final line), leaving 540 individual checks</span>
+          <details><summary data-i18n="m-src">Source</summary><code>cd packages/backend &amp;&amp; node test/run-all.mjs | grep -cE &#x27;^(✅|❌)&#x27;</code></details>
+        </li>
+        <li class="v-plain">
+          <b>998</b>
+          <span data-i18n="wk-m1">execution commands recorded in the production database (693 success · 276 skipped · 27 failed · 2 uncertain)</span>
+          <details><summary data-i18n="m-src">Source</summary><code>ssh srv1564240 &#x27;sudo -u postgres psql -d altajir -At -c &quot;SELECT status, count(*) FROM execution_logs GROUP BY status&quot;&#x27;</code></details>
+        </li>
+        <li class="v-held">
+          <b>0</b>
+          <span data-i18n="wk-m2">estimated-profit rows out of 998 — not a single guessed number stored in the database</span>
+          <details><summary data-i18n="m-src">Source</summary><code>ssh srv1564240 &#x27;sudo -u postgres psql -d altajir -At -c &quot;SELECT count(*) FILTER (WHERE profit_estimated), count(*) FROM execution_logs&quot;&#x27;</code></details>
+        </li>
+    </ol>
+  </div>
 </section>
 
-<!-- 3 ── الآلية، بعرض الصفحة ────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="mech-h">
-  <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
-  <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
-  <figure data-mechanism="altajir-position-pnl"></figure>
-  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">The defect: MetaAPI’s cumulative profit shown as the open leg’s floating profit — after a partial close the screen read +5.91 while the open part was −1.34. The ladder stops it: every number declares its origin; the cumulative figure passes only flagged. The last rung returns null, never zero: Number(x) || 0 would collapse “unknown” and a real break-even into one silent 0.</span></p>
-</section>
-
-<!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="scr-h">
-  <h2 class="cf-h" id="scr-h" data-i18n="wk-scr-h">Screens</h2>
-  <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
-  <div class="shots">
-    <figure class="shot desktop">
+<section class="cf-sec">
+  <div class="wrap">
+    <figure class="screens n2">
       <div class="dev desktop"><img src="../img/work/altajir/landing-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The public marketing landing page (HTTP 200); its “ACTIVE” badge is marketing copy — execution has been halted since 2026-08-24, with zero open positions."></div>
-      <figcaption><span data-i18n="wk-sh0">The public marketing landing page (HTTP 200); its “ACTIVE” badge is marketing copy — execution has been halted since 2026-08-24, with zero open positions.</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://copybridge.cloud</span></span></figcaption>
-    </figure>
-    <figure class="shot phone">
-      <div class="dev phone"><img src="../img/work/altajir/landing-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same landing page on a 390px phone viewport — static marketing content, not a trading dashboard."></div>
-      <figcaption><span data-i18n="wk-sh1">The same landing page on a 390px phone viewport — static marketing content, not a trading dashboard.</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://copybridge.cloud</span></span></figcaption>
-    </figure>
-    <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/altajir/login-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The staff login screen at /app/login, the only public route into the rebuilt dashboard; nothing behind this form was captured."></div>
-      <figcaption><span data-i18n="wk-sh2">The staff login screen at /app/login, the only public route into the rebuilt dashboard; nothing behind this form was captured.</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://copybridge.cloud/app/login</span></span></figcaption>
-    </figure>
-    <figure class="shot phone">
       <div class="dev phone"><img src="../img/work/altajir/login-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same login form on a phone viewport; the e-mail shown is the field’s placeholder, not a filled-in credential."></div>
-      <figcaption><span data-i18n="wk-sh3">The same login form on a phone viewport; the e-mail shown is the field’s placeholder, not a filled-in credential.</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://copybridge.cloud/app/login</span></span></figcaption>
+      <figcaption><span data-i18n="wk-scap">The public landing page and the staff login; nothing behind it was captured. Execution is halted.</span>
+        <span class="cap-meta">2026-09-05</span></figcaption>
     </figure>
   </div>
 </section>
 
-<!-- 5 ── الكود، حرفياً ───────────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="code-h">
-  <h2 class="cf-h" id="code-h" data-i18n="wk-code-h">The code, verbatim</h2>
-  <div class="codebox">
-    <div class="codehead"><b>packages/backend/src/services/positionPnl.js</b><span>L37&ndash;L67 &middot; <span data-i18n="wk-nl">31 lines</span></span></div>
-    <pre class="codebody" tabindex="0" style="counter-reset: line 36"><code class="lang-javascript"><span class="ln">export function openPnl(pos) {</span>
+<section class="cf-limits" aria-labelledby="lim-h">
+  <div class="wrap">
+    <h2 id="lim-h" data-i18n="wk-lim-h">What it does not do</h2>
+    <ul>
+        <li data-i18n="wk-lim0">Never read a subscriber&#x27;s balance: last_account_info_at is NULL for both.</li>
+        <li data-i18n="wk-lim1">The sign-inversion evidence comes from Demo accounts, not real money.</li>
+        <li data-i18n="wk-lim2">No billing inside the product; payment happens over Telegram.</li>
+        <li data-i18n="wk-lim3">No git remote: the code lives on one machine, so no CI is possible.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="cf-sec">
+  <div class="wrap">
+    <details class="codebox">
+      <summary data-i18n="wk-code-s">The code, verbatim &mdash; packages/backend/src/services/positionPnl.js &middot; L37&ndash;L67</summary>
+      <pre class="codebody" tabindex="0" style="counter-reset: line 36"><code class="lang-javascript"><span class="ln">export function openPnl(pos) {</span>
 <span class="ln">  const p = pos || {};</span>
 <span class="ln"> </span>
 <span class="ln">  // ① الحقل الصحيح مباشرةً — عائم الجزء الباقي وحده</span>
@@ -145,77 +145,21 @@
 <span class="ln">  return { value: null, source: &#x27;none&#x27;, warn: true, reason: &#x27;البروكر لم يُرسل رقم الربح&#x27; };</span>
 <span class="ln">}</span>
 </code></pre>
+    </details>
   </div>
-  <p class="cf-fine" data-i18n="wk-code-n">Copied verbatim from the repository; nothing elided.</p>
 </section>
 
-<!-- 6 ── كل رقم، والأمر الذي أنتجه ───────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="num-h">
-  <h2 class="cf-h" id="num-h" data-i18n="wk-num-h">Every number, and the command that produced it</h2>
-  <ul class="metrics cf-metrics">
-    <li>
-      <b>564</b>
-      <span data-i18n="wk-m0">✅ lines in the test output and zero ❌ — 24 of them are rollups (23 files + a final line), leaving 540 individual checks</span>
-      <details><summary data-i18n="m-src">Source</summary><code>cd packages/backend &amp;&amp; node test/run-all.mjs | grep -cE &#x27;^(✅|❌)&#x27;</code></details>
-    </li>
-    <li>
-      <b>23</b>
-      <span data-i18n="wk-m1">test files, all passing, discovered from disk via readdirSync rather than a hand-kept list — and wired as a real deploy gate in deploy.sh (lines 30 and 170)</span>
-      <details><summary data-i18n="m-src">Source</summary><code>ls packages/backend/test/*.test.mjs | wc -l</code></details>
-    </li>
-    <li>
-      <b>42</b>
-      <span data-i18n="wk-m2">checks on the profit-ladder logic alone in positionPnl.test.mjs</span>
-      <details><summary data-i18n="m-src">Source</summary><code>cd packages/backend &amp;&amp; node test/positionPnl.test.mjs | tail -1</code></details>
-    </li>
-    <li>
-      <b>998</b>
-      <span data-i18n="wk-m3">execution commands recorded in the production database (693 success · 276 skipped · 27 failed · 2 uncertain)</span>
-      <details><summary data-i18n="m-src">Source</summary><code>ssh srv1564240 &#x27;sudo -u postgres psql -d altajir -At -c &quot;SELECT status, count(*) FROM execution_logs GROUP BY status&quot;&#x27;</code></details>
-    </li>
-    <li>
-      <b>0</b>
-      <span data-i18n="wk-m4">estimated-profit rows out of 998 — not a single guessed number stored in the database</span>
-      <details><summary data-i18n="m-src">Source</summary><code>ssh srv1564240 &#x27;sudo -u postgres psql -d altajir -At -c &quot;SELECT count(*) FILTER (WHERE profit_estimated), count(*) FROM execution_logs&quot;&#x27;</code></details>
-    </li>
-    <li>
-      <b>0.000000</b>
-      <span data-i18n="wk-m5">identity breach of profit ≡ unrealized + realized across three demo accounts, at full floating-point precision</span>
-      <details><summary data-i18n="m-src">Source</summary><code>docs/broker-pnl-evidence.md:12-14 — عمود «خرق الهوية» على Demo · Demo10 · Demo2</code></details>
-    </li>
-  </ul>
-</section>
-
-<!-- 7 ── ما لا يفعله ─────────────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="lim-h">
-  <h2 class="cf-h am" id="lim-h" data-i18n="wk-lim-h">What it does not do</h2>
-  <ol class="limits">
-    <li data-i18n="wk-lim0">It has never read any subscriber&#x27;s balance: the only two rows in the subscribers table both have `last_account_info_at` NULL — the system has not once succeeded in reading either account&#x27;s balance.</li>
-    <li data-i18n="wk-lim1">The measured evidence for the sign inversion comes from three accounts named literally Demo, Demo2 and Demo10 — demo accounts, not real money. And the code comment at `positionPnl.js:139` still states that the identity &quot;could not be verified against a real account (the broker accounts were suspended at the time of the fix)&quot;.</li>
-    <li data-i18n="wk-lim2">There is no billing or subscription logic in the product at all: grep for stripe/billing/invoice/checkout across `packages/backend/src` returns zero hits. Payment happens outside the product, over Telegram.</li>
-    <li data-i18n="wk-lim3">There is no git remote: `git remote -v` returns zero lines. No copy of the code exists off a single machine and CI is not possible — the tests run as a local gate inside deploy.sh rather than as a pipeline. The absence is documented as context in `docs/adr/0005-local-verify-gate-instead-of-ci.md`.</li>
-  </ol>
-</section>
-
-<!-- 8 ── التقنيات · الروابط ─────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="stack-h">
-  <h2 class="cf-h" id="stack-h" data-i18n="wk-stack-h">Stack</h2>
-  <ul class="chips">
-    <li>Node.js + Express 4 (ESM، بلا TypeScript — صفر ملف .ts/.tsx خارج node_modules)</li>
-    <li>PostgreSQL 16.15 على السيرفر — 17 جدولاً</li>
-    <li>React 18.3 + Vite 5.4 + lightweight-charts 5.2</li>
-    <li>MetaAPI عبر REST مباشرةً (node-fetch، بلا SDK) — mt-client-api-v1</li>
-    <li>JWT في cookie + bcryptjs + aes-256-gcm لتوكنات البروكر في القاعدة</li>
-    <li>Telegram Bot API للتنبيهات والتقارير</li>
-    <li>Playwright (a11y + layout + visual regression) — 3 ملفات spec</li>
-    <li>pnpm workspaces — 3 حزم: backend / frontend / marketing</li>
-    <li>نشر: bash deploy.sh (اتصال SSH واحد + مرحلة staging ثم mv + trap استعادة من نسخة احتياطية) + pm2 + nginx + Let&#x27;s Encrypt</li>
-  </ul>
-  <p class="cta cf-links">
-    <a class="btn" href="https://copybridge.cloud" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="wk-live">Open copybridge.cloud</span></a>
-  </p>
-  <p class="cf-fine" data-i18n="wk-norepo">No public repository: the project has no remote at all.</p>
-  <p class="cf-backline"><a class="quiet" href="../engineer.html#work"><svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg> <span data-i18n="wk-back">All six systems</span></a></p>
+<section class="cf-end">
+  <div class="wrap">
+    <p class="cf-stack" data-i18n="wk-stack">Node.js &middot; PostgreSQL &middot; MetaApi &middot; Telegram Bot API &middot; nginx &middot; PM2</p>
+    <p class="cta">
+      <a class="btn primary" href="https://copybridge.cloud" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="wk-live">Open copybridge.cloud</span></a>
+    </p>
+    <p class="cf-fine" data-i18n="wk-norepo">No public repository: the project has no remote at all.</p>
+    <p class="cf-backline"><a class="quiet" href="../engineer.html#work">
+      <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg>
+      <span data-i18n="wk-back">All six systems</span></a></p>
+  </div>
 </section>
 
 </main>

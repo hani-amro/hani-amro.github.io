@@ -9,7 +9,7 @@
 
 <meta property="og:type" content="article">
 <meta property="og:title" content="Gold Signals Bot &mdash; case file">
-<meta property="og:description" content="A signals-channel owner used to sit and watch the gold price himself to know when a target was hit, then write the update to his subscribers — this system does the watching, the writing, and the subscription handling for him.">
+<meta property="og:description" content="A signals tracking and publishing system in production, with tenant isolation built into the ORM engine itself">
 <meta property="og:url" content="https://hani-amro.github.io/work/gold-signals.html">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
@@ -26,12 +26,6 @@
     <g id="ic-arrow"><path d="M5 12h13"/><polyline points="13 6 19 12 13 18"/></g>
     <g id="ic-eye"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
     <g id="ic-github"><path d="M9 19c-4.5 1.5-4.5-2.5-6-3m12 5v-3.4a3 3 0 0 0-.8-2.3c2.7-.3 5.6-1.3 5.6-6a4.7 4.7 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.6 2.3 5.5 2.6 5.5 2.6a4.3 4.3 0 0 0-.1 3.2A4.7 4.7 0 0 0 4 9.1c0 4.6 2.9 5.6 5.6 6a3 3 0 0 0-.8 2.3V21"/></g>
-    <g id="ic-trend"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></g>
-    <g id="ic-cart"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></g>
-    <g id="ic-chat"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-4.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 0 1 8.5-8.4 8.4 8.4 0 0 1 8.5 8.4z"/></g>
-    <g id="ic-repeat"><polyline points="17 2 21 6 17 10"/><path d="M3 12V10a4 4 0 0 1 4-4h14"/><polyline points="7 22 3 18 7 14"/><path d="M21 12v2a4 4 0 0 1-4 4H3"/></g>
-    <g id="ic-cpu"><rect x="5" y="5" width="14" height="14" rx="2.5"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></g>
-    <g id="ic-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15.5 9.5"/></g>
   </defs>
 </svg>
 
@@ -45,65 +39,81 @@
     <span data-i18n="wk-back">All six systems</span></a>
 </nav>
 
-<header class="hero cf-hero">
+<!-- ── الرأس: الرقم، ثم العنوان صغيراً، ثم الأطروحة كبيرة ───────────── -->
+<header class="cf-hero">
   <div class="wrap">
-    <p class="cf-eyebrow">
-      <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-repeat"/></svg></span>
-      <span class="cf-num"><span data-i18n="wk-cf">Case file</span> <span class="cf-idx">04 / 06</span></span>
-    </p>
+    <p class="cf-idx" aria-hidden="true"><b>04</b><span>/ 06</span></p>
     <h1 data-i18n="wk-title">Gold Signals Bot</h1>
     <p class="cf-thesis" data-i18n="wk-tag">A signals tracking and publishing system in production, with tenant isolation built into the ORM engine itself</p>
-    <p class="cf-plain"><span class="cf-lbl" data-i18n="wk-plain-l">In plain words</span> <span data-i18n="wk-plain">A signals-channel owner used to sit and watch the gold price himself to know when a target was hit, then write the update to his subscribers — this system does the watching, the writing, and the subscription handling for him.</span></p>
   </div>
 </header>
 
-<main class="wrap cf-main">
-<!-- 1 ── المقياس قبل الادّعاء ─────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="sc-h">
-  <h2 class="cf-h" id="sc-h" data-i18n="wk-scale-h">The scale, before any claim</h2>
-  <div class="ruler"><p data-i18n="wk-scale">Exactly one tenant on the system, and it is me (tenants = 1, channels = 0, tenant_users = 0) — the multi-tenant architecture has never carried a second customer · 3 subscriber accounts marked ACTIVE, only two of whom ever paid · 5 confirmed payments totalling $240, the last on 2026-07-27, with the next one (2026-08-06) rejected · 14 recommendations in the database, last tracking event 2026-09-03</p></div>
+<main>
+<section class="cf-sec" aria-labelledby="sc-h">
+  <div class="wrap">
+    <h2 class="cf-lbl" id="sc-h" data-i18n="wk-scale-h">The scale</h2>
+    <ul class="scale">
+      <li data-i18n="wk-sc0">One tenant, and it is me</li>
+      <li data-i18n="wk-sc1">3 accounts active, 2 ever paid</li>
+      <li data-i18n="wk-sc2">$240 from 5 payments; last 2026-07-27, next rejected</li>
+      <li data-i18n="wk-sc3">14 recommendations in the database</li>
+    </ul>
+  </div>
 </section>
 
-<!-- 2 ── المشكلة · ما يُثبته ────────────────────────────────────── -->
-<section data-reveal class="cf-sec">
-  <dl class="par cf-par k-in">
-    <div><dt data-i18n="wk-prob-l">The problem</dt><dd data-i18n="wk-prob">Isolating customer data inside one system. The naive fix — writing `where tenant_id = X` in every query — fails silently, not because someone forgets, but because a lazy relationship load issues its own SELECT outside the original query: you fetch tenant 1&#x27;s recommendations correctly filtered, then read `rec.events`, and SQLAlchemy goes and fetches every tenant&#x27;s events — no error, no exception, just another customer&#x27;s rows coming back normally and getting published to a channel. The fix is at `bot/tenancy.py:70`: a `do_orm_execute` listener that injects `with_loader_criteria(TenantScoped, …, include_aliases=True)` into every SELECT before it executes, making the filter a property of the ORM engine rather than of the query author&#x27;s discipline; `include_aliases=True` (line 86) is the practical difference: without it the root query is filtered while lazy loads and aliased queries slip through. A second layer at `bot/tenancy.py:92` stamps new rows with the session&#x27;s tenant and raises `CrossTenantWrite` on any cross-tenant write instead of letting it through, because one customer&#x27;s data published into another customer&#x27;s channel cannot be undone. The stated limit: line 80 returns without filtering if no tenant is set on the session (fail-open), and 16 places across 7 files open `SessionLocal()` directly, outside this protection.</dd></div>
-    <div><dt data-i18n="wk-proves-l">What it proves</dt><dd data-i18n="wk-proves">He puts the protection where it cannot be forgotten — inside the ORM engine, not in the discipline of whoever writes the query — and states its limit openly (fail-open at `bot/tenancy.py:80`, and 16 places across 7 files that open a session outside it) rather than hiding it. And the most honest thing in the project is not a feature but the last commit (4d3c621), where he explains himself how the pending-order feature passed 401 green tests while being impossible in production: the tests run on SQLite while production is PostgreSQL, and `recommendations.status` was created as `varchar(11)` while `WAITING_ENTRY` is thirteen characters — so the production database rejected every pending order while the whole suite stayed green.</dd></div>
-  </dl>
+<section class="cf-band">
+  <div class="wrap">
+    <p class="band-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that stops it.</p>
+    <figure data-mechanism="gold-signals"></figure>
+    <p class="mech-hint" data-i18n="wk-mech-scroll">The diagram is wider than this screen — drag it sideways.</p>
+    <ol class="readings">
+        <li class="v-held">
+          <b>401</b>
+          <span data-i18n="wk-m0">passing tests — all on in-memory SQLite, while production is PostgreSQL 16</span>
+          <details><summary data-i18n="m-src">Source</summary><code>شغّلتُه بنفسي في المستودع: `.venv/Scripts/python.exe -m pytest -q` ← السطر الأخير `401 passed, 9 warnings in 215.14s`؛ ومحرّك الاختبار في tests/tenant_db.py:26 = `&quot;sqlite+aiosqlite://&quot;`</code></details>
+        </li>
+        <li class="v-held">
+          <b>27</b>
+          <span data-i18n="wk-m1">tenant-isolation tests — 13 at the ORM layer, 14 at the HTTP layer</span>
+          <details><summary data-i18n="m-src">Source</summary><code>`grep -c &quot;^async def test_\|^def test_&quot; tests/test_isolation.py tests/test_panel_isolation.py` ← 13 و 14</code></details>
+        </li>
+        <li class="v-plain">
+          <b>$240</b>
+          <span data-i18n="wk-m2">confirmed revenue from 5 payments made by two subscribers ($145 + $95), the last on 2026-07-27</span>
+          <details><summary data-i18n="m-src">Source</summary><code>`docker exec goldsignals-db psql -U gold -d gold_signals -tAc &quot;select status, amount, created_at::date from payments order by created_at&quot;` ← 5 صفوف CONFIRMED مجموعها 240 وصفّ سادس 2026-08-06 حالته REJECTED؛ و`select subscriber_id, count(*), sum(amount) from payments where status=&#x27;CONFIRMED&#x27; group by 1` ← `1|3|145` و `2|2|95` أي مشتركان لا ثلاثة</code></details>
+        </li>
+    </ol>
+  </div>
 </section>
 
-<!-- 3 ── الآلية، بعرض الصفحة ────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="mech-h">
-  <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
-  <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
-  <figure data-mechanism="gold-signals"></figure>
-  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">The defect: the root query is filtered by hand, but a lazy read (rec.events) emits a second SELECT nobody wrote, returning other tenants&#x27; rows with no error. A do_orm_execute listener (include_aliases=True) stops it inside the engine; before_flush guards writes. The amber last step is the limit: a session with no tenant goes unfiltered, and 16 call sites bypass the guard.</span></p>
-</section>
-
-<!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="scr-h">
-  <h2 class="cf-h" id="scr-h" data-i18n="wk-scr-h">Screens</h2>
-  <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
-  <div class="shots">
-    <figure class="shot desktop">
+<section class="cf-sec">
+  <div class="wrap">
+    <figure class="screens n2">
       <div class="dev desktop"><img src="../img/work/gold-signals/root-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The live panel opens on a login screen, not a dashboard; its second-channel sign-up has never produced a second tenant (tenants = 1)."></div>
-      <figcaption><span data-i18n="wk-sh0">The live panel opens on a login screen, not a dashboard; its second-channel sign-up has never produced a second tenant (tenants = 1).</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://gold-signals.srv1564240.hstgr.cloud</span></span></figcaption>
-    </figure>
-    <figure class="shot phone">
       <div class="dev phone"><img src="../img/work/gold-signals/root-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same login screen at phone width; behind it sit 5 confirmed payments, the last on 2026-07-27 and the next rejected."></div>
-      <figcaption><span data-i18n="wk-sh1">The same login screen at phone width; behind it sit 5 confirmed payments, the last on 2026-07-27 and the next rejected.</span>
-        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://gold-signals.srv1564240.hstgr.cloud</span></span></figcaption>
+      <figcaption><span data-i18n="wk-scap">The panel opens on a login screen; the dashboard behind it is not shown.</span>
+        <span class="cap-meta">2026-09-05</span></figcaption>
     </figure>
   </div>
 </section>
 
-<!-- 5 ── الكود، حرفياً ───────────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="code-h">
-  <h2 class="cf-h" id="code-h" data-i18n="wk-code-h">The code, verbatim</h2>
-  <div class="codebox">
-    <div class="codehead"><b>bot/tenancy.py</b><span>L69&ndash;L88 &middot; <span data-i18n="wk-nl">20 lines</span></span></div>
-    <pre class="codebody" tabindex="0" style="counter-reset: line 68"><code class="lang-python"><span class="ln"># ───────────────────────── الطبقة 1: حقن الفلتر على القراءة ─────────────────────────</span>
+<section class="cf-limits" aria-labelledby="lim-h">
+  <div class="wrap">
+    <h2 id="lim-h" data-i18n="wk-lim-h">What it does not do</h2>
+    <ul>
+        <li data-i18n="wk-lim0">One tenant ever, me; the multi-tenant layer never carried a second.</li>
+        <li data-i18n="wk-lim1">All 401 tests run on SQLite, production is PostgreSQL; that gap hid a defect.</li>
+        <li data-i18n="wk-lim2">Isolation is fail-open: 16 call sites bypass the guard.</li>
+        <li data-i18n="wk-lim3">No CI and no git on the server; deploys are manual rsync.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="cf-sec">
+  <div class="wrap">
+    <details class="codebox">
+      <summary data-i18n="wk-code-s">The code, verbatim &mdash; bot/tenancy.py &middot; L69&ndash;L88</summary>
+      <pre class="codebody" tabindex="0" style="counter-reset: line 68"><code class="lang-python"><span class="ln"># ───────────────────────── الطبقة 1: حقن الفلتر على القراءة ─────────────────────────</span>
 <span class="ln">@event.listens_for(orm.Session, &quot;do_orm_execute&quot;)</span>
 <span class="ln">def _scope_reads(execute_state) -&gt; None:</span>
 <span class="ln">    &quot;&quot;&quot;يحقن `tenant_id = :current` في كل SELECT على أي جدول يرث TenantScoped.</span>
@@ -124,81 +134,21 @@
 <span class="ln">        )</span>
 <span class="ln">    )</span>
 </code></pre>
+    </details>
   </div>
-  <p class="cf-fine" data-i18n="wk-code-n">Copied verbatim from the repository; nothing elided.</p>
 </section>
 
-<!-- 6 ── كل رقم، والأمر الذي أنتجه ───────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="num-h">
-  <h2 class="cf-h" id="num-h" data-i18n="wk-num-h">Every number, and the command that produced it</h2>
-  <ul class="metrics cf-metrics">
-    <li>
-      <b>401</b>
-      <span data-i18n="wk-m0">passing tests — all on in-memory SQLite, while production is PostgreSQL 16</span>
-      <details><summary data-i18n="m-src">Source</summary><code>شغّلتُه بنفسي في المستودع: `.venv/Scripts/python.exe -m pytest -q` ← السطر الأخير `401 passed, 9 warnings in 215.14s`؛ ومحرّك الاختبار في tests/tenant_db.py:26 = `&quot;sqlite+aiosqlite://&quot;`</code></details>
-    </li>
-    <li>
-      <b>27</b>
-      <span data-i18n="wk-m1">tenant-isolation tests — 13 at the ORM layer, 14 at the HTTP layer</span>
-      <details><summary data-i18n="m-src">Source</summary><code>`grep -c &quot;^async def test_\|^def test_&quot; tests/test_isolation.py tests/test_panel_isolation.py` ← 13 و 14</code></details>
-    </li>
-    <li>
-      <b>19</b>
-      <span data-i18n="wk-m2">Alembic migrations, with production&#x27;s head matching the last file exactly (d6e7f8a9b0c1)</span>
-      <details><summary data-i18n="m-src">Source</summary><code>`ls migrations/versions/*.py | wc -l` = 19؛ وعلى السيرفر `docker exec goldsignals-db psql -U gold -d gold_signals -tAc &quot;select version_num from alembic_version&quot;` = d6e7f8a9b0c1 = ملف 20260821_1700_d6e7f8a9b0c1_widen_status_columns.py</code></details>
-    </li>
-    <li>
-      <b>$240</b>
-      <span data-i18n="wk-m3">confirmed revenue from 5 payments made by two subscribers ($145 + $95), the last on 2026-07-27</span>
-      <details><summary data-i18n="m-src">Source</summary><code>`docker exec goldsignals-db psql -U gold -d gold_signals -tAc &quot;select status, amount, created_at::date from payments order by created_at&quot;` ← 5 صفوف CONFIRMED مجموعها 240 وصفّ سادس 2026-08-06 حالته REJECTED؛ و`select subscriber_id, count(*), sum(amount) from payments where status=&#x27;CONFIRMED&#x27; group by 1` ← `1|3|145` و `2|2|95` أي مشتركان لا ثلاثة</code></details>
-    </li>
-    <li>
-      <b>22,178</b>
-      <span data-i18n="wk-m4">lines of Python across 130 files (+ 5,206 lines of TypeScript/TSX across 37 files)</span>
-      <details><summary data-i18n="m-src">Source</summary><code>`find bot admin workers migrations ops docker tests -name &#x27;*.py&#x27; -not -path &#x27;*__pycache__*&#x27; | xargs cat | wc -l` = 22178 (و`| wc -l` = 130 ملفاً)؛ و`find admin-ui/src \( -name &#x27;*.ts&#x27; -o -name &#x27;*.tsx&#x27; \) | xargs cat | wc -l` = 5206 في 37 ملفاً</code></details>
-    </li>
-    <li>
-      <b>0</b>
-      <span data-i18n="wk-m5">automatic restarts across all four containers since they were created (RestartCount=0) — and the bot and panel&#x27;s last start on 2026-08-22 was a manual deploy, not a crash</span>
-      <details><summary data-i18n="m-src">Source</summary><code>`ssh srv1564240 &quot;docker inspect --format &#x27;{{.Name}} started={{.State.StartedAt}} restarts={{.RestartCount}}&#x27; goldsignals-db goldsignals-bot goldsignals-admin goldsignals-backup&quot;` ← restarts=0 للأربعة، وStartedAt = 2026-07-28T21:43Z للقاعدة والنسخ الاحتياطي و2026-08-22T02:52Z للبوت واللوحة. RestartCount ليس مدّة تشغيل: هو عدد مرات إعادة Docker للحاوية بعد سقوطها.</code></details>
-    </li>
-  </ul>
-</section>
-
-<!-- 7 ── ما لا يفعله ─────────────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="lim-h">
-  <h2 class="cf-h am" id="lim-h" data-i18n="wk-lim-h">What it does not do</h2>
-  <ol class="limits">
-    <li data-i18n="wk-lim0">Only one tenant ever used the multi-tenant architecture, and it is me. `tenants = 1`, `channels = 0`, `tenant_users = 0` — the most heavily engineered part of the system has never carried a second customer, and all 3 subscriber accounts belong to that single tenant.</li>
-    <li data-i18n="wk-lim1">All 401 tests run on in-memory SQLite (`tests/tenant_db.py:26`) while production is PostgreSQL 16 — and that exact gap hid a complete production defect until live verification, not the tests, caught it.</li>
-    <li data-i18n="wk-lim2">The isolation is fail-open, not fail-closed: if no `tenant_id` is set on the session the listener returns without filtering (`bot/tenancy.py:80`), and 16 places across 7 files open `SessionLocal()` directly, outside `tenant_session` — among them `bot/middlewares/db.py` and `admin/tenant_auth.py`.</li>
-    <li data-i18n="wk-lim3">No CI/CD and no git repository on the server (`/opt/gold-signals-bot` has no `.git`, and there is no `.github` directory): deploys are manual rsync and rollback is unpacking a hand-saved archive (`_rollback_admin.tgz` and three others). The 401 tests exist but nothing runs them automatically before a deploy.</li>
-  </ol>
-</section>
-
-<!-- 8 ── التقنيات · الروابط ─────────────────────────────────────── -->
-<section data-reveal class="cf-sec" aria-labelledby="stack-h">
-  <h2 class="cf-h" id="stack-h" data-i18n="wk-stack-h">Stack</h2>
-  <ul class="chips">
-    <li>Python 3.12</li>
-    <li>aiogram 3.30 (Telegram Bot API، async + FSM)</li>
-    <li>SQLAlchemy 2.0.52 (async ORM)</li>
-    <li>FastAPI 0.141 + uvicorn 0.52</li>
-    <li>PostgreSQL 16 (إنتاج) · SQLite/aiosqlite 0.22 (اختبارات)</li>
-    <li>Alembic 1.19 — 19 هجرة</li>
-    <li>APScheduler 3.11</li>
-    <li>aiohttp 3.14 (مزوّدو الأسعار)</li>
-    <li>cryptography 50 (Fernet) + hashlib.scrypt</li>
-    <li>React 18.3.1 + TypeScript 5.6.3 + Vite 5.4.11 + Tailwind 3.4.15</li>
-    <li>lightweight-charts 5.2</li>
-    <li>Docker Compose — 4 حاويات خلف nginx + Let&#x27;s Encrypt</li>
-    <li>pytest — 401 اختبار</li>
-  </ul>
-  <p class="cta cf-links">
-    <a class="btn" href="https://gold-signals.srv1564240.hstgr.cloud" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="wk-live">Open the panel (login)</span></a>
-  </p>
-  <p class="cf-fine" data-i18n="wk-norepo">No public repository: the code holds live bot tokens and payment logic.</p>
-  <p class="cf-backline"><a class="quiet" href="../engineer.html#work"><svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg> <span data-i18n="wk-back">All six systems</span></a></p>
+<section class="cf-end">
+  <div class="wrap">
+    <p class="cf-stack" data-i18n="wk-stack">Python &middot; aiogram &middot; SQLAlchemy &middot; PostgreSQL &middot; Alembic &middot; Docker</p>
+    <p class="cta">
+      <a class="btn primary" href="https://gold-signals.srv1564240.hstgr.cloud" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="wk-live">Open the panel (login)</span></a>
+    </p>
+    <p class="cf-fine" data-i18n="wk-norepo">No public repository: the code holds live bot tokens and payment logic.</p>
+    <p class="cf-backline"><a class="quiet" href="../engineer.html#work">
+      <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg>
+      <span data-i18n="wk-back">All six systems</span></a></p>
+  </div>
 </section>
 
 </main>
