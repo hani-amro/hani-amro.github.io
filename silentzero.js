@@ -87,8 +87,14 @@
       c.style.setProperty("--x", x.toFixed(1) + "px");
       c.style.setProperty("--y", y.toFixed(1) + "px");
       c.style.setProperty("--z", z.toFixed(1) + "px");
+      /* العمق بالحجم والتمويه، لا بالشفافية.
+         الشفافية تُنتج نصّاً ضعيف التباين، فيسقط في كل فاحص وصولية — ويبقى
+         الدفاع عنه استثناءً يُشرَح. والبُعد البصري لا يحتاجه أصلاً: عمق
+         الميدان (blur) أصدق منه، والحجم يكفي. فاللون ثابتٌ مارّ، والبُعد
+         مقروء، ولا استثناء يُدافَع عنه. */
       var depth = (z + 330) / 350;               // 0 = الأبعد، 1 = الأقرب
-      c.style.setProperty("--o", (0.15 + depth * 0.7).toFixed(2));
+      c.style.setProperty("--fs", (10.5 + depth * 6).toFixed(1) + "px");
+      c.style.setProperty("--bl", ((1 - depth) * 1.9).toFixed(2) + "px");
       c.textContent = VALUES[Math.floor(rand() * VALUES.length)].toLocaleString("en-US");
       field.appendChild(c);
       cells.push(c);
@@ -102,7 +108,8 @@
   bad.style.setProperty("--x", ((badCol / (COLS - 1) - 0.5) * 2 * SPAN_X).toFixed(1) + "px");
   bad.style.setProperty("--y", ((badRow / (ROWS - 1) - 0.5) * 2 * SPAN_Y).toFixed(1) + "px");
   bad.style.setProperty("--z", "-235px");
-  bad.style.setProperty("--o", "0.4");
+  bad.style.setProperty("--fs", "12.1px");
+  bad.style.setProperty("--bl", "1.03px");
   bad.textContent = "0";
   field.appendChild(bad);
 

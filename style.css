@@ -1099,11 +1099,14 @@ footer span[dir="rtl"] { display: inline-block; }
 .sz-cell {
   position: absolute; top: 50%; left: 50%;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 14px; font-style: normal; font-variant-numeric: tabular-nums;
-  color: var(--ink-2); opacity: var(--o);
+  font-size: var(--fs); font-style: normal; font-variant-numeric: tabular-nums;
+  /* لونٌ واحد ثابت يمرّ 4.5:1 لكل خلية. البُعد يُحمَل بالحجم والتمويه —
+     فلا خليةَ ضعيفةَ التباين، ولا استثناء في بوابة الوصولية يُدافَع عنه. */
+  color: var(--ink-3);
+  filter: blur(var(--bl));
   white-space: nowrap;
   transform: translate3d(calc(var(--x) - 50%), calc(var(--y) - 50%), var(--z));
-  transition: opacity .55s ease, color .55s ease, filter .55s ease;
+  transition: color .55s ease, filter .55s ease;
 }
 
 /* العطل في وضع الصمت: صفرٌ لا يميّزه شيء، في العمق، بين جيرانه. */
@@ -1116,9 +1119,10 @@ footer span[dir="rtl"] { display: inline-block; }
 }
 
 /* عالي الصوت: العطل يخرج إلى المقدّمة، وكلُّ ما عداه يغور. */
-.sz.is-loud .sz-cell { opacity: calc(var(--o) * 0.2); filter: blur(1.1px); }
+/* في «عالي الصوت» يغور الحقل بالخروج عن البؤرة لا بالبهتان — للسبب نفسه. */
+.sz.is-loud .sz-cell { filter: blur(calc(var(--bl) + 2.6px)); }
 .sz.is-loud .sz-bad {
-  opacity: 1; filter: none;
+  filter: none;
   transform: translate3d(-50%, -50%, 96px);
   color: var(--amber); font-weight: 700; font-size: 19px;
   background: var(--amber-soft);
