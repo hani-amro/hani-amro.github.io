@@ -4,41 +4,35 @@
  * الصفحة مكتوبةٌ في ثلاثة مواضع، فليكن أوّل ما يُرى منها أنها **تحدث**.
  *
  * الحقلان في المفتاحين يحملان العطل نفسه. في «صامت» يعود الحساب الفاشل صفراً
- * لا يميّزه شيء عن جاره، ويبقى حيث سقط — بعيداً، صغيراً، بين ثمانية وأربعين
+ * لا يميّزه شيء عن جاره، ويبقى حيث سقط — بعيداً، صغيراً، بين واحدٍ وأربعين
  * رقماً. وفي «عالي الصوت» يخرج إلى المقدّمة ويصفرّ، ويغور كل ما عداه.
  * والفرق ليس في وجود العطل بل في أن أحدهما يُريكه.
  *
  * ولماذا العمق تحديداً: البُعد الثالث هنا ليس تجميلاً — هو **مقدار ما دُفن
  * فيه العطل**. رقمٌ عند z = -340 لا يُقرأ أصلاً، وهذا هو المعنى بالضبط.
  *
- * وبـCSS لا WebGL: ثمانية وأربعون عنصراً بتحويلات ثلاثية، وما يبيع العمق هو
- * الكثافة وتدرّج الحجم والشفافية مع البُعد — لا شدّة الميلان. (محاولةٌ سابقة
- * بأربع شرائح فشلت لهذا السبب بالذات.)
+ * **وهذا الملفّ لا يكتب نصّاً ولا يبني هيكلاً.** الزرّ والتعليقان والسطر
+ * الأخير مكتوبةٌ في `engineer.html`، وترجمتها في `i18n.js` كبقيّة الصفحة.
+ * كانت تُبنى هنا، فكان الشكل صفرَ الارتفاع عند أول رسمة ثم يقفز إلى نحو
+ * خمسمئة بكسل، فيدفع الصفحة كلَّها تحته: 0.0773 من CLS قاسها Lighthouse على
+ * الحيّ. وما لا يكتبه الـJS لا يحتاج جدول ترجمةٍ ثانياً يفترق عن الأوّل.
+ *
+ * وبـCSS لا WebGL: واحدٌ وأربعون عنصراً بتحويلات ثلاثية، وما يبيع العمق هو
+ * الكثافة وتدرّج الحجم وعمق الميدان مع البُعد — لا شدّة الميلان.
  */
 (function () {
   "use strict";
 
   var host = document.getElementById("silent-zero");
   if (!host) return;
+  var field = host.querySelector(".sz-field");
+  var stage = host.querySelector(".sz-stage");
+  var btn = host.querySelector(".sz-btn");
+  if (!field || !stage || !btn) return;
 
   var VALUES = [1240, 860, 412, 97, 1105, 88, 640, 233, 71, 519, 1832, 304,
                 126, 745, 268, 953, 61, 1470, 389, 208];
 
-  var T = {
-    silent: { ar: "صامت", en: "Silent" },
-    loud:   { ar: "عالي الصوت", en: "Loud" },
-    capS:   { ar: "الحساب فشل، فصار صفراً. الصفر يشبه أي رقم آخر، فلا شيء يدلّ عليه — ولا تعرف أن شيئاً وقع أصلاً.",
-              en: "A computation failed, so it became zero. A zero looks like any other number, so nothing points at it — and you never learn anything went wrong." },
-    capL:   { ar: "العطل نفسه، معلَناً: يخرج إلى المقدّمة ويحمل لونه، ويغور كل ما عداه.",
-              en: "The same failure, declared: it comes to the front carrying its colour, and everything else recedes." },
-    both:   { ar: "الحقلان فيهما العطل نفسه. أحدهما يُريك إيّاه.",
-              en: "Both fields contain the same error. One of them shows it." },
-    aria:   { ar: "بدّل بين حقلٍ يُخفي العطل وحقلٍ يُعلنه",
-              en: "Switch between a field that hides the failure and one that declares it" }
-  };
-
-  function lang() { return document.documentElement.lang === "ar" ? "ar" : "en"; }
-  function t(k) { return T[k][lang()] !== undefined ? T[k][lang()] : T[k].en; }
 
   /* بذرة ثابتة: الحقل نفسه في كل زيارة. توزيعٌ يتغيّر مع كل تحميل يجعل
      الصورة مزاجاً لا شكلاً مقصوداً — والعشوائية هنا وسيلة توزيع لا مفاجأة. */
@@ -55,23 +49,12 @@
   var reduced = false;
   try { reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
 
-  host.classList.add("sz");
-  host.innerHTML = "";
-
-  var stage = document.createElement("div");
-  stage.className = "sz-stage";
-  stage.setAttribute("aria-hidden", "true");
-  var field = document.createElement("div");
-  field.className = "sz-field";
-  stage.appendChild(field);
-
   /* توزيعٌ على شبكة مهزوزة لا عشوائيةٌ حرّة.
      العشوائية الحرّة تُنتج تراكماً: رقمان يقعان فوق بعضهما فيُقرأ الحقل
      إهمالاً لا عمقاً. والشبكة تضمن ألّا يتصادم جاران، والهزّة تمنعها من أن
      تبدو جدولاً. */
   var COLS = 7, ROWS = 6;
   var SPAN_X = 250, SPAN_Y = 132;
-  var cells = [];
   var badCol = 3, badRow = 3;          // خانة العطل، محجوزة فلا يزاحمه أحد
 
   for (var r = 0; r < ROWS; r++) {
@@ -97,7 +80,6 @@
       c.style.setProperty("--bl", ((1 - depth) * 1.9).toFixed(2) + "px");
       c.textContent = VALUES[Math.floor(rand() * VALUES.length)].toLocaleString("en-US");
       field.appendChild(c);
-      cells.push(c);
     }
   }
 
@@ -113,43 +95,11 @@
   bad.textContent = "0";
   field.appendChild(bad);
 
-  var sw = document.createElement("div");
-  sw.className = "sz-switch";
-  var btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "sz-btn";
-  btn.setAttribute("aria-pressed", "false");
-  var track = document.createElement("span");
-  track.className = "sz-track";
-  var lblS = document.createElement("span");
-  lblS.className = "sz-lbl sz-lbl-s";
-  var lblL = document.createElement("span");
-  lblL.className = "sz-lbl sz-lbl-l";
-  btn.appendChild(lblS); btn.appendChild(track); btn.appendChild(lblL);
-  sw.appendChild(btn);
-
-  var cap = document.createElement("p");
-  cap.className = "sz-cap";
-  cap.setAttribute("aria-live", "polite");
-  var both = document.createElement("p");
-  both.className = "sz-both";
-
-  host.appendChild(sw);
-  host.appendChild(stage);
-  host.appendChild(cap);
-  host.appendChild(both);
-
   var loud = false;
 
   function paint() {
     host.classList.toggle("is-loud", loud);
     btn.setAttribute("aria-pressed", loud ? "true" : "false");
-    btn.setAttribute("aria-label", t("aria"));
-    lblS.textContent = t("silent");
-    lblL.textContent = t("loud");
-    bad.textContent = loud ? "0" : "0";
-    cap.textContent = loud ? t("capL") : t("capS");
-    both.textContent = t("both");
   }
 
   btn.addEventListener("click", function () { loud = !loud; paint(); });
@@ -176,6 +126,4 @@
     stage.addEventListener("pointerleave", function () { tx = 0; ty = 0; kick(); });
   }
 
-  host.__relabel = paint;
-  document.addEventListener("i18n:changed", function () { paint(); });
 })();

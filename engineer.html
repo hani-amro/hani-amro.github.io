@@ -107,7 +107,22 @@
       </div>
     </div>
 
-    <figure class="hero-viz" id="silent-zero"></figure>
+    <figure class="hero-viz sz" id="silent-zero">
+      <div class="sz-switch">
+        <button type="button" class="sz-btn" aria-pressed="false" aria-labelledby="sz-aria">
+          <span class="vh" id="sz-aria" data-i18n="sz-aria">Switch between a field that hides the failure and one that declares it</span>
+          <span class="sz-lbl sz-lbl-s" data-i18n="sz-silent">Silent</span>
+          <span class="sz-track" aria-hidden="true"></span>
+          <span class="sz-lbl sz-lbl-l" data-i18n="sz-loud">Loud</span>
+        </button>
+      </div>
+      <div class="sz-stage" aria-hidden="true"><div class="sz-field"></div></div>
+      <div class="sz-caps" aria-live="polite">
+        <p class="sz-cap sz-cap-s" data-i18n="sz-caps">A computation failed, so it became zero. A zero looks like any other number, so nothing points at it &mdash; and you never learn anything went wrong.</p>
+        <p class="sz-cap sz-cap-l" data-i18n="sz-capl">The same failure, declared: it comes to the front carrying its colour, and everything else recedes.</p>
+      </div>
+      <p class="sz-both" data-i18n="sz-both">Both fields contain the same error. One of them shows it.</p>
+    </figure>
    </div>
   </div>
 </header>

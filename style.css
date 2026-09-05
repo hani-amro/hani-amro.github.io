@@ -643,8 +643,12 @@ footer span[dir="rtl"] { display: inline-block; }
 :root[dir="rtl"] .tag { letter-spacing: 0; text-transform: none; }
 
 /* Canvas artwork is drawn in its own coordinate space and must not flip. */
-:root[dir="rtl"] .hero-viz,
-:root[dir="rtl"] .ops-viz { direction: ltr; }
+/* حقل الأرقام وحده يبقى لاتينياً. كانت القاعدة على `.hero-viz` كلّها
+   فتقلب معها التعليق العربي: قِيس على الحيّ أن `.sz-cap` تُحسب
+   `direction: ltr` داخل صفحةٍ `dir="rtl"`، فيبدأ النصّ من اليسار ويقع حدّ
+   `.sz-both` الكهرماني على اليسار بدل جهة القراءة. و`.ops-viz` ليس فيها
+   إلا `<canvas>`، ولا اتجاه لنسيجٍ لا نصَّ فيه. */
+:root[dir="rtl"] .sz-stage { direction: ltr; }
 
 /* Identifiers, code and figures stay left-to-right inside Arabic prose. */
 :root[dir="rtl"] code,
@@ -1164,7 +1168,17 @@ footer span[dir="rtl"] { display: inline-block; }
 .sz.is-loud .sz-lbl-s { color: var(--ink-3); font-weight: 400; }
 .sz.is-loud .sz-lbl-l { color: var(--amber); font-weight: 620; }
 
-.sz-cap { margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.6; min-height: 4.4em; }
+/* التعليقان في خليةٍ واحدة: الحاوية بارتفاع أطولهما دائماً، فلا تنزاح
+   الصفحة عند التبديل ولا عند التحميل. و`visibility` لا `display` كي يخرج
+   المخفيّ من شجرة الوصولية ويبقى ارتفاعه محجوزاً. */
+.sz-caps { display: grid; }
+.sz-caps > .sz-cap { grid-area: 1 / 1; }
+.sz-cap {
+  margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.6;
+  transition: opacity .3s ease;
+}
+.sz-cap-l, .sz.is-loud .sz-cap-s { opacity: 0; visibility: hidden; }
+.sz.is-loud .sz-cap-l { opacity: 1; visibility: visible; }
 .sz-both {
   margin: 0; padding-inline-start: 11px;
   border-inline-start: 2px solid var(--amber);
@@ -1293,3 +1307,11 @@ section[id] { scroll-margin-top: 76px; }
    الواحد، وmin-height كان مضبوطاً على بطاقة عريضة. يُحجَز الأسوأ لكل مقاس. */
 @media (max-width: 640px) { .mech-cap { min-height: 9.6em; } .sz-cap { min-height: 6.4em; } }
 @media (min-width: 641px) and (max-width: 1099px) { .mech-cap { min-height: 5.6em; } .sz-cap { min-height: 4.8em; } }
+
+/* مخفيٌّ بصرياً، حاضرٌ للقارئ الآلي. لاسم زرٍّ نصُّه المرئي شيء آخر
+   («صامت / عالي الصوت» ليس اسماً مفهوماً لمن لا يرى المفتاح). */
+.vh {
+  position: absolute; width: 1px; height: 1px; padding: 0;
+  margin: -1px; overflow: hidden; clip-path: inset(50%);
+  white-space: nowrap; border: 0;
+}
