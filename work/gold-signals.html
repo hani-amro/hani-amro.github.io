@@ -77,7 +77,7 @@
   <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
   <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
   <figure data-mechanism="gold-signals"></figure>
-  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">Read the diagram in three columns: the code you wrote, the SQL that was actually emitted, and the rows that came back. The defect lives in the gap between the first two — a hand-filtered root query is correct, but a lazy relationship read like rec.events makes the ORM emit a second query nobody wrote, and other tenants&#x27; rows come back with no error and a plausible row count. It is stopped inside the engine, by a do_orm_execute listener with include_aliases=True that injects the tenant condition into every SELECT, plus a before_flush guard on writes; the closing amber step is the stated limit — a session with no tenant set exits unfiltered, and 16 call sites bypass the guard.</span></p>
+  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">The defect: the root query is filtered by hand, but a lazy read (rec.events) emits a second SELECT nobody wrote, returning other tenants&#x27; rows with no error. A do_orm_execute listener (include_aliases=True) stops it inside the engine; before_flush guards writes. The amber last step is the limit: a session with no tenant goes unfiltered, and 16 call sites bypass the guard.</span></p>
 </section>
 
 <!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
@@ -86,13 +86,13 @@
   <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
   <div class="shots">
     <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/gold-signals/root-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The root of the live panel is a login screen, not a dashboard: an email and password form for the channel owner&#x27;s panel, with a sign-up link for a second channel that, as of this capture, has never produced a second tenant (tenants = 1)."></div>
-      <figcaption><span data-i18n="wk-sh0">The root of the live panel is a login screen, not a dashboard: an email and password form for the channel owner&#x27;s panel, with a sign-up link for a second channel that, as of this capture, has never produced a second tenant (tenants = 1).</span>
+      <div class="dev desktop"><img src="../img/work/gold-signals/root-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The live panel opens on a login screen, not a dashboard; its second-channel sign-up has never produced a second tenant (tenants = 1)."></div>
+      <figcaption><span data-i18n="wk-sh0">The live panel opens on a login screen, not a dashboard; its second-channel sign-up has never produced a second tenant (tenants = 1).</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://gold-signals.srv1564240.hstgr.cloud</span></span></figcaption>
     </figure>
     <figure class="shot phone">
-      <div class="dev phone"><img src="../img/work/gold-signals/root-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same login screen at phone width; everything behind it — recommendations, subscribers, payments — sits behind this form and is not shown here, and the subscriber revenue it manages is 5 confirmed payments with the last one on 2026-07-27 and the next rejected."></div>
-      <figcaption><span data-i18n="wk-sh1">The same login screen at phone width; everything behind it — recommendations, subscribers, payments — sits behind this form and is not shown here, and the subscriber revenue it manages is 5 confirmed payments with the last one on 2026-07-27 and the next rejected.</span>
+      <div class="dev phone"><img src="../img/work/gold-signals/root-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same login screen at phone width; behind it sit 5 confirmed payments, the last on 2026-07-27 and the next rejected."></div>
+      <figcaption><span data-i18n="wk-sh1">The same login screen at phone width; behind it sit 5 confirmed payments, the last on 2026-07-27 and the next rejected.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://gold-signals.srv1564240.hstgr.cloud</span></span></figcaption>
     </figure>
   </div>

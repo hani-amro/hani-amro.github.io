@@ -77,7 +77,7 @@
   <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
   <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
   <figure data-mechanism="wain-ticketing-ledger"></figure>
-  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">The box is one Postgres transaction writing a ticket sale row by row; the amber counter on the side is the running debit-minus-credit difference, which drops 1000 → 300 → 0 and only turns emerald when the group is complete. The defect is a new code path — a refund, say — that writes half an entry and forgets its counterpart; enforced in application code that would have succeeded silently. It is stopped at the gate below the box: a DEFERRABLE INITIALLY DEFERRED constraint trigger that runs once at COMMIT, sees a difference of 1000, and kills the whole transaction with ck_ledger_group_balances, so zero rows remain rather than half an entry.</span></p>
+  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">The defect: a new code path — a refund, say — writes half a ledger entry and forgets its counterpart; an application-level check would have let it through silently. The gate under the box stops it: a constraint trigger deferred to COMMIT sees the group off by 1000 and kills the whole transaction. Zero rows remain, not half an entry.</span></p>
 </section>
 
 <!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
@@ -86,28 +86,28 @@
   <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
   <div class="shots">
     <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/wain/home-ar-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Arabic home page of the live demo deployment: the event cards are seed data that a cron job wipes and re-seeds daily at 03:00 UTC, and no real user has bought a ticket here."></div>
-      <figcaption><span data-i18n="wk-sh0">Arabic home page of the live demo deployment: the event cards are seed data that a cron job wipes and re-seeds daily at 03:00 UTC, and no real user has bought a ticket here.</span>
+      <div class="dev desktop"><img src="../img/work/wain/home-ar-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Arabic home page of the live demo: the event cards are daily-reseeded seed data, and no real user has bought a ticket."></div>
+      <figcaption><span data-i18n="wk-sh0">Arabic home page of the live demo: the event cards are daily-reseeded seed data, and no real user has bought a ticket.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/ar</span></span></figcaption>
     </figure>
     <figure class="shot phone">
-      <div class="dev phone"><img src="../img/work/wain/home-ar-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same demo home page on a phone viewport, RTL: the ask box, its suggested prompts, and the emirate filters stack into one column; the events behind them are still seed data."></div>
-      <figcaption><span data-i18n="wk-sh1">The same demo home page on a phone viewport, RTL: the ask box, its suggested prompts, and the emirate filters stack into one column; the events behind them are still seed data.</span>
+      <div class="dev phone"><img src="../img/work/wain/home-ar-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same demo home page on a phone, RTL, everything stacked in one column; the events are still seed data."></div>
+      <figcaption><span data-i18n="wk-sh1">The same demo home page on a phone, RTL, everything stacked in one column; the events are still seed data.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/ar</span></span></figcaption>
     </figure>
     <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/wain/proof-ar-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The demo&#x27;s /proof page, which the site publishes about itself: the first card is a self-correction of a margin formula in the project&#x27;s own PROJECT_BRIEF.md (off by 1.90 AED), not a rescue of anyone else&#x27;s system; the 20-buyer race and the 118 money tests are each tied to a command."></div>
-      <figcaption><span data-i18n="wk-sh2">The demo&#x27;s /proof page, which the site publishes about itself: the first card is a self-correction of a margin formula in the project&#x27;s own PROJECT_BRIEF.md (off by 1.90 AED), not a rescue of anyone else&#x27;s system; the 20-buyer race and the 118 money tests are each tied to a command.</span>
+      <div class="dev desktop"><img src="../img/work/wain/proof-ar-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The demo&#x27;s /proof page: its first card is a self-correction of a margin formula in his own PROJECT_BRIEF.md (off by 1.90 AED), not someone else&#x27;s system."></div>
+      <figcaption><span data-i18n="wk-sh2">The demo&#x27;s /proof page: its first card is a self-correction of a margin formula in his own PROJECT_BRIEF.md (off by 1.90 AED), not someone else&#x27;s system.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/ar/proof</span></span></figcaption>
     </figure>
     <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/wain/tour-ar-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The demo&#x27;s /tour page: four roles (buyer, organizer, reviewer, door staff), what each one does, and what the system claims to prove for it; the organizer dashboard it links to runs on seed data with a simulated payment gateway."></div>
-      <figcaption><span data-i18n="wk-sh3">The demo&#x27;s /tour page: four roles (buyer, organizer, reviewer, door staff), what each one does, and what the system claims to prove for it; the organizer dashboard it links to runs on seed data with a simulated payment gateway.</span>
+      <div class="dev desktop"><img src="../img/work/wain/tour-ar-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The demo&#x27;s /tour page; the organizer dashboard it links to runs on seed data with a simulated payment gateway."></div>
+      <figcaption><span data-i18n="wk-sh3">The demo&#x27;s /tour page; the organizer dashboard it links to runs on seed data with a simulated payment gateway.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/ar/tour</span></span></figcaption>
     </figure>
     <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/wain/home-en-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The English home page of the same demo, served LTR from the same Next.js build via next-intl; the events shown are the same seed set as the Arabic view."></div>
-      <figcaption><span data-i18n="wk-sh4">The English home page of the same demo, served LTR from the same Next.js build via next-intl; the events shown are the same seed set as the Arabic view.</span>
+      <div class="dev desktop"><img src="../img/work/wain/home-en-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The English home page of the same demo, LTR from the same Next.js build; the events are the same seed set."></div>
+      <figcaption><span data-i18n="wk-sh4">The English home page of the same demo, LTR from the same Next.js build; the events are the same seed set.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/en</span></span></figcaption>
     </figure>
   </div>

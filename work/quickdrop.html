@@ -77,7 +77,7 @@
   <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
   <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
   <figure data-mechanism="quickdrop"></figure>
-  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">The diagram shows the defect: the merchant on the dashboard and the WhatsApp bot both confirm the same order at the same instant, which naively starts two dispatch rounds and sends one order to two drivers. Read it left to right: the row lock (SELECT … FOR UPDATE) turns the two racers into a queue; the conditional UPDATE … WHERE dispatchRequestedAt IS NULL returns one row to the first and zero rows to the second, so the second never reaches the outbox. The emerald frame is the decisive part: the outbox row is written inside the same transaction as the stamp, so the event commits with it or not at all — which is also why a crash after commit loses nothing, since the worker later picks the row up with FOR UPDATE SKIP LOCKED.</span></p>
+  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">The defect: dashboard and WhatsApp bot confirm one order at the same instant, and two dispatch rounds go to two drivers. The row lock queues them; the conditional UPDATE claims one row for the first, zero for the second, so it never reaches the outbox. The emerald frame is the point: outbox row and stamp commit in one transaction, so a crash loses nothing.</span></p>
 </section>
 
 <!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
@@ -86,18 +86,18 @@
   <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
   <div class="shots">
     <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/quickdrop/dashboard-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The staff dashboard&#x27;s login page, reached only through an SSH tunnel: the system is deployed but bound to 127.0.0.1 on the server, has no public URL, and has never entered commercial operation."></div>
-      <figcaption><span data-i18n="wk-sh0">The staff dashboard&#x27;s login page, reached only through an SSH tunnel: the system is deployed but bound to 127.0.0.1 on the server, has no public URL, and has never entered commercial operation.</span>
+      <div class="dev desktop"><img src="../img/work/quickdrop/dashboard-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Staff dashboard login screen, reachable only over an SSH tunnel — deployed, bound to 127.0.0.1, no public URL, never in commercial operation."></div>
+      <figcaption><span data-i18n="wk-sh0">Staff dashboard login screen, reachable only over an SSH tunnel — deployed, bound to 127.0.0.1, no public URL, never in commercial operation.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">http://127.0.0.1:18110/ (redirected to /login) via a read-only SSH tunnel to 127.0.0.1:8110 on the server</span></span></figcaption>
     </figure>
     <figure class="shot phone">
-      <div class="dev phone"><img src="../img/work/quickdrop/dashboard-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same login page on a phone viewport; nobody signed in for this capture, so no order, driver or settlement data appears — the database behind it holds 4 test orders from 2026-07-20 and has been idle since."></div>
-      <figcaption><span data-i18n="wk-sh1">The same login page on a phone viewport; nobody signed in for this capture, so no order, driver or settlement data appears — the database behind it holds 4 test orders from 2026-07-20 and has been idle since.</span>
+      <div class="dev phone"><img src="../img/work/quickdrop/dashboard-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="Same login screen on a phone; nobody signed in, so no data shows — behind it sit 4 test orders, idle since 2026-07-20."></div>
+      <figcaption><span data-i18n="wk-sh1">Same login screen on a phone; nobody signed in, so no data shows — behind it sit 4 test orders, idle since 2026-07-20.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">http://127.0.0.1:18110/ (redirected to /login) via a read-only SSH tunnel to 127.0.0.1:8110 on the server</span></span></figcaption>
     </figure>
     <figure class="shot phone">
-      <div class="dev phone"><img src="../img/work/quickdrop/driver-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The driver app opened without a tracking token shows only &quot;Open the link your office sent you&quot; — the intended locked state; no driver has ever been assigned an order, so no real driver link exists."></div>
-      <figcaption><span data-i18n="wk-sh2">The driver app opened without a tracking token shows only &quot;Open the link your office sent you&quot; — the intended locked state; no driver has ever been assigned an order, so no real driver link exists.</span>
+      <div class="dev phone"><img src="../img/work/quickdrop/driver-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="Driver app without a tracking token — the intended locked state; no order was ever assigned to a driver, so no driver link exists."></div>
+      <figcaption><span data-i18n="wk-sh2">Driver app without a tracking token — the intended locked state; no order was ever assigned to a driver, so no driver link exists.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">http://127.0.0.1:18112/ via a read-only SSH tunnel to 127.0.0.1:8112 on the server</span></span></figcaption>
     </figure>
   </div>

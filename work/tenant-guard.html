@@ -77,7 +77,7 @@
   <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
   <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
   <figure data-mechanism="tenant-guard-overfit-stats"></figure>
-  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">Read the diagram from the cache box at the top: SQLAlchemy&#x27;s lambda cache keys on the lambda&#x27;s code object and tracks only closure variables, so the default-argument form `_tid=tenant_id` in the amber box is invisible to it — the first tenant&#x27;s value stays baked into the cached criteria and tenant 2 reads [1, 1], tenant 1&#x27;s rows, with no exception raised. The emerald box is where it is stopped: the closure form `lambda cls: cls.tenant_id == tenant_id` is tracked and rebound per call, one line apart from the leaking one. The final two steps are about the test, not the fix — `len(rows) &gt; 0` passes on leaked data because the count is two either way, so test_read_scoping.py:46 asserts `a.isdisjoint(b)` after a ground-truth check that both tenants&#x27; rows exist.</span></p>
+  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">SQLAlchemy&#x27;s lambda cache tracks closure variables only; a default-argument tenant_id goes unseen, so the first tenant&#x27;s value is cached and tenant 2 reads tenant 1&#x27;s rows with no error. The closure form, one line away, is rebound per call: the leak stops there. Last step: `len(rows) &gt; 0` passes on leaked data, so the test asserts disjoint id sets.</span></p>
 </section>
 
 <!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
@@ -86,23 +86,23 @@
   <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
   <div class="shots">
     <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/tenant-guard/tenant-guard-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The public GitHub page of tenant-guard as captured: a code repository, not a running service — 5 commits all dated three weeks earlier, 0 stars, 0 forks, no releases published, and README badges that are hand-written static images rather than the output of any build."></div>
-      <figcaption><span data-i18n="wk-sh0">The public GitHub page of tenant-guard as captured: a code repository, not a running service — 5 commits all dated three weeks earlier, 0 stars, 0 forks, no releases published, and README badges that are hand-written static images rather than the output of any build.</span>
+      <div class="dev desktop"><img src="../img/work/tenant-guard/tenant-guard-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="tenant-guard&#x27;s public GitHub page: a code repository, not a running service — 5 commits, 0 stars, no releases, and hand-written static badges."></div>
+      <figcaption><span data-i18n="wk-sh0">tenant-guard&#x27;s public GitHub page: a code repository, not a running service — 5 commits, 0 stars, no releases, and hand-written static badges.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://github.com/hani-amro/tenant-guard</span></span></figcaption>
     </figure>
     <figure class="shot phone">
-      <div class="dev phone"><img src="../img/work/tenant-guard/tenant-guard-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same repository at phone width: the file tree (examples, src/tenant_guard, tests, pyproject.toml) and the top of the README; the library is not on PyPI, so installation is from this source tree only."></div>
-      <figcaption><span data-i18n="wk-sh1">The same repository at phone width: the file tree (examples, src/tenant_guard, tests, pyproject.toml) and the top of the README; the library is not on PyPI, so installation is from this source tree only.</span>
+      <div class="dev phone"><img src="../img/work/tenant-guard/tenant-guard-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same repository at phone width: file tree and README head; not on PyPI, so it installs from this source tree only."></div>
+      <figcaption><span data-i18n="wk-sh1">The same repository at phone width: file tree and README head; not on PyPI, so it installs from this source tree only.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://github.com/hani-amro/tenant-guard</span></span></figcaption>
     </figure>
     <figure class="shot desktop">
-      <div class="dev desktop"><img src="../img/work/tenant-guard/overfit-stats-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The public GitHub page of overfit-stats as captured: the same shape as its sibling — 5 commits from the same day, 0 stars, 0 forks, no releases published, a static &quot;tests 41/41&quot; badge, and no CI workflow behind any of it."></div>
-      <figcaption><span data-i18n="wk-sh2">The public GitHub page of overfit-stats as captured: the same shape as its sibling — 5 commits from the same day, 0 stars, 0 forks, no releases published, a static &quot;tests 41/41&quot; badge, and no CI workflow behind any of it.</span>
+      <div class="dev desktop"><img src="../img/work/tenant-guard/overfit-stats-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="overfit-stats on GitHub, same shape as its sibling: 5 commits, 0 stars, no releases, a static &quot;tests 41/41&quot; badge, no CI."></div>
+      <figcaption><span data-i18n="wk-sh2">overfit-stats on GitHub, same shape as its sibling: 5 commits, 0 stars, no releases, a static &quot;tests 41/41&quot; badge, no CI.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://github.com/hani-amro/overfit-stats</span></span></figcaption>
     </figure>
     <figure class="shot phone">
-      <div class="dev phone"><img src="../img/work/tenant-guard/overfit-stats-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="overfit-stats at phone width: file tree and README head; the 41/41 on the badge is a claim written into the README, and the number that counts is the one from the live pytest run below."></div>
-      <figcaption><span data-i18n="wk-sh3">overfit-stats at phone width: file tree and README head; the 41/41 on the badge is a claim written into the README, and the number that counts is the one from the live pytest run below.</span>
+      <div class="dev phone"><img src="../img/work/tenant-guard/overfit-stats-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="overfit-stats at phone width: the badge&#x27;s 41/41 is a claim typed into the README; the pytest run below is the real count."></div>
+      <figcaption><span data-i18n="wk-sh3">overfit-stats at phone width: the badge&#x27;s 41/41 is a claim typed into the README; the pytest run below is the real count.</span>
         <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://github.com/hani-amro/overfit-stats</span></span></figcaption>
     </figure>
     <figure class="shot shot-term">
@@ -114,7 +114,7 @@ $ cd publish/tenant-guard &amp;&amp; python -m pytest -q
 $ cd ../overfit-stats &amp;&amp; python -m pytest -q
 .........................................                                [100%]
 41 passed in 85.93s (0:01:25)</code></pre></div>
-      <figcaption data-i18n="wk-term-n">Both runs executed on 2026-09-05 against local clones of the two repositories (Windows, Python 3). The pass counts — 20 and 41 — are the only stable facts here; the durations depend on the machine and differ from run to run. Neither library is on PyPI, so this is a source-tree run, not an installed package.</figcaption>
+      <figcaption data-i18n="wk-term-n">Run on 2026-09-05 from local clones (Windows, Python 3). The pass counts, 20 and 41, are the stable facts; durations vary by machine. Neither library is on PyPI: a source-tree run, not an installed package.</figcaption>
     </figure>
   </div>
 </section>
