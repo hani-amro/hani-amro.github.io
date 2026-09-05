@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-default-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yasmin — a source-grounded multi-tenant chat assistant &mdash; case file &middot; Hani Amro</title>
+<meta name="description" content="A refusal sentinel layered over text matching, and a column that counts its misses">
+<meta name="color-scheme" content="light dark">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yasmin — a source-grounded multi-tenant chat assistant &mdash; case file">
+<meta property="og:description" content="A chat assistant on a company&#x27;s site that answers visitors only from that company&#x27;s own documents; when the answer isn&#x27;t there it says &quot;I don&#x27;t know&quot; and hands the visitor to a human — and it counts, by itself, how often it nearly failed to say &quot;I don&#x27;t know&quot;.">
+<meta property="og:url" content="https://hani-amro.github.io/work/yasmin.html">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="cf" data-project="yasmin-salla-cx">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="ic-arrow"><path d="M5 12h13"/><polyline points="13 6 19 12 13 18"/></g>
+    <g id="ic-eye"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
+    <g id="ic-github"><path d="M9 19c-4.5 1.5-4.5-2.5-6-3m12 5v-3.4a3 3 0 0 0-.8-2.3c2.7-.3 5.6-1.3 5.6-6a4.7 4.7 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.6 2.3 5.5 2.6 5.5 2.6a4.3 4.3 0 0 0-.1 3.2A4.7 4.7 0 0 0 4 9.1c0 4.6 2.9 5.6 5.6 6a3 3 0 0 0-.8 2.3V21"/></g>
+    <g id="ic-trend"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></g>
+    <g id="ic-cart"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></g>
+    <g id="ic-chat"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-4.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 0 1 8.5-8.4 8.4 8.4 0 0 1 8.5 8.4z"/></g>
+    <g id="ic-repeat"><polyline points="17 2 21 6 17 10"/><path d="M3 12V10a4 4 0 0 1 4-4h14"/><polyline points="7 22 3 18 7 14"/><path d="M21 12v2a4 4 0 0 1-4 4H3"/></g>
+    <g id="ic-cpu"><rect x="5" y="5" width="14" height="14" rx="2.5"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></g>
+    <g id="ic-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15.5 9.5"/></g>
+  </defs>
+</svg>
+
+<button id="lang-toggle" type="button" aria-label="Switch to Arabic">العربية</button>
+<button id="theme-toggle" type="button" aria-label="Toggle colour theme">
+  <span data-icon="dark">☾</span><span data-icon="light">☀</span>
+</button>
+
+<nav class="backbar wrap">
+  <a href="../engineer.html#work"><svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg>
+    <span data-i18n="wk-back">All six systems</span></a>
+</nav>
+
+<header class="hero cf-hero">
+  <div class="wrap">
+    <p class="cf-eyebrow">
+      <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cpu"/></svg></span>
+      <span class="cf-num"><span data-i18n="wk-cf">Case file</span> <span class="cf-idx">05 / 06</span></span>
+    </p>
+    <h1 data-i18n="wk-title">Yasmin — a source-grounded multi-tenant chat assistant</h1>
+    <p class="cf-thesis" data-i18n="wk-tag">A refusal sentinel layered over text matching, and a column that counts its misses</p>
+    <p class="cf-plain"><span class="cf-lbl" data-i18n="wk-plain-l">In plain words</span> <span data-i18n="wk-plain">A chat assistant on a company&#x27;s site that answers visitors only from that company&#x27;s own documents; when the answer isn&#x27;t there it says &quot;I don&#x27;t know&quot; and hands the visitor to a human — and it counts, by itself, how often it nearly failed to say &quot;I don&#x27;t know&quot;.</span></p>
+  </div>
+</header>
+
+<main class="wrap cf-main">
+<!-- 1 ── المقياس قبل الادّعاء ─────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="sc-h">
+  <h2 class="cf-h" id="sc-h" data-i18n="wk-scale-h">The scale, before any claim</h2>
+  <div class="ruler"><p data-i18n="wk-scale">Zero users · zero paying customers · 24 messages in one documented evaluation run, all sent by his own script — not one message from the tenant&#x27;s own staff · and the model path is down today, not just yesterday: a real chat request I sent on 2026-09-04 returned &quot;the system is not responding right now&quot;, while /healthz reported &quot;model&quot;:&quot;live&quot; at the same moment</p></div>
+</section>
+
+<!-- 2 ── المشكلة · ما يُثبته ────────────────────────────────────── -->
+<section data-reveal class="cf-sec">
+  <dl class="par cf-par k-am">
+    <div><dt data-i18n="wk-prob-l">The problem</dt><dd data-i18n="wk-prob">What is sold here is not the answer, it is the refusal — and refusal detection was originally built on text matching: `text.includes(dont_know_msg.slice(0,15))`. That sentence is editable by the tenant from their own dashboard, so changing one word made the coverage-gap report say &quot;zero gaps&quot; when there were a hundred — with no error, no warning, no log line. The obvious fix, a structural sentinel emitted by the model, would have traded one fragility for another, since model compliance is never guaranteed; so the implementation in `src/refusal.ts:134` is an addition, not a replacement: the sentinel is the first layer, and when it is absent detection falls back to the old text match verbatim (`src/refusal.ts:139`) and labels that path `via:&quot;legacy&quot;`. The decisive step is that the label was not left in memory: a `messages.refusal_via` column was added in `migrations/0006_refusal_via.sql` to count the fallbacks, written with every reply in `src/db.ts:303`, so the fallback rate became a query against the database rather than a script&#x27;s printout — and the gate script deliberately refuses to print it (`scripts/gate-&lt;tenant&gt;.mjs:265`). The measurement revealed that placing the sentinel after what the model knows — the position required so it can state what it has before refusing — dropped compliance from 26/26 to 14/23: nine refusals out of twenty-three arrived through the fallback, not the sentinel (39%), while every visible indicator was green (blocking scale 24/24, zero duplicated refusals across twenty replies) — meaning no behavioural test would have caught it. The proposed fix was then frozen rather than improvised, its acceptance criterion written into `DECISIONS.md` on 2026-08-15 before it was built and before any result existed to be measured, and the number was published in the delivery report §2 rather than hidden.</dd></div>
+    <div><dt data-i18n="wk-proves-l">What it proves</dt><dd data-i18n="wk-proves">It proves Hani measures his safety mechanisms themselves, not only their outputs: he added a database column not to improve the product but to learn how often the safety mechanism was silently absent, found a failure in 39% of cases while every visible indicator was green, and then published that number in the client report instead of hiding it. And when he found it he did not patch it on impulse: he froze the fix and wrote its acceptance criterion before building it and before any result existed to be measured, because a criterion written after the result is a justification, not a criterion.</dd></div>
+  </dl>
+</section>
+
+<!-- 3 ── الآلية، بعرض الصفحة ────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="mech-h">
+  <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
+  <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
+  <figure data-mechanism="yasmin-salla-cx"></figure>
+  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">Read the diagram from the raw model output on the start side: it enters two layers, the structural sentinel (tagged sentinel) and, when the sentinel is absent, the old text match on the first 15 characters of a refusal sentence the tenant edits from their own panel (tagged legacy). The defect is that one edited word makes that match silently report zero gaps when there are a hundred; it is stopped at the messages.refusal_via column, where the legacy tag is written with every reply so the fallback rate becomes a database query rather than a script printout. The last step shows the price that column exposed: 9 of 23 refusals went through the fallback while every visible indicator was green — a figure recorded in DECISIONS.md and the delivery report, not reproducible by a single command.</span></p>
+</section>
+
+<!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="scr-h">
+  <h2 class="cf-h" id="scr-h" data-i18n="wk-scr-h">Screens</h2>
+  <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
+  <div class="shots">
+    <figure class="shot desktop">
+      <div class="dev desktop"><img src="../img/work/yasmin/outage-cropped.webp" width="1200" height="592" loading="lazy" decoding="async" alt="The demo right after one question, cropped below the header to keep a client&#x27;s name off this page: the network layer answers, the model path is down, so the visitor gets an outage notice and a hand-off form instead of an answer."></div>
+      <figcaption><span data-i18n="wk-sh0">The demo right after one question, cropped below the header to keep a client&#x27;s name off this page: the network layer answers, the model path is down, so the visitor gets an outage notice and a hand-off form instead of an answer.</span>
+        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span></span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 5 ── الكود، حرفياً ───────────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="code-h">
+  <h2 class="cf-h" id="code-h" data-i18n="wk-code-h">The code, verbatim</h2>
+  <div class="codebox">
+    <div class="codehead"><b>src/refusal.ts</b><span>L118&ndash;L141 &middot; <span data-i18n="wk-nl">24 lines</span></span></div>
+    <pre class="codebody" tabindex="0" style="counter-reset: line 117"><code class="lang-typescript"><span class="ln">export type RefusalVia = &quot;sentinel&quot; | &quot;legacy&quot; | null;</span>
+<span class="ln"> </span>
+<span class="ln">/**</span>
+<span class="ln"> * الكشف — **يقرأ ما قاله النموذج، لا ما جعلناه يقول.**</span>
+<span class="ln"> *</span>
+<span class="ln"> * 🔴 الترتيب ملزَم: هذه الدالة تستقبل مخرَج النموذج **الخام**. لو جرى</span>
+<span class="ln"> * `enforceRefusalText` قبلها لصار كل امتناعٍ `legacy` بالتعريف — لأن</span>
+<span class="ln"> * الإنفاذ يكتب الجملة المعتمدة — فيقيس العدّاد نفسه لا العلامة.</span>
+<span class="ln"> *</span>
+<span class="ln"> * @param raw    نصّ النموذج كما ورد، بعلامته إن أصدرها</span>
+<span class="ln"> * @param marks  علامات جملة الامتناع (أول 15 حرفاً) — للارتداد وحده</span>
+<span class="ln"> */</span>
+<span class="ln">export function detectRefusal(</span>
+<span class="ln">  raw: string,</span>
+<span class="ln">  marks: string[],</span>
+<span class="ln">): { answered: boolean; via: RefusalVia } {</span>
+<span class="ln">  if (raw.includes(NO_SOURCE)) return { answered: false, via: &quot;sentinel&quot; };</span>
+<span class="ln">  /* حارس قائم يُحفظ: علامة فارغة تجعل `includes` ترجع true دائماً</span>
+<span class="ln">     فيُحتسب كل ردّ «بلا إجابة». */</span>
+<span class="ln">  const usable = marks.filter(Boolean);</span>
+<span class="ln">  if (!usable.length) return { answered: true, via: null };</span>
+<span class="ln">  const hit = usable.some((m) =&gt; raw.includes(m));</span>
+<span class="ln">  return hit ? { answered: false, via: &quot;legacy&quot; } : { answered: true, via: null };</span>
+<span class="ln">}</span>
+</code></pre>
+  </div>
+  <p class="cf-fine" data-i18n="wk-code-n">Copied verbatim from the repository; nothing elided.</p>
+</section>
+
+<!-- 6 ── كل رقم، والأمر الذي أنتجه ───────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="num-h">
+  <h2 class="cf-h" id="num-h" data-i18n="wk-num-h">Every number, and the command that produced it</h2>
+  <ul class="metrics cf-metrics">
+    <li>
+      <b>198</b>
+      <span data-i18n="wk-m0">tests across 16 files inside the real Cloudflare Workers runtime. I ran the full suite five times: 198/198 in three, and in two runs under concurrent load one test (test/isolation.test.ts) failed on a 5000ms timeout — it passes when run alone. The count holds; the stability does not.</span>
+      <details><summary data-i18n="m-src">Source</summary><code>npx vitest run   # ⇒ Test Files 16 passed (16) · Tests 198 passed (198) في 3 من 5 تشغيلات · وفي 2 تحت حمل متزامن: 197 ناجحاً و1 ساقط بمهلة 5000ms</code></details>
+    </li>
+    <li>
+      <b>0</b>
+      <span data-i18n="wk-m1">TypeScript errors — strict mode, exit code 0</span>
+      <details><summary data-i18n="m-src">Source</summary><code>npx tsc --noEmit; echo &quot;exit=$?&quot;   # ⇒ exit=0</code></details>
+    </li>
+    <li>
+      <b>404</b>
+      <span data-i18n="wk-m2">gateway response to a chat request carrying another tenant&#x27;s slug from the demo domain — the same request with the correct slug returns 200 (both verified live on 2026-09-04)</span>
+      <details><summary data-i18n="m-src">Source</summary><code>curl -s -o /dev/null -w &quot;%{http_code}\n&quot; -X POST https://&lt;demo-host&gt;/api/chat -H &quot;Content-Type: application/json&quot; -d &#x27;{&quot;slug&quot;:&quot;yasmin-store&quot;,&quot;session_id&quot;:&quot;3f8a1c2e-4b6d-4a1f-9c3e-7d2b5a8f1e04&quot;,&quot;message&quot;:&quot;test&quot;}&#x27;   # ⇒ 404 · وبـslug=&lt;tenant&gt; ⇒ 200</code></details>
+    </li>
+    <li>
+      <b>99.92%</b>
+      <span data-i18n="wk-m3">prompt-cache hit rate across 24 requests — 739,320 of 739,890 tokens read from cache, with cache_read=30,805 identical in all twenty-four</span>
+      <details><summary data-i18n="m-src">Source</summary><code>python -c &quot;import re,io;t=io.open(&#x27;delivery/&lt;tenant&gt;/gate-full.md&#x27;,encoding=&#x27;utf-8&#x27;).read();i=[int(x) for x in re.findall(r&#x27;\bin=(\d+)&#x27;,t)];c=[int(x) for x in re.findall(r&#x27;cache_read=(\d+)&#x27;,t)];print(len(i),sum(c),sum(i),&#x27;%.4f%%&#x27;%(100*sum(c)/sum(i)))&quot;   # ⇒ 24 739320 739890 99.9230%</code></details>
+    </li>
+    <li>
+      <b>3,434</b>
+      <span data-i18n="wk-m4">lines of tests against 4,106 lines of source in src/ — a 0.84:1 ratio</span>
+      <details><summary data-i18n="m-src">Source</summary><code>find test -name &quot;*.ts&quot; -exec cat {} + | wc -l &amp;&amp; find src -name &quot;*.ts&quot; -exec cat {} + | wc -l   # ⇒ 3434 · 4106</code></details>
+    </li>
+    <li>
+      <b>23/24</b>
+      <span data-i18n="wk-m5">the total in the single evaluation run documented with a verbatim report (blocking scale 24/24 · advisory 23/24), one attempt per question with no retries</span>
+      <details><summary data-i18n="m-src">Source</summary><code>grep -n &quot;الحاجبة\|الإرشادية\|الإجمالي&quot; delivery/&lt;tenant&gt;/gate-full.md   # ⇒ 5: الحاجبة 24/24 · 7: الإرشادية 23/24 · 8: الإجمالي 23/24 · محاولات لكل سؤال: 1</code></details>
+    </li>
+  </ul>
+</section>
+
+<!-- 7 ── ما لا يفعله ─────────────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="lim-h">
+  <h2 class="cf-h am" id="lim-h" data-i18n="wk-lim-h">What it does not do</h2>
+  <ol class="limits">
+    <li data-i18n="wk-lim0">**It does not prove it never fabricates outside its golden set.** The evaluation is 24 questions in one run documented with a verbatim report whose header reads &quot;blocking 24/24 · advisory 23/24 · total 23/24&quot;. Anything beyond those twenty-four questions is unmeasured, and the other runs are mentioned in prose with no report.</li>
+    <li data-i18n="wk-lim1">**The 39% figure is recorded but not reproducible by a single command.** The mechanism is complete and inspectable (migration + detection and logging in `src/chat.ts:280-287` + the write in `src/db.ts:303` + coverage in `test/refusal.test.ts`), and the number is recorded in two places in the repo (`DECISIONS.md` and the delivery report §2) — but the D1 query output itself was never saved to a file.</li>
+    <li data-i18n="wk-lim2">**The model path is down, and the health check lies.** `/healthz` returns `&quot;model&quot;:&quot;live&quot;` because `describeProvider` in `src/providers/index.ts:71` treats the mere presence of `ANTHROPIC_API_KEY` as proof of life and never calls the model — while a real chat request returns an outage notice. This is exactly the class of silent-zero failure the whole project was built against, occurring inside its own health check.</li>
+    <li data-i18n="wk-lim3">**No CI has ever run, no automated deploy, no public repository.** `git remote -v` is empty, so `.github/workflows/ci.yml` has never executed once, and deployment is entirely manual. Branch `main` is 23 commits behind the working branch (27 vs 50), and the live link expires on 2026-09-27 per `scripts/caps.json`.</li>
+  </ol>
+</section>
+
+<!-- 8 ── التقنيات · الروابط ─────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="stack-h">
+  <h2 class="cf-h" id="stack-h" data-i18n="wk-stack-h">Stack</h2>
+  <ul class="chips">
+    <li>TypeScript (strict) — tsc --noEmit يخرج بصفر</li>
+    <li>Cloudflare Workers + Hono ^4.13</li>
+    <li>Cloudflare D1 (SQLite) — 5 migrations، طبقة وصول وحيدة في src/db.ts</li>
+    <li>Cloudflare KV — حدود المعدّل وعدّادات منع تكرار التنبيهات</li>
+    <li>Cloudflare Cron Triggers (&quot;0 3 * * *&quot;) + Service Binding (SELF)</li>
+    <li>Worker بوّابة منفصل (118 سطراً) يملك النطاق المخصّص للعرض</li>
+    <li>@anthropic-ai/sdk ^0.115 — claude-haiku-4-5-20251001 مع prompt caching صريح</li>
+    <li>Google Gemini 2.5 Flash كمزوّد بديل خلف نفس واجهة Provider</li>
+    <li>zod ^4.4 للتحقق من المدخلات</li>
+    <li>vitest ^4.1 + @cloudflare/vitest-pool-workers</li>
+    <li>Playwright ^1.62 لاختبارات المتصفح واللقطات</li>
+    <li>SSE لبثّ الرد حرفاً بحرف</li>
+    <li>واجهة عربية RTL + خط IBM Plex Sans Arabic مستضاف ذاتياً</li>
+  </ul>
+  <p class="cf-fine" data-i18n="wk-nolive">No link here: the demo&#x27;s address names a client. The deployment expires 2026-09-27.</p>
+  <p class="cf-fine" data-i18n="wk-norepo">No public repository: the code was never pushed anywhere.</p>
+  <p class="cf-backline"><a class="quiet" href="../engineer.html#work"><svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg> <span data-i18n="wk-back">All six systems</span></a></p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>
+      <span data-i18n="h1b">Hani Amro</span><span>&middot;</span>
+      <span data-i18n="loc2">Malaysia</span><span>&middot;</span>
+      <span data-i18n="footer">Written in English and Arabic &mdash; both by hand.</span>
+    </p>
+  </div>
+</footer>
+
+<script src="../main.js"></script>
+<script src="../i18n/yasmin.js"></script>
+<script src="../i18n.js"></script>
+<script src="../mechanism.js"></script>
+<script src="../mech/yasmin-salla-cx.js"></script>
+</body>
+</html>

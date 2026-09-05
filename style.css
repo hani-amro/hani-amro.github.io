@@ -162,7 +162,7 @@ body::after {
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
 
 a { color: inherit; }
-h1, h2, h3, p, li, span, b, code { overflow-wrap: anywhere; }
+h1, h2, h3, p, li, dd, dt, figcaption, span, b, code { overflow-wrap: anywhere; }
 
 code {
   font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -1286,12 +1286,6 @@ section[id] { scroll-margin-top: 76px; }
    فلا يُصغَّر الرسم تحت مقاسه الأصلي: يبقى 520px ويُمرَّر أفقياً داخل إطاره.
    والتمرير داخل حاوية ليس تمريراً للصفحة — والتعليق تحته يحمل المعنى كاملاً
    لمن لا يمرّر أصلاً، فلا يفقد شيئاً. */
-/* والبطاقة التي تحمل مخطّطاً تأخذ عرض الصفّ كلّه.
-   مقيس: في شبكة العمودين لا ينال الرسم إلا 454px، فيُرسَم خطّه 9.2px — على
-   حدّ القراءة. وبعرض الصفّ ينال 950px فيصير 19px. والمخطّطات هي جهاز
-   الإثبات المركزي في هذه الصفحة، فالعرض لها لا للفراغ حولها. والنثر داخلها
-   محدود بـ68ch أصلاً، فلا يتمدّد السطر مع البطاقة. */
-.grid.pair > .card:has([data-mechanism]) { grid-column: 1 / -1; }
 
 .mech-stage { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .mech-stage svg { min-width: 520px; }
@@ -1315,3 +1309,172 @@ section[id] { scroll-margin-top: 76px; }
   margin: -1px; overflow: hidden; clip-path: inset(50%);
   white-space: nowrap; border: 0;
 }
+
+/* ═══════════════ ملفّ الحالة — work/<slug>.html ═══════════════════════
+   صفحةٌ لكل نظام، مولَّدة من content/projects.json بـtools/build_work_pages.py.
+   البطاقة في engineer.html عادت مختصرة بعمودين، وهذه الصفحة هي العمق الذي
+   خرج منها: المقياس قبل الادّعاء، ثم الآلية بعرض الصفحة كلّه (كانت في نصف
+   بطاقة فرُسم خطّها 9.2px)، ثم الشاشات كما التُقطت، ثم الكود حرفياً، ثم
+   الأرقام الستّة كلٌّ مع أمره، ثم ما لا يفعله.
+   كلّ شيء بخصائص منطقية: الصفحة تُقرأ بالعربية من اليمين بلا قاعدة إضافية. */
+
+.cf-hero { padding: 34px 0 26px; }
+.cf-eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
+.cf-num {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.cf-idx { font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+.cf-hero h1 {
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.7rem); line-height: 1.12;
+  margin: 0 0 16px; max-width: 28ch; letter-spacing: -0.02em;
+}
+/* الأطروحة: الجملة الواحدة التي يُبنى عليها المشروع كلّه — فلها وزن العنوان. */
+.cf-thesis {
+  margin: 0 0 16px; max-width: 38ch;
+  font-size: clamp(1.15rem, 1rem + 1vw, 1.55rem); line-height: 1.38; font-weight: 600;
+  color: var(--ink); letter-spacing: -0.012em; text-wrap: balance;
+}
+.cf-plain { margin: 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.6; max-width: 70ch; }
+.cf-lbl {
+  display: inline-block; margin-inline-end: 8px;
+  font-size: 11.5px; font-weight: 680; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.cf-main > .cf-sec { margin: 0 0 56px; }
+.cf-h { margin: 0 0 10px; font-size: 1.28rem; letter-spacing: -0.012em; }
+.cf-h.am { color: var(--amber); }
+
+/* المقياس: مسطرةٌ بعلامات قياس — لأنه بالضبط ذلك: حجم الشيء قبل وصفه.
+   كهرمانيّ لأن المقام هو ما يحدّ الادّعاء، لا ما يزيّنه. */
+.ruler {
+  position: relative; margin: 8px 0 0; padding: 28px 22px 20px;
+  max-width: 78ch;
+  border: 1px solid color-mix(in srgb, var(--amber) 32%, var(--line));
+  border-radius: var(--radius); background: var(--amber-soft);
+  color: var(--ink); font-size: 15.5px; line-height: 1.65;
+}
+.ruler::before {
+  content: ""; position: absolute; top: 10px; inset-inline: 16px; height: 9px;
+  background:
+    repeating-linear-gradient(to right, var(--amber) 0 1px, transparent 1px 10px) 0 0 / 100% 5px no-repeat,
+    repeating-linear-gradient(to right, var(--amber) 0 1px, transparent 1px 50px) 0 0 / 100% 9px no-repeat;
+  opacity: 0.6;
+}
+.ruler p { margin: 0; }
+
+.cf-par { display: grid; gap: 22px 28px; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); margin: 0; }
+.cf-par > div { min-width: 0; }
+.cf-par dd { max-width: 62ch; }
+.cf-par.k-in dt { color: var(--indigo); }
+.cf-par.k-am dt { color: var(--amber); }
+
+.cf-read { margin: 16px 0 0; max-width: 72ch; color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+
+/* الشاشات: أطرٌ بالـCSS وحدها. الصورة كما التُقطت، والإطار يقول أيّ جهاز. */
+.shots { display: grid; gap: 22px; grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: 14px; }
+.shot { margin: 0; grid-column: span 6; min-width: 0; }
+@media (min-width: 720px) { .shot.phone { grid-column: span 2; } }
+@media (min-width: 480px) and (max-width: 719.98px) { .shot.phone { grid-column: span 3; } }
+.dev {
+  border: 1px solid var(--line-strong); background: var(--surface-solid);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.dev img { display: block; width: 100%; height: auto; }
+.dev.desktop { border-radius: 12px; }
+.dev.desktop::before {
+  content: ""; display: block; height: 26px; border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 16px 13px, var(--line-strong) 4.5px, transparent 5px),
+    radial-gradient(circle at 34px 13px, var(--line-strong) 4.5px, transparent 5px),
+    radial-gradient(circle at 52px 13px, var(--line-strong) 4.5px, transparent 5px),
+    var(--surface);
+}
+.dev.phone { max-width: 320px; margin-inline: auto; padding: 10px; border-width: 2px; border-radius: 30px; }
+.dev.phone img { border-radius: 20px; }
+.shot figcaption { margin-top: 10px; color: var(--ink-2); font-size: 13.5px; line-height: 1.55; }
+.shot.phone figcaption { max-width: 320px; margin-inline: auto; }
+.cap-meta {
+  display: block; margin-top: 5px; color: var(--ink-3); font-size: 12px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace; overflow-wrap: anywhere;
+}
+
+/* الطرفية: اللقطة الصادقة لمكتبةٍ لا واجهة لها هي ناتج اختبارها كما طُبع. */
+.term {
+  border: 1px solid var(--line-strong); border-radius: 12px; overflow: hidden;
+  background: #0f1318; color: #dfe6ec; box-shadow: var(--shadow);
+  direction: ltr; text-align: start;
+}
+.term-bar {
+  height: 28px; border-bottom: 1px solid #262d36;
+  background:
+    radial-gradient(circle at 16px 14px, #39424e 4.5px, transparent 5px),
+    radial-gradient(circle at 34px 14px, #39424e 4.5px, transparent 5px),
+    radial-gradient(circle at 52px 14px, #39424e 4.5px, transparent 5px),
+    #151a21;
+}
+.term pre {
+  margin: 0; padding: 14px 16px; overflow-x: auto; white-space: pre;
+  font: 12.5px/1.55 "IBM Plex Mono", ui-monospace, monospace; color: inherit;
+}
+.term .prompt { color: #43d6a3; }
+
+.cf-empty {
+  margin: 8px 0 0; padding: 18px 20px; max-width: 70ch;
+  border: 1px dashed var(--line-strong); border-radius: var(--radius);
+  background: var(--surface); color: var(--ink-2);
+}
+
+/* الكود حرفياً: أرقام الأسطر الأصلية، لا من واحد. الكود يبقى LTR دائماً. */
+.codebox {
+  border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden;
+  background: var(--surface-solid); direction: ltr; text-align: start;
+}
+.codehead {
+  display: flex; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap;
+  padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--surface);
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12.5px; color: var(--ink-2);
+}
+.codehead b { font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+.codebody {
+  margin: 0; padding: 12px 20px 12px 14px; max-height: 640px; overflow: auto;
+  font: 12.5px/1.6 "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); tab-size: 2;
+}
+.codebody code { display: block; min-width: max-content; }
+/* السطر inline لا block: فاصل السطر هو الـnewline الحقيقي داخل <pre>، فيُنسخ
+   الكود بأسطره — ورقم السطر عنصرٌ زائف لا يُنسخ معه. block كان يضاعف التباعد. */
+.ln { display: inline; white-space: pre; }
+.ln::before {
+  content: counter(line); counter-increment: line;
+  display: inline-block; width: 3.4ch; margin-inline-end: 18px;
+  color: var(--ink-3); text-align: end; user-select: none;
+}
+.cf-fine { margin: 10px 0 0; color: var(--ink-3); font-size: 13.5px; line-height: 1.55; max-width: 72ch; }
+
+/* الأرقام الستّة: القاعدة نفسها التي على البطاقة، بلا خطّها العلوي. */
+.cf-metrics { border-top: 0; padding-top: 6px; margin: 0; }
+.cf-metrics b { font-size: 1.75rem; }
+
+/* ما لا يفعله: كهرمانيّ، لأنه القسم الذي يبني الثقة — فلا يُلطَّف. */
+.limits {
+  margin: 8px 0 0; padding: 18px 22px; padding-inline-start: 46px; max-width: 78ch;
+  border-inline-start: 3px solid var(--amber);
+  border-start-end-radius: var(--radius); border-end-end-radius: var(--radius);
+  background: var(--surface); color: var(--ink-2); font-size: 15px; line-height: 1.62;
+}
+.limits li { margin-bottom: 12px; }
+.limits li:last-child { margin-bottom: 0; }
+.limits li::marker { color: var(--amber); font-weight: 700; }
+
+.chips { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li {
+  padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface-solid); color: var(--ink-2);
+  font: 12.5px/1.45 "IBM Plex Mono", ui-monospace, monospace;
+  unicode-bidi: plaintext;
+}
+.cf-links { margin: 18px 0 0; }
+.cf-backline { margin: 22px 0 0; }
+.cf-backline .quiet { display: inline-flex; align-items: center; gap: 6px; }

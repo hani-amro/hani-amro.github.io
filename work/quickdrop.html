@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-default-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuickDrop — Multi-Tenant Delivery Platform &mdash; case file &middot; Hani Amro</title>
+<meta name="description" content="Row-level tenant isolation, and a dispatch that fires exactly once — or not at all.">
+<meta name="color-scheme" content="light dark">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="QuickDrop — Multi-Tenant Delivery Platform &mdash; case file">
+<meta property="og:description" content="When an order is ready, the call for a driver goes out exactly once — never forgotten, never sent twice, even if the server dies mid-operation.">
+<meta property="og:url" content="https://hani-amro.github.io/work/quickdrop.html">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="cf" data-project="quickdrop">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="ic-arrow"><path d="M5 12h13"/><polyline points="13 6 19 12 13 18"/></g>
+    <g id="ic-eye"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
+    <g id="ic-github"><path d="M9 19c-4.5 1.5-4.5-2.5-6-3m12 5v-3.4a3 3 0 0 0-.8-2.3c2.7-.3 5.6-1.3 5.6-6a4.7 4.7 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.6 2.3 5.5 2.6 5.5 2.6a4.3 4.3 0 0 0-.1 3.2A4.7 4.7 0 0 0 4 9.1c0 4.6 2.9 5.6 5.6 6a3 3 0 0 0-.8 2.3V21"/></g>
+    <g id="ic-trend"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></g>
+    <g id="ic-cart"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></g>
+    <g id="ic-chat"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-4.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 0 1 8.5-8.4 8.4 8.4 0 0 1 8.5 8.4z"/></g>
+    <g id="ic-repeat"><polyline points="17 2 21 6 17 10"/><path d="M3 12V10a4 4 0 0 1 4-4h14"/><polyline points="7 22 3 18 7 14"/><path d="M21 12v2a4 4 0 0 1-4 4H3"/></g>
+    <g id="ic-cpu"><rect x="5" y="5" width="14" height="14" rx="2.5"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></g>
+    <g id="ic-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15.5 9.5"/></g>
+  </defs>
+</svg>
+
+<button id="lang-toggle" type="button" aria-label="Switch to Arabic">العربية</button>
+<button id="theme-toggle" type="button" aria-label="Toggle colour theme">
+  <span data-icon="dark">☾</span><span data-icon="light">☀</span>
+</button>
+
+<nav class="backbar wrap">
+  <a href="../engineer.html#work"><svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg>
+    <span data-i18n="wk-back">All six systems</span></a>
+</nav>
+
+<header class="hero cf-hero">
+  <div class="wrap">
+    <p class="cf-eyebrow">
+      <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-chat"/></svg></span>
+      <span class="cf-num"><span data-i18n="wk-cf">Case file</span> <span class="cf-idx">03 / 06</span></span>
+    </p>
+    <h1 data-i18n="wk-title">QuickDrop — Multi-Tenant Delivery Platform</h1>
+    <p class="cf-thesis" data-i18n="wk-tag">Row-level tenant isolation, and a dispatch that fires exactly once — or not at all.</p>
+    <p class="cf-plain"><span class="cf-lbl" data-i18n="wk-plain-l">In plain words</span> <span data-i18n="wk-plain">When an order is ready, the call for a driver goes out exactly once — never forgotten, never sent twice, even if the server dies mid-operation.</span></p>
+  </div>
+</header>
+
+<main class="wrap cf-main">
+<!-- 1 ── المقياس قبل الادّعاء ─────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="sc-h">
+  <h2 class="cf-h" id="sc-h" data-i18n="wk-scale-h">The scale, before any claim</h2>
+  <div class="ruler"><p data-i18n="wk-scale">Zero users · 4 test orders on 2026-07-20, all still at `confirmed` · zero ledger entries, zero location points, zero messages · every dispatch attempt ended in `dispatch_exhausted` · the database has been idle since. Built, deployed and machine-guarded; never entered commercial operation.</p></div>
+</section>
+
+<!-- 2 ── المشكلة · ما يُثبته ────────────────────────────────────── -->
+<section data-reveal class="cf-sec">
+  <dl class="par cf-par k-in">
+    <div><dt data-i18n="wk-prob-l">The problem</dt><dd data-i18n="wk-prob">The naive approach is to commit the transaction and then push a &quot;ready for dispatch&quot; message onto the queue. That breaks in two silent ways. If the process dies between the commit and the push, the message is gone and no driver is ever called — while the order still looks healthy on the dashboard with no error anywhere; and if the merchant confirms from the dashboard while the bot confirms from WhatsApp at the same moment, two dispatch rounds start and one order goes to two drivers. The whole fix lives in packages/db/src/state-machine.ts: line 131 locks the order row with `.for(&quot;update&quot;)` at the head of every status transition, so contenders queue instead of racing; line 302 makes the dispatch stamp a conditional UPDATE guarded by isNull(orders.dispatchRequestedAt) with `.returning()`, so the caller learns how many rows it actually claimed rather than how many it assumed. And the decisive line 311: the outbox row is written only inside `if (claimed.length === 1)` and inside that same transaction — stamp and event commit together or neither commits, after which apps/worker/src/outbox-poller.ts picks it up with FOR UPDATE SKIP LOCKED on line 55. Loss and duplication — normally two problems with two fixes — are settled here by one mechanism.</dd></div>
+    <div><dt data-i18n="wk-proves-l">What it proves</dt><dd data-i18n="wk-proves">He knows the dangerous failure in a distributed system is not the one that throws — it is the one that returns a false success; so he built dispatch such that loss is structurally impossible rather than repaired later by a cleanup job. The same pattern recurs across the project, not just in this file: 25 row locks spread over 12 service files, 39 tables under forced RLS in the migrations (37 on the deployed database), a financial ledger protected by a trigger named ledger_entries_guard rather than by convention, and a test guard in apps/worker/src/integration-env.test.ts that deliberately fails when integration env vars are missing instead of skipping silently and reporting green.</dd></div>
+  </dl>
+</section>
+
+<!-- 3 ── الآلية، بعرض الصفحة ────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="mech-h">
+  <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
+  <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
+  <figure data-mechanism="quickdrop"></figure>
+  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">The diagram shows the defect: the merchant on the dashboard and the WhatsApp bot both confirm the same order at the same instant, which naively starts two dispatch rounds and sends one order to two drivers. Read it left to right: the row lock (SELECT … FOR UPDATE) turns the two racers into a queue; the conditional UPDATE … WHERE dispatchRequestedAt IS NULL returns one row to the first and zero rows to the second, so the second never reaches the outbox. The emerald frame is the decisive part: the outbox row is written inside the same transaction as the stamp, so the event commits with it or not at all — which is also why a crash after commit loses nothing, since the worker later picks the row up with FOR UPDATE SKIP LOCKED.</span></p>
+</section>
+
+<!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="scr-h">
+  <h2 class="cf-h" id="scr-h" data-i18n="wk-scr-h">Screens</h2>
+  <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
+  <div class="shots">
+    <figure class="shot desktop">
+      <div class="dev desktop"><img src="../img/work/quickdrop/dashboard-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The staff dashboard&#x27;s login page, reached only through an SSH tunnel: the system is deployed but bound to 127.0.0.1 on the server, has no public URL, and has never entered commercial operation."></div>
+      <figcaption><span data-i18n="wk-sh0">The staff dashboard&#x27;s login page, reached only through an SSH tunnel: the system is deployed but bound to 127.0.0.1 on the server, has no public URL, and has never entered commercial operation.</span>
+        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">http://127.0.0.1:18110/ (redirected to /login) via a read-only SSH tunnel to 127.0.0.1:8110 on the server</span></span></figcaption>
+    </figure>
+    <figure class="shot phone">
+      <div class="dev phone"><img src="../img/work/quickdrop/dashboard-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same login page on a phone viewport; nobody signed in for this capture, so no order, driver or settlement data appears — the database behind it holds 4 test orders from 2026-07-20 and has been idle since."></div>
+      <figcaption><span data-i18n="wk-sh1">The same login page on a phone viewport; nobody signed in for this capture, so no order, driver or settlement data appears — the database behind it holds 4 test orders from 2026-07-20 and has been idle since.</span>
+        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">http://127.0.0.1:18110/ (redirected to /login) via a read-only SSH tunnel to 127.0.0.1:8110 on the server</span></span></figcaption>
+    </figure>
+    <figure class="shot phone">
+      <div class="dev phone"><img src="../img/work/quickdrop/driver-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The driver app opened without a tracking token shows only &quot;Open the link your office sent you&quot; — the intended locked state; no driver has ever been assigned an order, so no real driver link exists."></div>
+      <figcaption><span data-i18n="wk-sh2">The driver app opened without a tracking token shows only &quot;Open the link your office sent you&quot; — the intended locked state; no driver has ever been assigned an order, so no real driver link exists.</span>
+        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">http://127.0.0.1:18112/ via a read-only SSH tunnel to 127.0.0.1:8112 on the server</span></span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 5 ── الكود، حرفياً ───────────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="code-h">
+  <h2 class="cf-h" id="code-h" data-i18n="wk-code-h">The code, verbatim</h2>
+  <div class="codebox">
+    <div class="codehead"><b>packages/db/src/state-machine.ts</b><span>L129&ndash;L313 &middot; <span data-i18n="wk-nl">16 lines</span></span></div>
+    <pre class="codebody" tabindex="0" style="counter-reset: line 128"><code class="lang-typescript"><span class="ln">  // §5: قفل الصف إلزامي — يحسم السباقات (الزبون يلغي والسائق يقبل بنفس اللحظة:</span>
+<span class="ln">  // أحدهما ينتظر القفل، والثاني يفشل بـ InvalidTransitionError).</span>
+<span class="ln">  const locked = await tx.select().from(orders).where(eq(orders.id, args.orderId)).for(&quot;update&quot;);</span>
+<span class="ln">  // …</span>
+<span class="ln">      const claimed = await tx</span>
+<span class="ln">        .update(orders)</span>
+<span class="ln">        .set({</span>
+<span class="ln">          dispatchRequestedAt: now,</span>
+<span class="ln">          ...(order.promisedAt === null ? { promisedAt } : {}),</span>
+<span class="ln">          updatedAt: now,</span>
+<span class="ln">        })</span>
+<span class="ln">        .where(and(eq(orders.id, order.id), isNull(orders.dispatchRequestedAt), eq(orders.fulfillment, &quot;delivery&quot;)))</span>
+<span class="ln">        .returning({ id: orders.id });</span>
+<span class="ln">      if (claimed.length === 1) {</span>
+<span class="ln">        await writeOutbox(tx, order.tenantId, &quot;order.ready_for_dispatch&quot;, { orderId: order.id });</span>
+<span class="ln">      }</span>
+</code></pre>
+  </div>
+  <p class="cf-fine" data-i18n="wk-code-n">Copied verbatim from the repository; nothing elided.</p>
+</section>
+
+<!-- 6 ── كل رقم، والأمر الذي أنتجه ───────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="num-h">
+  <h2 class="cf-h" id="num-h" data-i18n="wk-num-h">Every number, and the command that produced it</h2>
+  <ul class="metrics cf-metrics">
+    <li>
+      <b>44205</b>
+      <span data-i18n="wk-m0">lines of TypeScript across 403 files — 8,535 of them test files</span>
+      <details><summary data-i18n="m-src">Source</summary><code>find apps packages -type f \( -name &#x27;*.ts&#x27; -o -name &#x27;*.tsx&#x27; \) -not -path &#x27;*/node_modules/*&#x27; -not -path &#x27;*/dist/*&#x27; -not -path &#x27;*/.next/*&#x27; -print0 | xargs -0 cat | wc -l → 44205 (وعدّ الملفات بنفس المرشِّح → 403؛ ونفس الأمر مقصوراً على &#x27;*.test.ts*&#x27; → 8535)</code></details>
+    </li>
+    <li>
+      <b>434</b>
+      <span data-i18n="wk-m1">tests passing on a real run — of 567 cases in 77 files; 132 gated behind env guards, 1 guard that fails on purpose</span>
+      <details><summary data-i18n="m-src">Source</summary><code>for p in packages/* apps/*; do (cd &quot;$p&quot; &amp;&amp; ./node_modules/.bin/vitest run 2&gt;&amp;1 | sed -e &#x27;s/\x1b\[[0-9;]*m//g&#x27; | grep -E &#x27;^ *Tests &#x27;); done   # 434 نجحت / 132 تُخطّيت / 1 فشلت عمداً = 567. (apps/driver وapps/e2e وapps/miniapp بلا vitest أصلاً)</code></details>
+    </li>
+    <li>
+      <b>39</b>
+      <span data-i18n="wk-m2">tables under ENABLE + FORCE RLS in the migrations, out of 42 in the schema</span>
+      <details><summary data-i18n="m-src">Source</summary><code>packages/db/migrations/*.sql: حلقة FOREACH في 0003_phase1_protections.sql:9-18 (26 جدولاً) + 15 ALTER TABLE … ENABLE/FORCE صريحة في 0001/0005/0010/0012/0014/0017/0019/0022/0023 − جدولان في 0018_drop_legacy_support.sql = 39. ويطابقه من الجهة الأخرى: 42 pgTable( في packages/db/src/schema/*.ts ناقص RLS_EXCEPTIONS الأربعة في packages/db/scripts/check-rls.ts:10 (tenants، admin_users، tracking_tokens، وspatial_ref_sys الذي تُنشئه PostGIS وليس في السكيما — فالطرح من 42 يبقى ثلاثة). تنبيه واجب الذكر: القاعدة المنشورة تعطي 37 لا 39، لأن الترحيل 0023 لم يُطبَّق عليها (23 من 24).</code></details>
+    </li>
+    <li>
+      <b>25</b>
+      <span data-i18n="wk-m3">row locks via .for(&quot;update&quot;) across 12 service files in packages/db</span>
+      <details><summary data-i18n="m-src">Source</summary><code>grep -rn &#x27;\.for(&quot;update&quot;)&#x27; packages/db/src --include=*.ts | grep -v &#x27;\.test\.&#x27; | wc -l → 25 ؛ وبـ -l بدل -n → 12 ملفاً. (الصيغة الأوسع &#x27;\.for(&quot;update&quot;&#x27; تعطي 26؛ الزائد هو ‎.for(&quot;update&quot;, { skipLocked: true })‎ في dispatch.ts:450)</code></details>
+    </li>
+    <li>
+      <b>8</b>
+      <span data-i18n="wk-m4">geography(…,4326) columns in the schema — distances computed in SQL, not JavaScript</span>
+      <details><summary data-i18n="m-src">Source</summary><code>grep -rhoE &#x27;geography(Point|Polygon)\(&quot;[a-z_]+&quot;&#x27; packages/db/src/schema/*.ts | wc -l → 8 ؛ ونوع العمود مُعرَّف في packages/db/src/schema/_common.ts:35 و41: geography(Point,4326) وgeography(Polygon,4326)</code></details>
+    </li>
+    <li>
+      <b>0</b>
+      <span data-i18n="wk-m5">orders that reached delivery — all 4 are still at confirmed</span>
+      <details><summary data-i18n="m-src">Source</summary><code>على الـVPS: docker exec quickdrop-prod-postgres-1 psql -U postgres -d quickdrop -tAc &quot;select status, count(*) from orders group by status&quot; → confirmed|4 ؛ وselect max(created_at) from orders → 2026-07-20 15:15:22+00 ؛ وledger_entries / driver_locations / messages / order_attachments = 0|0|0|0</code></details>
+    </li>
+  </ul>
+</section>
+
+<!-- 7 ── ما لا يفعله ─────────────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="lim-h">
+  <h2 class="cf-h am" id="lim-h" data-i18n="wk-lim-h">What it does not do</h2>
+  <ol class="limits">
+    <li data-i18n="wk-lim0">No real work ever ran through it. 4 test orders on 2026-07-20, none past `confirmed`: zero ledger entries, zero driver location points, zero proof-of-delivery photos, zero WhatsApp messages — all verified by direct query against the production database.</li>
+    <li data-i18n="wk-lim1">132 of 567 test cases sit behind env guards (25 describe.skipIf(!hasDb) blocks, two !hasDeps, one it.skipIf(!WORKER_URL)) and do not run without a live database and Redis — including all 8 tests in packages/ai. So the agent-containment claim is demonstrated by reading the code, not by a green run.</li>
+    <li data-i18n="wk-lim2">The geo dispatch engine ran in production and never once succeeded: the last dispatch activity in the worker log, on 2026-07-20, ends in dispatch_exhausted on round 3, then notification_skipped_driver_unreachable. The loop executed; no order was ever assigned to a driver.</li>
+    <li data-i18n="wk-lim3">There is no public URL: the containers are bound to 127.0.0.1 only, a grep over /etc/nginx finds no reference to quickdrop or ports 8110/8111/8112, and the built driver-app bundle has that address baked into its JS. The production database is also one migration behind the code — 23 of 24 applied, so whatsapp_templates and wa_deliveries do not exist there.</li>
+  </ol>
+</section>
+
+<!-- 8 ── التقنيات · الروابط ─────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="stack-h">
+  <h2 class="cf-h" id="stack-h" data-i18n="wk-stack-h">Stack</h2>
+  <ul class="chips">
+    <li>TypeScript</li>
+    <li>PostgreSQL 16 + PostGIS</li>
+    <li>Drizzle ORM</li>
+    <li>NestJS</li>
+    <li>Next.js (App Router)</li>
+    <li>React</li>
+    <li>Vite</li>
+    <li>BullMQ + Redis</li>
+    <li>Socket.IO</li>
+    <li>MinIO (S3)</li>
+    <li>Docker Compose</li>
+    <li>Vitest</li>
+    <li>Playwright</li>
+    <li>Anthropic Messages API (fetch خام، بلا SDK)</li>
+  </ul>
+  <p class="cf-fine" data-i18n="wk-nolive">No public link: the seven containers are bound to 127.0.0.1 on the server.</p>
+  <p class="cf-fine" data-i18n="wk-norepo">No public repository.</p>
+  <p class="cf-backline"><a class="quiet" href="../engineer.html#work"><svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg> <span data-i18n="wk-back">All six systems</span></a></p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>
+      <span data-i18n="h1b">Hani Amro</span><span>&middot;</span>
+      <span data-i18n="loc2">Malaysia</span><span>&middot;</span>
+      <span data-i18n="footer">Written in English and Arabic &mdash; both by hand.</span>
+    </p>
+  </div>
+</footer>
+
+<script src="../main.js"></script>
+<script src="../i18n/quickdrop.js"></script>
+<script src="../i18n.js"></script>
+<script src="../mechanism.js"></script>
+<script src="../mech/quickdrop.js"></script>
+</body>
+</html>

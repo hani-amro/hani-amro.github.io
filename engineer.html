@@ -135,8 +135,7 @@
     <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-stack"/></svg></span>
     <h2 data-i18n="cs-h">Selected work</h2>
   </div>
-  <p class="section-lede" data-i18n="cs-l">Six systems. Each one shows the defect happening first,
-    then the mechanism that makes it impossible.</p>
+  <p class="section-lede" data-i18n="cs-l">Six systems. Each card opens a case file: the defect happening first and the mechanism that stops it, real screens, and every number with the command that produced it.</p>
 
   <div class="grid pair">
 
@@ -179,10 +178,10 @@
           <details><summary data-i18n="m-src">Source</summary><code>psql -d altajir -At -c "SELECT count(*) FILTER (WHERE profit_estimated) FROM execution_logs"</code></details>
         </li>
       </ul>
-      <figure data-mechanism="altajir-position-pnl"></figure>
       <p class="note" data-i18n="k1-n"><b>A decision I am often asked about:</b> the first version ran
         on a drag-and-drop automation tool. After 22 attempts to make it fast enough, the tool itself
         proved to be the limit &mdash; so I rebuilt the core in code.</p>
+      <p class="cta"><a class="btn primary" href="work/altajir.html"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg> <span data-i18n="k1-case">Open the case file</span></a></p>
       <p class="stack" data-i18n="k1-s">Node.js &middot; PostgreSQL &middot; MetaApi &middot; Telegram Bot API &middot; nginx &middot; PM2</p>
     </article>
 
@@ -228,14 +227,14 @@
           <details><summary data-i18n="m-src">Source</summary><code>grep -c '✅' docs/launch-gate.md   # 15 of 57 items met</code></details>
         </li>
       </ul>
-      <figure data-mechanism="wain-ticketing-ledger"></figure>
       <p class="note" data-i18n="k2-n"><b>What this is not:</b> a demo, deliberately. Zero real
         users, the payment gateway is fully simulated, mail is written to a file and never sent, and
         the demo data is wiped and re-seeded by cron every day at 03:00 UTC. The repository stays
         private because its history carries an inventory of a server hosting six client sites that
         are not mine.</p>
       <p class="cta"><a class="btn" href="https://wain.srv1564240.hstgr.cloud" target="_blank" rel="noopener">
-        <svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="k2-go">Open the live demo</span></a></p>
+        <svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="k2-go">Open the live demo</span></a>
+        <a class="btn primary" href="work/wain.html"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg> <span data-i18n="k2-case">Open the case file</span></a></p>
       <p class="stack" data-i18n="k2-s">TypeScript &middot; Next.js 16 &middot; NestJS 11 &middot; PostgreSQL 18 &middot; Drizzle &middot; Valkey &middot; Flutter &middot; Docker</p>
     </article>
 
@@ -279,7 +278,7 @@
           <details><summary data-i18n="m-src">Source</summary><code>psql -d quickdrop -tAc "select status, count(*) from orders group by status"</code></details>
         </li>
       </ul>
-      <figure data-mechanism="quickdrop"></figure>
+      <p class="cta"><a class="btn primary" href="work/quickdrop.html"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg> <span data-i18n="k3-case">Open the case file</span></a></p>
       <p class="stack" data-i18n="k3-s">TypeScript &middot; NestJS &middot; PostgreSQL (RLS, PostGIS) &middot; Redis &middot; WhatsApp Business API &middot; Docker</p>
     </article>
 
@@ -321,9 +320,9 @@
           <details><summary data-i18n="m-src">Source</summary><code>psql -d gold_signals -tAc "select status, amount from payments order by created_at"</code></details>
         </li>
       </ul>
-      <figure data-mechanism="gold-signals"></figure>
       <p class="cta"><a class="btn" href="https://gold-signals.srv1564240.hstgr.cloud" target="_blank" rel="noopener">
-        <svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="k4-go">Open it</span></a></p>
+        <svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="k4-go">Open it</span></a>
+        <a class="btn primary" href="work/gold-signals.html"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg> <span data-i18n="k4-case">Open the case file</span></a></p>
       <p class="stack" data-i18n="k4-s">Python &middot; aiogram &middot; SQLAlchemy &middot; PostgreSQL &middot; Alembic &middot; Docker</p>
     </article>
 
@@ -367,11 +366,11 @@
           <details><summary data-i18n="m-src">Source</summary><code>find src test -name '*.ts' -exec wc -l {} +   # 3,434 test / 4,106 source</code></details>
         </li>
       </ul>
-      <figure data-mechanism="yasmin-salla-cx"></figure>
       <p class="note" data-i18n="k5-n"><b>Said against my own interest:</b> the measurement that found
         this is the one I built, and what it found is that my own safety claim was wrong. The public
         demo's model connection is down today, so there is no link here &mdash; a link to something
         that will not answer is worse than no link. Zero users, zero payers.</p>
+      <p class="cta"><a class="btn primary" href="work/yasmin.html"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg> <span data-i18n="k5-case">Open the case file</span></a></p>
       <p class="stack" data-i18n="k5-s">TypeScript &middot; Cloudflare Workers &middot; Hono &middot; D1 &middot; KV &middot; Claude API with prompt caching &middot; Vitest</p>
     </article>
 
@@ -415,13 +414,13 @@
           <details><summary data-i18n="m-src">Source</summary><code>curl -s -o /dev/null -w '%{http_code}' https://pypi.org/pypi/tenant-guard/json   # 404</code></details>
         </li>
       </ul>
-      <figure data-mechanism="tenant-guard-overfit-stats"></figure>
       <p class="note" data-i18n="k6-n"><b>What these are not:</b> neither library is on PyPI, so
         <code>pip install</code> does not work. There is no CI &mdash; the badges in the READMEs are
         static images I wrote by hand. Five commits each, all landed within one hour on 16 August 2026,
         nothing since. They are code meant to be read, not products.</p>
       <p class="cta"><a class="btn" href="https://github.com/hani-amro/tenant-guard" target="_blank" rel="noopener">
-        <svg class="i" viewBox="0 0 24 24"><use href="#ic-github"/></svg> <span data-i18n="k6-go">Read the code</span></a></p>
+        <svg class="i" viewBox="0 0 24 24"><use href="#ic-github"/></svg> <span data-i18n="k6-go">Read the code</span></a>
+        <a class="btn primary" href="work/tenant-guard.html"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg> <span data-i18n="k6-case">Open the case file</span></a></p>
       <p class="stack" data-i18n="k6-s">Python 3.10+ &middot; SQLAlchemy 2.0 &middot; numpy &middot; scipy &middot; pytest &middot; MIT</p>
     </article>
 
@@ -621,12 +620,5 @@
 <script src="stack.js"></script>
 <script src="i18n.js"></script>
 <script src="silentzero.js"></script>
-<script src="mechanism.js"></script>
-<script src="mech/wain-ticketing-ledger.js"></script>
-<script src="mech/altajir-position-pnl.js"></script>
-<script src="mech/quickdrop.js"></script>
-<script src="mech/gold-signals.js"></script>
-<script src="mech/yasmin-salla-cx.js"></script>
-<script src="mech/tenant-guard-overfit-stats.js"></script>
 </body>
 </html>

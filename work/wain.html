@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-default-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wain — UAE Event Discovery &amp; Ticketing &mdash; case file &middot; Hani Amro</title>
+<meta name="description" content="Postgres itself rejects a half-written ledger entry — at COMMIT, not in code review.">
+<meta name="color-scheme" content="light dark">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wain — UAE Event Discovery &amp; Ticketing &mdash; case file">
+<meta property="og:description" content="A site where you buy a ticket to an event in the UAE, and where every sale works out what the organizer gets, what the platform keeps, and what goes to tax — in a way that cannot quietly come out wrong.">
+<meta property="og:url" content="https://hani-amro.github.io/work/wain.html">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="cf" data-project="wain-ticketing-ledger">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="ic-arrow"><path d="M5 12h13"/><polyline points="13 6 19 12 13 18"/></g>
+    <g id="ic-eye"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
+    <g id="ic-github"><path d="M9 19c-4.5 1.5-4.5-2.5-6-3m12 5v-3.4a3 3 0 0 0-.8-2.3c2.7-.3 5.6-1.3 5.6-6a4.7 4.7 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.6 2.3 5.5 2.6 5.5 2.6a4.3 4.3 0 0 0-.1 3.2A4.7 4.7 0 0 0 4 9.1c0 4.6 2.9 5.6 5.6 6a3 3 0 0 0-.8 2.3V21"/></g>
+    <g id="ic-trend"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></g>
+    <g id="ic-cart"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></g>
+    <g id="ic-chat"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-4.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 0 1 8.5-8.4 8.4 8.4 0 0 1 8.5 8.4z"/></g>
+    <g id="ic-repeat"><polyline points="17 2 21 6 17 10"/><path d="M3 12V10a4 4 0 0 1 4-4h14"/><polyline points="7 22 3 18 7 14"/><path d="M21 12v2a4 4 0 0 1-4 4H3"/></g>
+    <g id="ic-cpu"><rect x="5" y="5" width="14" height="14" rx="2.5"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></g>
+    <g id="ic-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15.5 9.5"/></g>
+  </defs>
+</svg>
+
+<button id="lang-toggle" type="button" aria-label="Switch to Arabic">العربية</button>
+<button id="theme-toggle" type="button" aria-label="Toggle colour theme">
+  <span data-icon="dark">☾</span><span data-icon="light">☀</span>
+</button>
+
+<nav class="backbar wrap">
+  <a href="../engineer.html#work"><svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg>
+    <span data-i18n="wk-back">All six systems</span></a>
+</nav>
+
+<header class="hero cf-hero">
+  <div class="wrap">
+    <p class="cf-eyebrow">
+      <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cart"/></svg></span>
+      <span class="cf-num"><span data-i18n="wk-cf">Case file</span> <span class="cf-idx">02 / 06</span></span>
+    </p>
+    <h1 data-i18n="wk-title">Wain — UAE Event Discovery &amp; Ticketing</h1>
+    <p class="cf-thesis" data-i18n="wk-tag">Postgres itself rejects a half-written ledger entry — at COMMIT, not in code review.</p>
+    <p class="cf-plain"><span class="cf-lbl" data-i18n="wk-plain-l">In plain words</span> <span data-i18n="wk-plain">A site where you buy a ticket to an event in the UAE, and where every sale works out what the organizer gets, what the platform keeps, and what goes to tax — in a way that cannot quietly come out wrong.</span></p>
+  </div>
+</header>
+
+<main class="wrap cf-main">
+<!-- 1 ── المقياس قبل الادّعاء ─────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="sc-h">
+  <h2 class="cf-h" id="sc-h" data-i18n="wk-scale-h">The scale, before any claim</h2>
+  <div class="ruler"><p data-i18n="wk-scale">Zero real users · 137 commits over 7 days, single author · Live demo deployment, not production: the payment gateway is fully simulated, mail is written to files and never leaves the box, and the demo data (11 events · 27 orders · 117 ledger entries) is wiped and re-seeded by cron every day at 03:00 UTC. Not one real payment has ever passed through it.</p></div>
+</section>
+
+<!-- 2 ── المشكلة · ما يُثبته ────────────────────────────────────── -->
+<section data-reveal class="cf-sec">
+  <dl class="par cf-par k-em">
+    <div><dt data-i18n="wk-prob-l">The problem</dt><dd data-i18n="wk-prob">Every money event — a payment, a refund, an organizer payout — writes a group of ledger entries whose debits must equal its credits. Enforce that in application code and any new path that writes half an entry succeeds silently; the defect only surfaces weeks later at reconciliation, which is exactly the class of bug code review does not catch. The fix lives in `apps/api/drizzle/0006_chilly_venom.sql:106`: `ledger_group_must_balance()` sums `SUM(CASE WHEN direction = &#x27;debit&#x27; THEN amount_minor ELSE -amount_minor END)` across the whole group and raises if the difference is non-zero, wired up as `CREATE CONSTRAINT TRIGGER ... DEFERRABLE INITIALLY DEFERRED` (lines 123-126). A second trigger, `ck_ledger_append_only` (line 138) on `BEFORE UPDATE OR DELETE`, forces corrections to be reversing entries rather than edits, so the audit trail the ledger exists for survives. And the guard is proven, not described: an integration test against a real Postgres via Testcontainers inserts half an entry inside a transaction, the whole transaction dies with `ck_ledger_group_balances`, and zero rows remain (`apps/api/test/refund.integration.test.ts:370`).</dd></div>
+    <div><dt data-i18n="wk-proves-l">What it proves</dt><dd data-i18n="wk-proves">That Hani puts the invariant that must not break at the lowest layer able to enforce it — the database — not in a comment or a code review, and understood why an immediate check would fail before he wrote the deferral. And that he distinguishes a guard that is written from a guard that is proven: the same repo carries a launch-gate document scoring his own project at 26% green with a run command behind every gap, and an ADR that states outright that the phrasing layer &quot;has never been run against a real API.&quot;</dd></div>
+  </dl>
+</section>
+
+<!-- 3 ── الآلية، بعرض الصفحة ────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="mech-h">
+  <h2 class="cf-h" id="mech-h" data-i18n="wk-mech-h">The mechanism</h2>
+  <p class="section-lede" data-i18n="wk-mech-l">The defect happens first, then the mechanism that makes it impossible.</p>
+  <figure data-mechanism="wain-ticketing-ledger"></figure>
+  <p class="cf-read"><span class="cf-lbl" data-i18n="wk-read-l">How to read it</span> <span data-i18n="wk-read">The box is one Postgres transaction writing a ticket sale row by row; the amber counter on the side is the running debit-minus-credit difference, which drops 1000 → 300 → 0 and only turns emerald when the group is complete. The defect is a new code path — a refund, say — that writes half an entry and forgets its counterpart; enforced in application code that would have succeeded silently. It is stopped at the gate below the box: a DEFERRABLE INITIALLY DEFERRED constraint trigger that runs once at COMMIT, sees a difference of 1000, and kills the whole transaction with ck_ledger_group_balances, so zero rows remain rather than half an entry.</span></p>
+</section>
+
+<!-- 4 ── الشاشات، كما التُقطت ──────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="scr-h">
+  <h2 class="cf-h" id="scr-h" data-i18n="wk-scr-h">Screens</h2>
+  <p class="section-lede" data-i18n="wk-scr-l">Captured 2026-09-05 from the addresses shown beneath them, exactly as served &mdash; nothing staged.</p>
+  <div class="shots">
+    <figure class="shot desktop">
+      <div class="dev desktop"><img src="../img/work/wain/home-ar-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Arabic home page of the live demo deployment: the event cards are seed data that a cron job wipes and re-seeds daily at 03:00 UTC, and no real user has bought a ticket here."></div>
+      <figcaption><span data-i18n="wk-sh0">Arabic home page of the live demo deployment: the event cards are seed data that a cron job wipes and re-seeds daily at 03:00 UTC, and no real user has bought a ticket here.</span>
+        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/ar</span></span></figcaption>
+    </figure>
+    <figure class="shot phone">
+      <div class="dev phone"><img src="../img/work/wain/home-ar-phone.webp" width="420" height="909" loading="lazy" decoding="async" alt="The same demo home page on a phone viewport, RTL: the ask box, its suggested prompts, and the emirate filters stack into one column; the events behind them are still seed data."></div>
+      <figcaption><span data-i18n="wk-sh1">The same demo home page on a phone viewport, RTL: the ask box, its suggested prompts, and the emirate filters stack into one column; the events behind them are still seed data.</span>
+        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/ar</span></span></figcaption>
+    </figure>
+    <figure class="shot desktop">
+      <div class="dev desktop"><img src="../img/work/wain/proof-ar-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The demo&#x27;s /proof page, which the site publishes about itself: the first card is a self-correction of a margin formula in the project&#x27;s own PROJECT_BRIEF.md (off by 1.90 AED), not a rescue of anyone else&#x27;s system; the 20-buyer race and the 118 money tests are each tied to a command."></div>
+      <figcaption><span data-i18n="wk-sh2">The demo&#x27;s /proof page, which the site publishes about itself: the first card is a self-correction of a margin formula in the project&#x27;s own PROJECT_BRIEF.md (off by 1.90 AED), not a rescue of anyone else&#x27;s system; the 20-buyer race and the 118 money tests are each tied to a command.</span>
+        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/ar/proof</span></span></figcaption>
+    </figure>
+    <figure class="shot desktop">
+      <div class="dev desktop"><img src="../img/work/wain/tour-ar-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The demo&#x27;s /tour page: four roles (buyer, organizer, reviewer, door staff), what each one does, and what the system claims to prove for it; the organizer dashboard it links to runs on seed data with a simulated payment gateway."></div>
+      <figcaption><span data-i18n="wk-sh3">The demo&#x27;s /tour page: four roles (buyer, organizer, reviewer, door staff), what each one does, and what the system claims to prove for it; the organizer dashboard it links to runs on seed data with a simulated payment gateway.</span>
+        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/ar/tour</span></span></figcaption>
+    </figure>
+    <figure class="shot desktop">
+      <div class="dev desktop"><img src="../img/work/wain/home-en-desktop.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The English home page of the same demo, served LTR from the same Next.js build via next-intl; the events shown are the same seed set as the Arabic view."></div>
+      <figcaption><span data-i18n="wk-sh4">The English home page of the same demo, served LTR from the same Next.js build via next-intl; the events shown are the same seed set as the Arabic view.</span>
+        <span class="cap-meta"><span data-i18n="wk-cap-meta">captured</span> <span dir="ltr">2026-09-05</span> &middot; <span dir="ltr">https://wain.srv1564240.hstgr.cloud/en</span></span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 5 ── الكود، حرفياً ───────────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="code-h">
+  <h2 class="cf-h" id="code-h" data-i18n="wk-code-h">The code, verbatim</h2>
+  <div class="codebox">
+    <div class="codehead"><b>apps/api/drizzle/0006_chilly_venom.sql</b><span>L99&ndash;L126 &middot; <span data-i18n="wk-nl">28 lines</span></span></div>
+    <pre class="codebody" tabindex="0" style="counter-reset: line 98"><code class="lang-sql"><span class="ln">-- ══════════════════════════════════════════════════════════════════════</span>
+<span class="ln">-- توازن دفتر الأستاذ — **مفروض لا مرجوّ**</span>
+<span class="ln">-- ══════════════════════════════════════════════════════════════════════</span>
+<span class="ln">-- محفّز قيد **مؤجَّل**: يُفحَص عند COMMIT لا عند كل صفّ، لأن قيود المجموعة</span>
+<span class="ln">-- تُكتب صفًّا صفًّا فالفحص الفوري كان سيرفض أولها دائمًا.</span>
+<span class="ln">-- مجموعة مدينُها لا يساوي دائنها تُسقط المعاملة كلها — فكتابة نصف قيد</span>
+<span class="ln">-- صارت مستحيلة، لا مستهجَنة.</span>
+<span class="ln">CREATE OR REPLACE FUNCTION ledger_group_must_balance() RETURNS trigger AS $$</span>
+<span class="ln">DECLARE</span>
+<span class="ln">  diff bigint;</span>
+<span class="ln">BEGIN</span>
+<span class="ln">  SELECT COALESCE(SUM(CASE WHEN direction = &#x27;debit&#x27; THEN amount_minor ELSE -amount_minor END), 0)</span>
+<span class="ln">  INTO   diff</span>
+<span class="ln">  FROM   ledger_entries</span>
+<span class="ln">  WHERE  entry_group = NEW.entry_group;</span>
+<span class="ln"> </span>
+<span class="ln">  IF diff &lt;&gt; 0 THEN</span>
+<span class="ln">    RAISE EXCEPTION &#x27;ck_ledger_group_balances: مجموعة % غير متوازنة، الفرق %&#x27;, NEW.entry_group, diff</span>
+<span class="ln">      USING ERRCODE = &#x27;check_violation&#x27;;</span>
+<span class="ln">  END IF;</span>
+<span class="ln">  RETURN NULL;</span>
+<span class="ln">END;</span>
+<span class="ln">$$ LANGUAGE plpgsql;--&gt; statement-breakpoint</span>
+<span class="ln"> </span>
+<span class="ln">CREATE CONSTRAINT TRIGGER ck_ledger_group_balances</span>
+<span class="ln">  AFTER INSERT ON ledger_entries</span>
+<span class="ln">  DEFERRABLE INITIALLY DEFERRED</span>
+<span class="ln">  FOR EACH ROW EXECUTE FUNCTION ledger_group_must_balance();--&gt; statement-breakpoint</span>
+</code></pre>
+  </div>
+  <p class="cf-fine" data-i18n="wk-code-n">Copied verbatim from the repository; nothing elided.</p>
+</section>
+
+<!-- 6 ── كل رقم، والأمر الذي أنتجه ───────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="num-h">
+  <h2 class="cf-h" id="num-h" data-i18n="wk-num-h">Every number, and the command that produced it</h2>
+  <ul class="metrics cf-metrics">
+    <li>
+      <b>323</b>
+      <span data-i18n="wk-m0">tests passing on an actual run (205 in apps/api across 8 files + 118 in packages/money across 6)</span>
+      <details><summary data-i18n="m-src">Source</summary><code>cd apps/api &amp;&amp; npx vitest run --config vitest.config.mts  |  cd packages/money &amp;&amp; npx vitest run</code></details>
+    </li>
+    <li>
+      <b>100%</b>
+      <span data-i18n="wk-m1">branch coverage on packages/money — 62/62 branches, enforced as a build gate, not a report</span>
+      <details><summary data-i18n="m-src">Source</summary><code>packages/money/coverage/coverage-summary.json (total.branches 62/62) + packages/money/vitest.config.ts:12 thresholds:{branches:100,...}</code></details>
+    </li>
+    <li>
+      <b>0.99</b>
+      <span data-i18n="wk-m2">Lighthouse performance on the live deployment (a11y 1.00 · SEO 1.00 · LCP 2.0s · CLS zero)</span>
+      <details><summary data-i18n="m-src">Source</summary><code>python -c &quot;import json;d=json.load(open(&#x27;lighthouse-reports/_ar_e_desert_stargazing_night.json&#x27;));print(d[&#x27;finalUrl&#x27;],{k:v[&#x27;score&#x27;] for k,v in d[&#x27;categories&#x27;].items()})&quot;</code></details>
+    </li>
+    <li>
+      <b>57</b>
+      <span data-i18n="wk-m3">CHECK constraints across the 16 migration files, over 23 tables</span>
+      <details><summary data-i18n="m-src">Source</summary><code>grep -o CHECK apps/api/drizzle/0*.sql | wc -l → 57  |  grep -ho &quot;CREATE TABLE[^(]*&quot; apps/api/drizzle/0*.sql | sort -u | wc -l → 23  |  ls apps/api/drizzle/0*.sql | wc -l → 16</code></details>
+    </li>
+    <li>
+      <b>26%</b>
+      <span data-i18n="wk-m4">his own launch gate&#x27;s verdict on his own project: 15 of 57 items met (then 21 after closing six)</span>
+      <details><summary data-i18n="m-src">Source</summary><code>docs/launch-gate.md — جدول الحصيلة (15 ✅ / 19 🟡 / 19 ⬜ / 4 ➖ = 57) و السطر 112</code></details>
+    </li>
+    <li>
+      <b>34</b>
+      <span data-i18n="wk-m5">paths in the code-generated OpenAPI contract (35 operations · 39 schemas); drift is a CI gate</span>
+      <details><summary data-i18n="m-src">Source</summary><code>python -c &quot;import json;d=json.load(open(&#x27;packages/contracts/openapi.json&#x27;));print(len(d[&#x27;paths&#x27;]),len(d[&#x27;components&#x27;][&#x27;schemas&#x27;]))&quot;</code></details>
+    </li>
+  </ul>
+</section>
+
+<!-- 7 ── ما لا يفعله ─────────────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="lim-h">
+  <h2 class="cf-h am" id="lim-h" data-i18n="wk-lim-h">What it does not do</h2>
+  <ol class="limits">
+    <li data-i18n="wk-lim0">Not one real user has bought a ticket. The live numbers (11 events · 27 orders · 117 ledger entries) are seed data that a cron job wipes and re-seeds daily at 03:00 UTC — documented at docs/runbooks/deploy-2026-08-28.md:51.</li>
+    <li data-i18n="wk-lim1">The payment gateway is fully simulated: SimulatedGateway is the only implementation of the PaymentGateway contract (apps/api/src/payments/simulated-gateway.ts:40, injected at providers.ts:21) — no Stripe, no live keys. Mail: a Resend transport exists (resend.mailer.ts:60) but the default is `file` (mailer.ts:50) and that is what the deployment runs — messages are written to files and never leave the box. &quot;How did you handle a real gateway failure or a chargeback dispute?&quot; has no answer from this project.</li>
+    <li data-i18n="wk-lim2">No Row Level Security despite a multi-tenant product: grep -ic &quot;ROW LEVEL SECURITY&quot; returns zero on every one of the 16 migrations. Isolation between organizers is enforced in the application layer alone. And 15 of the 16 migrations have no down file (down/ holds only 0000_down.sql).</li>
+    <li data-i18n="wk-lim3">The gates do not cover the latest work: the last CI run was 2026-08-29 on main (a86a564), while current HEAD (2a3e822) is six commits ahead on branch docs/v2-design-audit and has passed no gate. The repo is also private, so no reviewer can read a line of it without an invite.</li>
+  </ol>
+</section>
+
+<!-- 8 ── التقنيات · الروابط ─────────────────────────────────────── -->
+<section data-reveal class="cf-sec" aria-labelledby="stack-h">
+  <h2 class="cf-h" id="stack-h" data-i18n="wk-stack-h">Stack</h2>
+  <ul class="chips">
+    <li>TypeScript 5.9.3 (المستودع كله)</li>
+    <li>Next.js 16.3.1 + React 19.2.8 + next-intl 4.13.7 (SSR، عربي/إنجليزي، RTL)</li>
+    <li>Tailwind CSS 4.3.3 + توكنات DTCG</li>
+    <li>NestJS 11.2.1 + @nestjs/swagger 11.4.7 (OpenAPI مولَّد من الكود)</li>
+    <li>PostgreSQL 18 + Drizzle ORM 0.45.2 + drizzle-kit 0.31.10 (16 ترحيلاً)</li>
+    <li>Valkey 9</li>
+    <li>packages/money — BigInt ونقاط أساس، بلا عشري عائم</li>
+    <li>Ed25519 عبر node:crypto لتوقيع تذاكر QR</li>
+    <li>Flutter / Dart — ماسح التذاكر (738 سطراً في 4 ملفات)</li>
+    <li>@anthropic-ai/sdk 0.120.0 — طبقة صياغة اختيارية، لا تحسب رقماً</li>
+    <li>Vitest 4.1.10 + Testcontainers 12.1.0 (Postgres حقيقي)</li>
+    <li>Playwright 1.62.1 + @axe-core/playwright 4.13.0</li>
+    <li>GitHub Actions (7 وظائف: verify · integration · e2e · secrets · sast · audit · images) + Semgrep + gitleaks + Lighthouse</li>
+    <li>Docker + docker-compose + GHCR + nginx</li>
+    <li>pnpm 11.5.2 workspaces + eslint-plugin-boundaries 7.2.0</li>
+  </ul>
+  <p class="cta cf-links">
+    <a class="btn" href="https://wain.srv1564240.hstgr.cloud" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><use href="#ic-eye"/></svg> <span data-i18n="wk-live">Open the live demo</span></a>
+  </p>
+  <p class="cf-fine" data-i18n="wk-norepo">The repository is private by a documented decision (ADR-0016).</p>
+  <p class="cf-backline"><a class="quiet" href="../engineer.html#work"><svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg> <span data-i18n="wk-back">All six systems</span></a></p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>
+      <span data-i18n="h1b">Hani Amro</span><span>&middot;</span>
+      <span data-i18n="loc2">Malaysia</span><span>&middot;</span>
+      <span data-i18n="footer">Written in English and Arabic &mdash; both by hand.</span>
+    </p>
+  </div>
+</footer>
+
+<script src="../main.js"></script>
+<script src="../i18n/wain.js"></script>
+<script src="../i18n.js"></script>
+<script src="../mechanism.js"></script>
+<script src="../mech/wain-ticketing-ledger.js"></script>
+</body>
+</html>
