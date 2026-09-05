@@ -101,7 +101,7 @@
         <a class="btn" href="Hani_Amro_CV.pdf">
           <svg class="i" viewBox="0 0 24 24"><use href="#ic-download"/></svg> <span data-i18n="cv">Download CV</span>
         </a>
-        <a class="quiet" href="#demos"><span data-i18n="see">See live demos</span> <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></a>
+        <a class="quiet" href="#work"><span data-i18n="see">See the two live systems</span> <svg class="i" viewBox="0 0 24 24"><use href="#ic-arrow"/></svg></a>
       </div>
     </div>
 
@@ -113,50 +113,6 @@
 <main class="wrap">
 
 <!-- 2 ────────────────────────────── WHAT I DO ────────────────────────── -->
-<section data-reveal id="what">
-  <div class="sec-head">
-    <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-plug"/></svg></span>
-    <h2 data-i18n="w-h">What I do</h2>
-  </div>
-
-  <div class="what-grid">
-    <div class="what-viz"><canvas id="hub" aria-hidden="true"></canvas></div>
-
-    <div class="what-list">
-      <article class="what-item">
-        <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-link"/></svg></span>
-        <div class="txt">
-          <h3 data-i18n="w1-h">I connect your tools into one flow</h3>
-          <p data-i18n="w1-p">One WhatsApp message becomes an order, an invoice, a delivery and a
-            receipt &mdash; automatically. I integrate the tools your business already uses so
-            nobody retypes anything between screens.</p>
-        </div>
-      </article>
-
-      <article class="what-item">
-        <span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-cpu"/></svg></span>
-        <div class="txt">
-          <h3 data-i18n="w2-h">I use AI where it is safe, and keep it away from your money</h3>
-          <p data-i18n="w2-p">AI reads, sorts and drafts. Prices and payments are calculated by
-            deterministic code that overrules the AI. You get AI's speed without betting your
-            revenue on it.</p>
-        </div>
-      </article>
-
-      <article class="what-item">
-        <span class="icon-badge am"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span>
-        <div class="txt">
-          <h3 data-i18n="w3-h">I run what I build</h3>
-          <p data-i18n="w3-p">Hosting, monitoring, backups, alerts &mdash; and I am the one who
-            takes the call when something breaks. Delivery means a running system, not a folder
-            of files.</p>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- 4 ──────────────────────────── CASE STUDIES ───────────────────────── -->
 <section data-reveal id="work">
   <div class="sec-head">
     <span class="icon-badge em"><svg class="i" viewBox="0 0 24 24"><use href="#ic-stack"/></svg></span>
@@ -232,7 +188,7 @@
           entry cannot be committed &mdash; Postgres rejects it, not a code reviewer. Ticket
           reservation is one atomic conditional update, so twenty simultaneous buyers on two seats
           produce exactly two winners and no oversell.</dd>
-        <dt data-i18n="lbl-r">What it proves</dt>
+        <dt data-i18n="lbl-pr">What it proves</dt>
         <dd data-i18n="k2-r">323 tests passing, 100% branch coverage on the money package as a build
           gate, and 57 CHECK constraints across 16 migrations. Re-deriving the platform margin from
           first principles caught a AED 1.90 error per order in my own project brief, which had been
@@ -283,12 +239,11 @@
           automatically. The shop gets a dashboard in Arabic, English or Malay; the rider gets an app;
           the customer gets a tracking link. Catalogue, pricing, coupons, loyalty and settlement
           included.</dd>
-        <dt data-i18n="lbl-r">The proof</dt>
-        <dd data-i18n="k3-r">44,205 lines of TypeScript, and 434 tests passing out of 567 cases
-          &mdash; 132 of them sit behind environment guards and did not run. One shop can never see
-          another shop's orders, enforced by the database itself (PostgreSQL Row-Level Security).
-          And no order has ever reached delivery: four test orders on 20 July 2026, all still
-          sitting at <em>confirmed</em>.</dd>
+        <dt data-i18n="lbl-pr">What it proves</dt>
+        <dd data-i18n="k3-r">No order has ever reached delivery: four test orders on 20 July 2026,
+          all still sitting at <em>confirmed</em>. Behind that, 434 tests passing of 567 &mdash; 132
+          sit behind environment guards and never ran &mdash; and one shop cannot see another's
+          orders, because the database enforces it (PostgreSQL Row-Level Security).</dd>
       </dl>
       <ul class="metrics">
         <li>
@@ -326,7 +281,7 @@
         <dt data-i18n="lbl-a">What I built</dt>
         <dd data-i18n="k4-a">Payment proof in, approval, a one-time invite, reminders three days and
           one day before expiry, removal on the day. Nobody watches a calendar.</dd>
-        <dt data-i18n="lbl-r">The proof</dt>
+        <dt data-i18n="lbl-pr">What it proves</dt>
         <dd data-i18n="k4-r">401 tests passing, 27 of which exist only to prove one tenant cannot
           read another's rows. Every client's credentials are encrypted at rest. The honest caveat:
           those tests all run on SQLite while production is PostgreSQL &mdash; and that exact gap
@@ -373,7 +328,7 @@
         <dd data-i18n="k5-a">A refusal sentinel that does not depend on wording, the old text match kept
           as a verbatim fallback, and a <code>refusal_via</code> column recording which path produced
           each refusal &mdash; so the system counts its own misses instead of assuming it has none.</dd>
-        <dt data-i18n="lbl-r">What it proves</dt>
+        <dt data-i18n="lbl-pr">What it proves</dt>
         <dd data-i18n="k5-r">9 of 23 refusals were arriving through the fallback &mdash; 39% &mdash;
           while every visible indicator was green and the gate reported no gaps. 198 tests run inside
           the real Cloudflare Workers runtime.</dd>
@@ -421,7 +376,7 @@
           asserts the two tenants' result sets are <em>disjoint</em>. The tempting assertion,
           <code>len(rows) &gt; 0</code>, passes happily on leaked data &mdash; which is how a leak like
           this survives a green test suite.</dd>
-        <dt data-i18n="lbl-r">What it proves</dt>
+        <dt data-i18n="lbl-pr">What it proves</dt>
         <dd data-i18n="k6-r">20 tests passing, one runtime dependency, and a test-to-source line ratio of
           0.89. Paired with overfit-stats, 41 tests, which refuses to certify a trading strategy that
           is statistically indistinguishable from luck.</dd>
@@ -504,7 +459,7 @@
 
   <div class="disclosure">
     <h3 data-i18n="ai-h">Built with AI, owned by me</h3>
-    <p data-i18n="ai-p">The architecture decision is mine, the spec is mine, and the acceptance bar that kills the work or ships it is mine; the model writes the implementation inside those three. That is not a delegation of trust: when I doubted the refusal mechanism in an assistant I had built, I added a database column (<code>messages.refusal_via</code>) that measures the mechanism against itself instead of describing it, and it showed nine refusals out of twenty-three going through the old fallback path while every other indicator was green — a failure no behavioural test would have caught. The harshest document I have written is a 57-item launch gate that scored my own project at 26% green, with the command that proved each gap written beside it. When 401 tests failed to catch a complete production outage in the gold bot — tests on SQLite, production on PostgreSQL — I wrote the reason for that failure into the commit message rather than fixing it quietly. The speed is real: 137 commits in seven days on Wain, but behind a seven-job CI gate, 323 tests, and an architecture decision record that states why each path was chosen. I am measured by what runs: the system is deployed, operated and watched, and I am the one who takes the 3 a.m. page and signs off on the fix.</p>
+    <p data-i18n="ai-p">The architecture decision is mine, the spec is mine, and the acceptance bar that kills the work or ships it is mine; the model writes the implementation inside those three. I am measured by what runs: deployed, operated, watched &mdash; and I take the 3 a.m. page.</p>
 
     <div class="own-grid">
       <article class="own">
@@ -581,11 +536,11 @@
   <div class="grid three">
     <a class="repo" href="https://github.com/hani-amro/quickdrop" data-project="quickdrop">
       <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-server"/></svg></span><b>quickdrop</b></span>
-      <span class="desc" data-i18n="r1">The delivery platform above. 44,205 lines of TypeScript, 434 tests passing of 567, PostgreSQL row-level security on 39 tables.</span>
+      <span class="desc" data-i18n="r1">The delivery platform above. 434 tests passing of 567, PostgreSQL row-level security on 39 tables.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/qalb-ecg">
       <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-activity"/></svg></span><b>qalb-ecg</b></span>
-      <span class="desc" data-i18n="r2">12-lead ECG screening support: a calibrated deep-learning ensemble (macro-AUROC 0.9335 on the served model) plus a 1,234-line clinical rule engine. Ships with an honest model card that leads with its failure modes &mdash; in medicine, knowing when <em>not</em> to trust the model is the point.</span>
+      <span class="desc" data-i18n="r2">12-lead ECG screening support: a calibrated deep-learning ensemble plus a 1,234-line clinical rule engine. Ships with an honest model card that leads with its failure modes &mdash; in medicine, knowing when <em>not</em> to trust the model is the point.</span>
     </a>
     <a class="repo" href="https://github.com/hani-amro/tenant-guard" data-project="tenant-guard-overfit-stats">
       <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-shield"/></svg></span><b>tenant-guard</b></span>
@@ -601,7 +556,7 @@
     </a>
     <a class="repo" href="https://github.com/hani-amro/pdf-tools-api">
       <span class="rhead"><span class="icon-badge in"><svg class="i" viewBox="0 0 24 24"><use href="#ic-file"/></svg></span><b>pdf-tools-api</b></span>
-      <span class="desc" data-i18n="r6">The PDF service above: 26 tools, Arabic and English OCR, nothing stored.</span>
+      <span class="desc" data-i18n="r6">26 PDF tools, Arabic and English OCR, nothing stored.</span>
     </a>
   </div>
 </section>
