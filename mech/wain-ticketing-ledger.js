@@ -129,10 +129,10 @@
       var gt = root.querySelector("#w-gatetext");
       if (f.gate === "ok") {
         gate.setAttribute("fill", EM); gate.setAttribute("stroke", "none");
-        gt.setAttribute("fill", "#fff"); gt.textContent = "COMMIT ✓";
+        gt.setAttribute("fill", "var(--accent-ink)"); gt.textContent = "COMMIT ✓";
       } else if (f.gate === "fail") {
         gate.setAttribute("fill", AM); gate.setAttribute("stroke", "none");
-        gt.setAttribute("fill", "#fff"); gt.textContent = "ck_ledger_group_balances ✗";
+        gt.setAttribute("fill", "var(--accent-ink)"); gt.textContent = "ck_ledger_group_balances ✗";
       } else {
         gate.setAttribute("fill", "var(--surface-solid)");
         gate.setAttribute("stroke", "var(--line-strong)");
