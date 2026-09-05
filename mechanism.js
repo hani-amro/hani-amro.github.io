@@ -180,8 +180,26 @@
   }
 
   function boot() {
-    Array.prototype.forEach.call(
-      document.querySelectorAll("[data-mechanism]"), mount);
+    var hosts = document.querySelectorAll("[data-mechanism]");
+
+    // التركيب مؤجَّل حتى يقترب المخطّط من الشاشة.
+    //
+    // ستّة مخطّطات تُبنى معاً عند التحميل تعني ستّ شجرات SVG وستّ رسمات
+    // أولى في مسار حرج لا يرى الزائر منه شيئاً: قِيس TBT عند 240ms على
+    // هذه الصفحة، وهو الرقم نفسه الذي أسقط بوابة الإطلاق في «وين».
+    // ولا يخسر أحد شيئاً: من لم يصل المخطّط لم يكن يراه أصلاً.
+    if (!("IntersectionObserver" in window)) {
+      Array.prototype.forEach.call(hosts, mount);
+      return;
+    }
+    var io = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        obs.unobserve(en.target);
+        mount(en.target);
+      });
+    }, { rootMargin: "300px 0px" });
+    Array.prototype.forEach.call(hosts, function (h) { io.observe(h); });
   }
 
   if (document.readyState === "loading") {
