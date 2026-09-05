@@ -193,6 +193,8 @@
      في الملف — لا لتفضيل، بل لأن البديل عيبان: وميضٌ إنجليزي قبل أن يعمل
      الـJS، وزاحفُ بحث لا يرى إلا الإنجليزية على صفحة موجَّهة لقارئ عربي. */
   var EN_BUILD = {
+    "b7-g1": "Nadim Studio — three rooms, three rendering techniques",
+    "b7-g2": "Jeel Mutawazin — Arabic learning for children",
     "g-back": "Both ways in",
     "b-eyebrow": "For a business owner",
     "b-h1": "What I can build for you",
@@ -228,9 +230,9 @@
     "b6-p": "It answers customers from your published pages and names the page it read. If you never published the answer, it says so and offers a human instead of inventing one. It works in Arabic and English, and one client can never see another client's material.",
     "b6-n": "<b>Told against my own interest:</b> I built a check to count how often it refuses to answer &mdash; and that check found the refusal detection was passing through a fallback 9 times out of 23, while every visible indicator was green. That is why it is worth measuring rather than trusting a dashboard. The public demo's model connection is down today; I am not going to link you to something that will not answer.",
     "b7-h": "Design, when the look is the product",
-    "b7-t": "Two builds &mdash; links going up shortly",
+    "b7-t": "Two builds, both live &mdash; open them",
     "b7-p": "Some sites are a form and a table. Others have to be felt &mdash; a gallery, a showroom, something a visitor remembers. I build those too, and I keep them fast and usable with a keyboard, because an experience that only works for a mouse on a fast laptop is a demo, not a product.",
-    "b7-n": "<b>Being straight with you:</b> I have two of these &mdash; a painting gallery built as three rooms with three different rendering techniques, and an Arabic learning platform for children. Both are my own builds, not commissioned client work, and neither has a real customer behind it. Their live links are going up shortly, and I will not put up a link before it works.",
+    "b7-n": "<b>Being straight with you:</b> both are my own builds, not commissioned client work, and neither has a real customer behind it. The gallery says so on its own first line &mdash; it is a demo and the artist is invented &mdash; because a gallery pretending to be real, linked from a site whose whole argument is honesty, would contradict itself.",
     "b-how-h": "How the work runs",
     "b-s1-h": "1 &middot; Half an hour on a call, free",
     "b-s1-p": "You describe what is done by hand. I come back with a straight answer: worth automating, or not worth it. If it is not, I say so and we stop there.",
