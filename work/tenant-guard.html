@@ -54,9 +54,9 @@
     <h2 class="cf-lbl" id="sc-h" data-i18n="wk-scale-h">The scale</h2>
     <ul class="scale">
       <li data-i18n="wk-sc0">Zero users, zero downloads</li>
-      <li data-i18n="wk-sc1">Not on PyPI</li>
-      <li data-i18n="wk-sc2">5 commits each, all on 2026-08-16</li>
-      <li data-i18n="wk-sc3">No CI</li>
+      <li data-i18n="wk-sc1">Neither is on PyPI; no CI</li>
+      <li data-i18n="wk-sc2">The mechanism runs in one production bot</li>
+      <li data-i18n="wk-sc3">One tenant there — never split two</li>
     </ul>
   </div>
 </section>
@@ -77,10 +77,10 @@
           <span data-i18n="wk-m1">overfit-stats tests passing — a live run</span>
           <details><summary data-i18n="m-src">Source</summary><code>cd GIT-cv/publish/overfit-stats &amp;&amp; python -m pytest -q  →  &quot;41 passed in 177.67s (0:02:57)&quot;  (تشغيل 2026-09-04؛ المدة تختلف حسب الجهاز)</code></details>
         </li>
-        <li class="v-limit">
-          <b>0</b>
-          <span data-i18n="wk-m2">releases published to PyPI for either library</span>
-          <details><summary data-i18n="m-src">Source</summary><code>urllib.request على https://pypi.org/pypi/tenant-guard/json و https://pypi.org/pypi/overfit-stats/json  →  HTTP 404 لكليهما</code></details>
+        <li class="v-held">
+          <b>10</b>
+          <span data-i18n="wk-m2">models under the guard in the production bot — the same three-layer mechanism this library packages, in the code it was extracted from</span>
+          <details><summary data-i18n="m-src">Source</summary><code>ssh srv1564240 &#x27;cd /opt/gold-signals-bot &amp;&amp; grep -h &quot;class .*TenantScoped&quot; bot/models/*.py | wc -l&#x27;   # 10</code></details>
         </li>
     </ol>
   </div>
@@ -115,7 +115,7 @@ $ cd ../overfit-stats &amp;&amp; python -m pytest -q
         <li data-i18n="wk-lim0">Not on PyPI; the README&#x27;s pip install line does not work as written.</li>
         <li data-i18n="wk-lim1">No CI; the badges are hand-written images, not build output.</li>
         <li data-i18n="wk-lim2">An application-level guard: raw SQL and bulk statements bypass it.</li>
-        <li data-i18n="wk-lim3">No benchmarks; the cost of injecting the predicate is unmeasured.</li>
+        <li data-i18n="wk-lim3">The package itself is installed nowhere; production runs the code it was extracted from.</li>
     </ul>
   </div>
 </section>
