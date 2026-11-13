@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-default-lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أدوات الموظّفين: ماسح تذاكر عالباب، وتطبيق للسائقين</title>
+<meta name="description" content="موظّف الباب بيعرف عالجهاز نفسه إذا التذكرة صالحة حتى بلا إنترنت، والسائق بيمشي بالطلب من الاستلام للتسليم، والمكتب بيشوف حالة كل سائق.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="أدوات الموظّفين: ماسح تذاكر عالباب، وتطبيق للسائقين">
+<meta property="og:description" content="موظّف الباب بيعرف عالجهاز نفسه إذا التذكرة صالحة حتى بلا إنترنت، والسائق بيمشي بالطلب من الاستلام للتسليم، والمكتب بيشوف حالة كل سائق.">
+<meta property="og:url" content="https://hani-amro.github.io/work/staff.html">
+<meta property="og:locale" content="ar">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='14' fill='%23F2E8D8'/><path d='M50 14 86 50 50 86 14 50z' fill='%23B5372B'/><path d='M50 34 66 50 50 66 34 50z' fill='%23EFB03A'/></svg>">
+<script>(function(d){try{var s=localStorage,l=s.getItem('lang'),t=s.getItem('theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if((l==='en'||l==='ar')&&l!==d.getAttribute('data-default-lang')){d.lang=l;d.dir=l==='ar'?'rtl':'ltr';d.classList.add('i18n-wait');setTimeout(function(){d.classList.remove('i18n-wait')},300)}}catch(e){}try{if(matchMedia('(prefers-reduced-motion: no-preference)').matches){d.classList.add('motion');setTimeout(function(){if(!window.__craftReady)d.classList.remove('motion')},4000);addEventListener('pagereveal',function(e){var v=e.viewTransition,o=document.querySelector('.vt-on'),a=window.navigation&&navigation.activation,u=a&&a.from&&a.from.url||'',k=(u.split(/[?#]/)[0].split('/work/')[1]||'').replace('.html',''),s,r,f=function(){d.classList.remove('vt');if(s)s.classList.remove('vt-on')};if(o)o.classList.remove('vt-on');if(!v)return;d.classList.add('vt');v.finished.then(f,f);v.ready.catch(function(){});if(/^[a-z0-9-]+$/.test(k)&&(s=document.querySelector('#'+k+' [data-vt]'))){r=s.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)s.classList.add('vt-on')}})}}catch(e){}})(document.documentElement)</script>
+<link rel="preload" href="../fonts/ibm-plex-sans-arabic-400-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/marhey-700-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body data-project="wain-ticketing-ledger">
+
+<header class="top">
+<div class="wrap top-in">
+<a class="back" href="../index.html#systems"><svg class="arw fwd" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12H5m6-6-6 6 6 6"/></svg><span data-i18n="back" class="ul">كل الأعمال</span></a><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span><span data-i18n="name">هاني عمرو</span><span class="brand-tag" lang="en" dir="ltr">Full-Stack Developer</span></a>
+<p data-i18n="role" class="role">ببني مواقع وأنظمة لأصحاب المشاريع</p>
+<div class="tools">
+<button id="lang-toggle" class="tool" type="button" lang="en" aria-label="Switch to English">English</button>
+<button id="theme-toggle" class="tool" type="button" aria-label="بدّل بين الفاتح والداكن" data-i18n-aria="theme-aria"><span data-i18n="theme-dark" data-icon="dark">داكن</span><span data-i18n="theme-light" data-icon="light">فاتح</span></button>
+</div>
+</div>
+</header>
+
+<main>
+<section class="wrap pg-hero" data-paper="pom" aria-labelledby="pg-h">
+<div class="pg-copy">
+<p class="kicker" data-reveal><span data-i18n="kicker">أدوات موظّفين</span></p>
+
+<h1 data-i18n="h1" class="cut-title pg-title" id="pg-h"><span class="w hl" data-reveal><span class="t">أدوات الموظّفين:</span></span> <span class="w" data-reveal><span class="t">ماسح</span></span> <span class="w" data-reveal><span class="t">تذاكر</span></span> <span class="w" data-reveal><span class="t">عالباب،</span></span> <span class="w" data-reveal><span class="t">وتطبيق</span></span> <span class="w" data-reveal><span class="t">للسائقين</span></span></h1>
+<p data-i18n="line" class="line" data-reveal>موظّف الباب بيعرف عالجهاز نفسه إذا التذكرة صالحة، والمكتب بيشوف مين من السائقين شغّال.</p>
+<div class="status-row" data-reveal><div class="status"><span data-i18n="st-stamp" class="stamp" data-k="photos" data-reveal>بالصور</span>
+<p data-i18n="st-note" class="note">الماسح بيحتاج مفتاح الفعالية ليحكم، فأحكامه التلاتة معروضة بالصور. وتطبيق السائق بيفتح برابط خاص من المكتب.</p></div></div>
+</div>
+<div class="pg-vis pg-vis--phones"><span class="backing" aria-hidden="true" data-reveal></span><a class="phone-row zoom" href="../img/staff/hero-1.webp" aria-label="شاشتين موبايل: ماسح التذاكر بحكم «يدخل» بالأخضر، وتطبيق السائق بالإنجليزي فيه عرض طلب بزرّين Accept وReject، وتحته طلبه الحالي مع المبلغ اللي لازم يحصّله كاش" data-i18n-aria="hero-alt"><span class="phone-card" style="--w:390;--h:844" data-reveal data-vt><img src="../img/staff/hero-1.webp" width="390" height="844" alt="" decoding="async"><span class="zoom-ico" aria-hidden="true"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></span></span><span class="phone-card" style="--w:390;--h:844" data-reveal><img src="../img/staff/hero-2.webp" width="390" height="844" alt="" decoding="async"><span class="zoom-ico" aria-hidden="true"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></span></span></a></div>
+</section>
+<section class="wrap pg-who" aria-labelledby="who-h">
+<h2 id="who-h" class="sec-title"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span data-i18n="who-h"><span class="pw" data-reveal>لمين</span></span></h2>
+<div class="note-card" data-reveal><p data-i18n="who-p">لصاحب فعالية بيفحص التذاكر عالباب بورقة أسماء، ولمكتب توصيل بيلاحق سائقيه بالمكالمات.</p></div>
+</section>
+<section class="wrap pg-secs" aria-labelledby="sec-h">
+<h2 id="sec-h" class="sec-title"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span data-i18n="sec-h"><span class="pw" data-reveal>الأقسام</span></span></h2>
+
+<article class="pg-sec" data-paper="kraft" aria-labelledby="s1-h">
+<div class="pg-text"><h3 data-i18n="s1-h" id="s1-h"><span class="pw" data-reveal>ماسح</span> <span class="pw" data-reveal>الباب</span></h3>
+<p data-i18n="s1-p" class="line" data-reveal>موظّف الباب بيلزق رمز التذكرة أو بيكتبه، والجهاز نفسه بيحكم بلا إنترنت: «يدخل» بالأخضر، أو «لا يدخل» بالأحمر مع السبب.</p></div>
+<div class="pg-vis pg-vis--phones"><span class="backing" aria-hidden="true" data-reveal></span><a class="phone-row zoom" href="../img/staff/s1-1.webp" aria-label="ماسح التذاكر بحكم «لا يدخل» بالأحمر وتحته سببه مكتوب: التوقيع لا يطابق، والتذكرة مزوّرة أو معدّلة. وتحت حقل رمز التذكرة جملة «الصق الرمز أو اكتبه»" data-i18n-aria="s1-alt"><span class="phone-card" style="--w:390;--h:844" data-reveal><img src="../img/staff/s1-1.webp" width="390" height="844" alt="" loading="lazy" decoding="async"><span class="zoom-ico" aria-hidden="true"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></span></span></a></div>
+</article>
+
+<article class="pg-sec" data-paper="teal" aria-labelledby="s2-h">
+<div class="pg-text"><h3 data-i18n="s2-h" id="s2-h"><span class="pw" data-reveal>نفس</span> <span class="pw" data-reveal>التذكرة</span> <span class="pw" data-reveal>مرّتين</span></h3>
+<p data-i18n="s2-p" class="line" data-reveal>إذا إجت نفس التذكرة مرّة تانية على نفس الجهاز، بيطلع «مُسحت من قبل».</p></div>
+<div class="pg-vis pg-vis--phones"><span class="backing" aria-hidden="true" data-reveal></span><a class="phone-row zoom" href="../img/staff/s2-1.webp" aria-label="ماسح التذاكر بحكم «مُسحت من قبل» بالأحمر، ومن فوق في عدّاد «1 مسحة على هذا الجهاز»" data-i18n-aria="s2-alt"><span class="phone-card" style="--w:390;--h:844" data-reveal><img src="../img/staff/s2-1.webp" width="390" height="844" alt="" loading="lazy" decoding="async"><span class="zoom-ico" aria-hidden="true"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></span></span></a></div>
+</article>
+
+<article class="pg-sec" data-paper="saffron" aria-labelledby="s3-h">
+<div class="pg-text"><h3 data-i18n="s3-h" id="s3-h"><span class="pw" data-reveal>وردية</span> <span class="pw" data-reveal>السائق</span></h3>
+<p data-i18n="s3-p" class="line" data-reveal>السائق بيفتح ورديته وبيشارك موقعه، وبيوقّف المشاركة بكبسة. والطلبات الجديدة بتطلعله بسعرها ليقبلها أو يرفضها.</p></div>
+<div class="pg-vis pg-vis--phones"><span class="backing" aria-hidden="true" data-reveal></span><a class="phone-row zoom" href="../img/staff/s3-1.webp" aria-label="تطبيق السائق بالإنجليزي وهو على وردية: مشاركة الموقع شغّالة ومكتوب إنها بتوقف بكبسة، وتحتها عرضين جداد، كل واحد بسعره ومكان تسليمه وزرّين Accept وReject" data-i18n-aria="s3-alt"><span class="phone-card" style="--w:390;--h:844" data-reveal><img src="../img/staff/s3-1.webp" width="390" height="844" alt="" loading="lazy" decoding="async"><span class="zoom-ico" aria-hidden="true"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></span></span></a></div>
+</article>
+
+<article class="pg-sec" data-paper="pom" aria-labelledby="s4-h">
+<div class="pg-text"><h3 data-i18n="s4-h" id="s4-h"><span class="pw" data-reveal>من</span> <span class="pw" data-reveal>الاستلام</span> <span class="pw" data-reveal>للتسليم</span></h3>
+<p data-i18n="s4-p" class="line" data-reveal>بطاقة الطلب بتبيّن للسائق وين يروح وقدّيش لازم يحصّل كاش، وبتمشّيه خطوة خطوة لحد التسليم مع صورة إثبات.</p></div>
+<div class="pg-vis pg-vis--phones"><span class="backing" aria-hidden="true" data-reveal></span><a class="phone-row zoom" href="../img/staff/s4-1.webp" aria-label="شاشتين من تطبيق السائق لنفس الطلب: بحالة picked up مع زرّ Start delivery، وبحالة arrived مع زرّ Delivered. بالاتنين سطر Collect cash وزرّ Can&#x27;t deliver وخانة لصورة التسليم" data-i18n-aria="s4-alt"><span class="phone-card" style="--w:390;--h:844" data-reveal><img src="../img/staff/s4-1.webp" width="390" height="844" alt="" loading="lazy" decoding="async"><span class="zoom-ico" aria-hidden="true"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></span></span><span class="phone-card" style="--w:390;--h:844" data-reveal><img src="../img/staff/s4-2.webp" width="390" height="844" alt="" loading="lazy" decoding="async"><span class="zoom-ico" aria-hidden="true"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></span></span></a></div>
+</article>
+
+<article class="pg-sec" data-paper="kraft" aria-labelledby="s5-h">
+<div class="pg-text"><h3 data-i18n="s5-h" id="s5-h"><span class="pw" data-reveal>صفحة</span> <span class="pw" data-reveal>السائقين</span></h3>
+<p data-i18n="s5-p" class="line" data-reveal>المكتب بيشوف مين من السائقين متصل ومين فاضي، وإيمتى وصل آخر موقع لكل واحد.</p></div>
+<div class="pg-vis"><span class="backing" aria-hidden="true" data-reveal></span><a class="print zoom" href="../img/staff/s5.webp" data-reveal><picture><source media="(max-width: 639px)" srcset="../img/staff/s5-640.webp" width="640" height="400"><img src="../img/staff/s5.webp" width="1200" height="750" alt="صفحة السائقين بلوحة المكتب: جدول فيه سائقين اتنين بحالة «متصل»، وعمود الطلبات النشطة من السعة، وعمود آخر موقع بوقته" data-i18n-alt="s5-alt" loading="lazy" decoding="async"></picture><span class="zoom-ico" aria-hidden="true"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></span></a></div>
+</article>
+
+<article class="pg-sec" data-paper="teal" aria-labelledby="s6-h">
+<div class="pg-text"><h3 data-i18n="s6-h" id="s6-h"><span class="pw" data-reveal>رابط</span> <span class="pw" data-reveal>بدل</span> <span class="pw" data-reveal>كلمة</span> <span class="pw" data-reveal>السر</span></h3>
+<p data-i18n="s6-p" class="line" data-reveal>السائق ما عنده كلمة سر: بيدخل من رابط خاص بيبعتله ياه المكتب.</p></div>
+<div class="pg-vis pg-vis--phones"><span class="backing" aria-hidden="true" data-reveal></span><a class="phone-row zoom" href="../img/staff/s6-1.webp" aria-label="تطبيق السائق قبل ما يفتح رابطه: شاشة داكنة فيها جملة وحدة بالإنجليزي «Open the link your office sent you.»" data-i18n-aria="s6-alt"><span class="phone-card" style="--w:520;--h:1125" data-reveal><img src="../img/staff/s6-1.webp" width="520" height="1125" alt="" loading="lazy" decoding="async"><span class="zoom-ico" aria-hidden="true"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></span></span></a></div>
+</article>
+</section>
+
+<section class="cta-band" aria-labelledby="cta-h">
+<div class="wrap cta">
+<div class="bubble" data-reveal>
+<div class="ask-col">
+<h2 data-i18n="cta-h" id="cta-h"><span class="pw" data-reveal>كون</span> <span class="pw" data-reveal>جزء</span> <span class="pw" data-reveal>من</span> <span class="pw" data-reveal>العائلة،</span> <span class="pw" data-reveal>وخلّي</span> <span class="pw" data-reveal>مشاريعك</span> <span class="pw" data-reveal>وأفكارك</span> <span class="pw" data-reveal>تحكي</span> <span class="pw" data-reveal>عنك</span></h2>
+<p data-i18n="cta-p" class="ask">ابعتلي وصف بسطر، وبرجعلك برأي صريح: بينبنى، أو في حل أبسط منه.</p>
+</div>
+<div class="ways">
+<a class="btn btn--big btn--light" href="https://wa.me/601172380996"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.5a8 8 0 0 1-11.7 7.1L3.5 20l1.4-5A8 8 0 1 1 20.5 11.5Z"/></svg><span data-i18n="cta-wa">ابعت على WhatsApp</span></a>
+<a class="mail" href="mailto:hani.wael.amro@gmail.com"><span class="ul">hani.wael.amro@gmail.com</span></a>
+<p data-i18n="cta-note" class="cta-note">من ماليزيا، عن بُعد.</p>
+</div>
+<span class="dd dd-cta" aria-hidden="true" data-reveal><svg viewBox="73 25 880 720" focusable="false"><use href="../img/doodles.svg#dd-jumping"/></svg></span></div>
+</div>
+</section>
+</main>
+
+<footer class="foot">
+<div class="wrap foot-in">
+<span data-i18n="foot-name" class="foot-name">هاني عمرو</span>
+<a class="gh" href="https://github.com/hani-amro"><span class="ul">github.com/hani-amro</span></a>
+<p data-i18n="foot-real" class="foot-real">كل لقطات المشاريع حقيقية من الأنظمة نفسها، إلا اللي مكتوب عليها «تصميم توضيحي».</p>
+</div>
+</footer>
+
+<dialog class="viewer" id="viewer"><button class="tool viewer-x" type="button"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg><span data-i18n="viewer-x">سكّر</span></button><div class="viewer-body"></div></dialog>
+
+<script src="../i18n/en-staff.js"></script>
+<script src="../site.js"></script>
+<script src="../viewer.js"></script>
+<script src="../motion.min.js"></script>
+<script src="../craft.js"></script>
+</body>
+</html>

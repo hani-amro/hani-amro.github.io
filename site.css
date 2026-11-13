@@ -1,0 +1,865 @@
+/* «من القصاصة للشبّاك»: a cut-paper workshop.
+   Arabic letters cut from coloured paper, the calligrapher's rhombic pen dot as the recurring
+   ornament, real screenshots as the paper that gets cut and pasted.
+
+   Fixed rules:
+   - Colour has one meaning each: pomegranate and saffron = identity, teal = clickable, kraft = a
+     handwritten scrap, ink = the stamp's verdict. Every colour is a token on :root, redefined for
+     dark (by the system setting, or by the theme button: data-theme on <html>).
+   - Screenshots, prints, stamps and stickers stay light paper in dark mode, as they are for real.
+   - Logical properties only (inline/block, start/end): the page reads both ways. What is drawn in
+     fixed coordinates (the hero's cut line and sketch) or offset to one side (paper shadows) is
+     mirrored for English through --flip.
+   - The entrances animate only opacity, transform and clip-path; resting tilts live here in
+     `rotate`, so the end state of every animation is this file's. The interactive layer after the
+     story (the @idea: blocks below) moves more (rotate, translate, scale, CSS variables), and every
+     piece of it ends back at that same rest. Without motion nothing is ever hidden. */
+
+:root{
+  color-scheme:light;
+  --paper:#F2E8D8;--sheet:#FCF8F0;--kraft:#D9BD92;--kraft-2:#C49A62;
+  --ink:#231C29;--ink-2:#5B4F47;--line:#CDB998;
+  --pom:#B5372B;--saffron:#EFB03A;--teal:#0E6B66;--teal-2:#0A5551;
+  --on-teal:#FCF8F0;--on-pom:#FCF8F0;--on-saffron:#231C29;--under:#231C29;
+  --live:#1A6B3F;--site:#0E6B66;--photos:#7A4C10;--sketch:#5B4F47;
+  --print:#FCF8F0;--scrap:#D9BD92;--scrap-ink:#231C29;--hl-ink:#A42F25;--hl-patch:#F2B843;
+  --focus:#231C29;--sh:52 32 14;--sha:.2;
+  --dd-ink:#231C29;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .2 0 0 0 0 .1 0 0 0 .13 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* tokens from the design system «هاني عمرو»; this file stays the source,
+     and only values that were already exactly these use them */
+  --font-display:Marhey,"IBM Plex Sans Arabic",sans-serif;
+  --font-hand:"Aref Ruqaa","IBM Plex Sans Arabic",serif;
+  --font-sans:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --display:var(--font-display);--hand:var(--font-hand);--sans:var(--font-sans);--mono:var(--font-mono);
+  --space-1:8px;--space-2:12px;--space-3:16px;--space-4:24px;--space-5:32px;--space-6:56px;
+  --radius-cut:3px;--radius-sheet:4px;--radius-hand:8px;
+  --dur-tap:180ms;--dur-hover:250ms;--dur-paste:600ms;--dur-cue:900ms;--dur-float:3600ms;
+  --ease-spring:cubic-bezier(.34,1.45,.64,1);--ease-out:cubic-bezier(.22,1,.36,1);--ease-cue:cubic-bezier(.3,0,.3,1);
+  --shadow-sheet:0 1px 1px rgb(var(--sh)/.12),0 12px 22px -12px rgb(var(--sh)/var(--sha));
+  --wrap:1280px;--gut:clamp(16px,4.5vw,48px);
+  --flip:1;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#18151C;--sheet:#221E27;--kraft:#4D3C2B;--kraft-2:#6E5539;
+    --ink:#F3EADB;--ink-2:#C4B7A6;--line:#4A4038;
+    --pom:#E0675A;--saffron:#E3AC45;--teal:#4FB8AE;--teal-2:#7BD0C7;
+    --on-teal:#10201F;--on-pom:#221E27;--on-saffron:#221E27;--under:#050407;
+    --print:#E6DCCB;--scrap:#CDB186;--hl-ink:#F0B84E;--hl-patch:#8A2820;
+    --focus:#F3EADB;--sh:0 0 0;--sha:.5;
+    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#18151C;--sheet:#221E27;--kraft:#4D3C2B;--kraft-2:#6E5539;
+  --ink:#F3EADB;--ink-2:#C4B7A6;--line:#4A4038;
+  --pom:#E0675A;--saffron:#E3AC45;--teal:#4FB8AE;--teal-2:#7BD0C7;
+  --on-teal:#10201F;--on-pom:#221E27;--on-saffron:#221E27;--under:#050407;
+  --print:#E6DCCB;--scrap:#CDB186;--hl-ink:#F0B84E;--hl-patch:#8A2820;
+  --focus:#F3EADB;--sh:0 0 0;--sha:.5;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:root[dir="ltr"]{--flip:-1}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{margin:0;overflow-x:clip;background:var(--grain),var(--paper);color:var(--ink);font:400 17px/1.8 var(--sans);text-align:start;overflow-wrap:break-word;
+  /* a short page (404) keeps its footer at the foot of the screen */
+  display:flex;flex-direction:column;min-block-size:100vh;min-block-size:100svh}
+main{flex:1 0 auto}
+/* No flash of Arabic: the head script hides the page for at most 300 ms while site.js applies English */
+.i18n-wait body{visibility:hidden}
+img,svg{display:block}
+img{max-inline-size:100%;block-size:auto}
+/* a screenshot's <picture> (its phone copy) adds no box: the <img> lays out as the print's own child */
+picture{display:contents}
+a{color:inherit}
+p{margin:0}
+h1,h2,h3{margin:0;text-wrap:balance}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--focus);outline-offset:4px;border-radius:4px}
+.wrap{max-inline-size:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
+.sprite{position:absolute;inline-size:0;block-size:0;overflow:hidden}
+#paper feDropShadow{flood-color:rgb(var(--sh));flood-opacity:var(--sha)}
+.vh{position:absolute;inline-size:1px;block-size:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.mono{font:500 14px/1.5 var(--mono);direction:ltr;unicode-bidi:isolate;overflow-wrap:anywhere}
+.muted{color:var(--ink-2);font-size:15px;line-height:1.7}
+[lang="en"][dir="ltr"]{unicode-bidi:isolate}
+/* the forward arrow points to the inline end: left in Arabic, right in English */
+:root[dir="ltr"] .fwd{scale:-1 1}
+
+/* ── pen dots: rhombi stepping down, like a letter's measure ── */
+.dots,.mark{display:inline-grid;grid-template-columns:repeat(3,auto);align-items:start;gap:0;flex:none}
+.dots i,.mark i{display:block;inline-size:.24em;block-size:.24em;background:var(--pom);rotate:45deg}
+.dots i:nth-child(2),.mark i:nth-child(2){background:var(--saffron);margin-block-start:.2em}
+.dots i:nth-child(3),.mark i:nth-child(3){background:var(--teal);margin-block-start:.4em}
+.dots{font-size:.6em;margin-block-start:.15em}
+
+/* ── header: name, role, and the two paper toggles ── */
+.top{padding-block:16px 4px}
+.top-in{display:flex;flex-wrap:wrap;align-items:center;gap:4px 18px}
+.brand{display:inline-grid;grid-template-columns:auto auto;align-items:center;column-gap:12px;min-block-size:44px;font:700 25px/1.3 var(--display);text-decoration:none}
+.mark{font-size:22px;gap:1px}
+/* The tag sits under the name only: its own row in the name's column, so the dots stay level with the
+   name. justify-self:start follows the header's direction, so it hangs from the name's start edge.
+   Its width is the limit: at 320px the name+toggles row has 9px to spare (Arabic), so the tag may not
+   be much wider than the Arabic name (106px). Plex Sans 600 at 11px is 106px; mono at a readable size
+   is 120-143px and pushed the toggles onto a row of their own. */
+.brand-tag{grid-column:2;justify-self:start;font:600 11px/1.25 var(--sans);color:var(--ink-2)}
+/* The role line takes the room left between the name and the toggles and wraps inside it, so the
+   toggles never drop to a line of their own (English, 640-767px, did that: the name, the role and
+   the toggles add up to 678px there). Flex lines wrap before items shrink, hence the zero basis. */
+.role{color:var(--ink-2);font-size:15.5px;flex:1 1 0;min-inline-size:0}
+.back{display:inline-flex;align-items:center;gap:8px;min-block-size:44px;font:600 15px/1.3 var(--sans);color:var(--teal);text-decoration:underline wavy var(--teal);text-decoration-thickness:1.5px;text-underline-offset:.4em;flex-basis:100%}
+.back .arw{inline-size:18px;block-size:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;scale:-1 1}
+:root[dir="ltr"] .back .arw{scale:1 1}
+.tools{margin-inline-start:auto;display:flex;gap:12px}
+.tool{position:relative;isolation:isolate;min-block-size:44px;min-inline-size:44px;padding:8px 15px;font:600 14.5px/1.2 var(--sans);color:var(--ink);background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tool::before,.tool::after{content:"";position:absolute;inset:2px 0;border-radius:6px 10px 7px 9px/9px 6px 10px 7px;rotate:-1.5deg}
+.tool::before{z-index:-1;background:var(--grain),var(--sheet);border:2px solid var(--ink)}
+/* the coloured sheet under the toggle (its hard shadow): a layer of its own, so a press slides the toggle onto it */
+.tool::after{z-index:-2;background:var(--saffron);translate:calc(var(--flip) * -3px) 3px}
+.tool+.tool::before,.tool+.tool::after{rotate:1.2deg}
+.tool+.tool::after{background:var(--teal)}
+.tool:hover::before{background-color:var(--paper)}
+/* On a phone the two toggles share the name's row and the role line goes under them: one row
+   less above the headline. Only the role moves, and it is not focusable, so the tab order still
+   follows what the eye sees. It is a sentence, so it keeps the phone's 16px floor for prose. */
+@media (max-width:639px){.role{order:1;flex-basis:100%;font-size:16px;text-wrap:balance}}
+/* Under 360px the name and the toggles need 303px (Arabic) and 316px (English) in a 288px row, so
+   the toggles took a row of their own: tighter gaps and paddings keep them on the name's row */
+@media (max-width:359px){
+  .top-in{column-gap:10px}
+  .tools{gap:8px}
+  .tool{padding-inline:12px}
+}
+#theme-toggle [data-icon]{display:none}
+#theme-toggle [data-icon="dark"]{display:inline}
+:root[data-theme="dark"] #theme-toggle [data-icon="dark"]{display:none}
+:root[data-theme="dark"] #theme-toggle [data-icon="light"]{display:inline}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) #theme-toggle [data-icon="dark"]{display:none}
+  :root:not([data-theme="light"]) #theme-toggle [data-icon="light"]{display:inline}
+}
+
+/* ── hero ── */
+.hero{display:grid;grid-template-columns:minmax(0,1fr);gap:22px 32px;align-items:center;padding-block:clamp(18px,4vw,48px) clamp(40px,6vw,80px)}
+.hero-copy{display:grid;gap:clamp(16px,2vw,24px);justify-items:start;position:relative;z-index:1}
+.cut-title{font:700 min(12.6vw,66px)/1.3 var(--display);margin-block-end:4px}
+/* the inline padding is room for a word's tilt while it drops in */
+.cut-title .ln{display:block;padding-inline:.1em}
+.cut-title .w{display:inline-block;position:relative;isolation:isolate;filter:drop-shadow(0 3px 0 rgb(var(--sh)/calc(var(--sha) * .9)))}
+.cut-title .t{background:var(--grain),var(--ink);-webkit-background-clip:text;background-clip:text;color:transparent;padding-inline:.04em}
+.cut-title .hl .t{background-color:var(--hl-ink);background-image:var(--grain)}
+.cut-title .hl::before{content:"";position:absolute;z-index:-1;inset:.3em -.2em .02em -.16em;background:var(--grain),var(--hl-patch);clip-path:polygon(2% 9%,34% 0,71% 6%,99% 0,100% 88%,64% 100%,30% 93%,0 100%);rotate:-2.5deg}
+.lede{font-size:clamp(18px,1.45vw,21px);line-height:1.85;max-inline-size:34em;text-wrap:pretty}
+.hero-act{padding-block-start:6px}
+/* On a phone the main action spans the column, its words on one line (English at 320px wrapped
+   into two lines inside the button) */
+@media (max-width:639px){
+  .hero-act{justify-self:stretch}
+  .btn.btn--big{padding-inline:18px}
+  .hero-act .btn,.ways .btn{inline-size:100%;justify-content:center}
+}
+
+/* Hero artwork: a client's rough idea, pen on a kraft scrap, becomes a real window cut from
+   real screenshots, on layered paper pen dots; a phone, an Open Doodles sticker
+   (decoration, not a self-portrait) and «هاني» signed in cut paper. All aria-hidden. Sized in cqi,
+   so it is one picture at every width. */
+.stage{position:relative;container-type:inline-size;inline-size:min(100%,480px);aspect-ratio:480/500;margin-inline:auto;--lift:0 .3cqi .4cqi rgb(var(--sh)/.18),0 3.5cqi 5.5cqi -2.5cqi rgb(var(--sh)/var(--sha));--tear:polygon(0 9%,7% 0,14% 11%,21% 0,79% 0,86% 11%,93% 0,100% 9%,100% 91%,93% 100%,86% 89%,79% 100%,21% 100%,14% 89%,7% 100%,0 91%)}
+.stage>*{position:absolute}
+.dot{aspect-ratio:1;background:var(--grain),var(--c);border-radius:2cqi;rotate:45deg;box-shadow:var(--lift)}
+.dot::before{content:"";position:absolute;inset:13%;border-radius:1.4cqi;background:var(--grain),var(--c2);box-shadow:0 .3cqi .6cqi rgb(var(--sh)/.3),0 1.6cqi 2.4cqi -1cqi rgb(var(--sh)/.35)}
+.d1{--c:var(--pom);--c2:var(--saffron);inline-size:52%;inset-block-start:23%;inset-inline-start:21%}
+.d2{--c:var(--saffron);--c2:var(--kraft);inline-size:27%;inset-block-start:9%;inset-inline-end:10%}
+.d3{--c:var(--teal);--c2:var(--saffron);inline-size:10%;inset-block-start:63%;inset-inline-start:3%}
+.idea{z-index:1;inset-block-start:1.5%;inset-inline-start:0;inline-size:44%;aspect-ratio:200/140;rotate:5deg;filter:drop-shadow(0 .4cqi .4cqi rgb(var(--sh)/.25)) drop-shadow(0 2.4cqi 2.4cqi rgb(var(--sh)/calc(var(--sha) * .8)))}
+.idea::before{content:"";position:absolute;inset:0;background:var(--grain),var(--scrap);clip-path:polygon(2% 3%,24% 0,51% 3%,77% 0,98% 2%,100% 26%,97% 49%,100% 74%,98% 97%,73% 100%,49% 96%,22% 100%,1% 98%,3% 72%,0 47%,3% 24%)}
+.idea svg{position:relative;inline-size:100%;block-size:100%}
+.sk{fill:none;stroke:var(--scrap-ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.tape,.phone::before{position:absolute;clip-path:var(--tear)}
+.phone::before{content:""}
+.tape{inset-block-start:-4%;inset-inline-start:36%;inline-size:30%;block-size:15%;background:color-mix(in srgb,var(--saffron) 72%,#0000);rotate:-7deg}
+.flow{z-index:2;inset:0;inline-size:100%;block-size:100%;overflow:visible}
+.flow-l{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:7 7}
+.flow-h{fill:var(--ink)}
+.flow-c{transform-box:fill-box;transform-origin:center}
+/* drawn in fixed coordinates for Arabic (the scrap on the right): mirrored for English */
+:root[dir="ltr"] .flow,:root[dir="ltr"] .idea svg{scale:-1 1}
+.win{z-index:3;inset-block-start:33%;inset-inline-end:3%;inline-size:76%;padding-block-end:2.4cqi;background:var(--grain),var(--print);border-radius:1.6cqi;rotate:-1.5deg;box-shadow:var(--lift)}
+.win-bar{display:flex;align-items:center;gap:1.5cqi;block-size:6.6cqi;padding-inline:2.8cqi;background:var(--grain),var(--teal);border-radius:1.6cqi 1.6cqi 0 0}
+.win-bar i{flex:none;inline-size:1.6cqi;aspect-ratio:1;rotate:45deg;background:var(--pom)}
+.win-bar i+i{background:var(--saffron)}
+.win-bar i+i+i{background:var(--print)}
+.win-bar b{flex:1;block-size:2.4cqi;margin-inline:2.4cqi 6cqi;border-radius:2cqi;background:color-mix(in srgb,var(--print) 40%,#0000)}
+.win-body{display:grid;grid-template-columns:42fr 58fr;gap:2.2cqi;padding:2.6cqi 2.6cqi 0}
+.pc{display:block;padding:.7cqi;background:var(--print);box-shadow:0 .2cqi .3cqi rgb(var(--sh)/.3),0 1.4cqi 2cqi -1cqi rgb(var(--sh)/.45)}
+/* each piece is cut from a real screenshot (--img, set by the generator); on a phone from its 640px
+   copy (--img-s), the very file the project card further down shows there, so nothing loads twice */
+.pc i{display:block;background-repeat:no-repeat;background-image:var(--img)}
+@media (max-width:639px){.pc i{background-image:var(--img-s,var(--img))}}
+.pc-photos,.pc-pulse{grid-column:1/-1;rotate:.7deg}
+.pc-pulse{rotate:-.5deg}
+.pc-map{rotate:-1.2deg}
+.pc-side,.pc-txt{display:grid;align-content:center;gap:2.4cqi;padding-inline:.6cqi}
+.pc-txt{gap:1.4cqi;padding:0}
+.pc-txt i{block-size:1.5cqi;border-radius:1cqi;background:var(--kraft-2)}
+.pc-txt i+i{inline-size:78%}
+.pc-txt i+i+i{inline-size:56%}
+.pc-btn{display:block;inline-size:66%;block-size:5.4cqi;border-radius:1cqi 1.6cqi 1.1cqi 1.5cqi;background:var(--grain),var(--teal);box-shadow:calc(var(--flip) * -.7cqi) .9cqi 0 var(--saffron);rotate:-2deg}
+.phone{z-index:4;inset-block-end:2%;inset-inline-end:0;inline-size:23%;padding:1cqi;border-radius:3.2cqi;rotate:6deg}
+.phone i{border-radius:2.4cqi}
+.phone::before{z-index:1;inset-block-start:-2.2cqi;inset-inline-start:28%;inline-size:46%;block-size:4.4cqi;background:color-mix(in srgb,var(--scrap) 82%,#0000);rotate:-9deg}
+.sig{z-index:5;inset-block-end:.5%;inset-inline-start:2%;inline-size:14%;overflow:visible}
+.sig text{font:700 38px var(--display);stroke:var(--print);fill:var(--pom)}
+.sig .s2{fill:var(--teal)}
+.confetti{inset:0}
+.confetti i{position:absolute;inline-size:3cqi;aspect-ratio:1;background:var(--saffron);rotate:45deg;inset-block-start:1%;inset-inline-end:46%}
+.confetti i+i{inset-block:37% auto;inset-inline:1% auto;inline-size:2cqi;background:var(--teal)}
+.confetti i+i+i{inset-block:auto 24%;inset-inline:2% auto;inline-size:2.4cqi;background:var(--pom)}
+/* Mobile: a simpler picture (no arrow, no small cut-outs), always below the headline and button */
+@media (max-width:639px){.confetti,.flow,.d3{display:none}}
+@media (min-width:960px){
+  .hero{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);min-block-size:min(680px,calc(100svh - 80px))}
+  .cut-title{font-size:min(6.6vw,100px)}
+  .stage{inline-size:100%;max-inline-size:480px}
+}
+
+/* ── Open Doodles stickers (CC0): a paper die-cut under dark ink, from one sprite (img/doodles.svg).
+   Decoration only: never inside a project card, never a self-portrait. ── */
+.dd{--dd-paper:var(--print);--dd-a:var(--pom);pointer-events:none;filter:drop-shadow(0 1px 1px rgb(var(--sh)/.3)) drop-shadow(0 8px 10px rgb(var(--sh)/calc(var(--sha) * .9)))}
+.dd svg{inline-size:100%;block-size:auto;overflow:visible}
+.dd-hero{z-index:5;inset-block-start:6.5%;inset-inline-end:1%;inline-size:47%}
+
+/* ── paper button: a sheet on a sheet; the top one, with its words, lifts on hover and drops when
+   pressed, while the sheet under it stays on the desk (the motion section) ── */
+.btn{position:relative;isolation:isolate;display:inline-flex;align-items:center;gap:10px;min-block-size:50px;padding:11px 20px 12px;font:700 16.5px/1.3 var(--sans);color:var(--on-teal);text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn::before,.btn::after{content:"";position:absolute;inset:0;border-radius:5px 10px 6px 9px/9px 5px 10px 6px}
+.btn::before{z-index:-1;background:var(--grain),var(--teal)}
+.btn::after{z-index:-2;background:var(--under);translate:calc(var(--flip) * -4px) 5px}
+.btn .arw{inline-size:20px;block-size:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn--big{min-block-size:58px;padding:13px 26px 14px;font-size:clamp(17px,1.4vw,19px)}
+.btn--alt{color:var(--ink)}
+.btn--alt::before{background:var(--grain),var(--sheet);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn--alt::after{background:var(--saffron)}
+.btn--light{color:var(--ink)}
+.btn--light::before{background:var(--grain),var(--sheet)}
+.btn--light::after{background:var(--saffron)}
+
+/* ── section titles ── */
+.sec-head{display:grid;gap:10px;justify-items:start;margin-block-end:clamp(24px,3vw,36px)}
+.sec-title{display:flex;align-items:flex-start;gap:.35em;font:700 clamp(36px,5vw,62px)/1.35 var(--display)}
+.sec-sub{max-inline-size:44em;color:var(--ink-2);text-wrap:pretty}
+/* «أعمالي» cut from the work itself: the letters are windows onto a real screenshot */
+@media (min-width:640px){
+  .patch{display:inline-block;padding:.12em .08em .26em;font-size:clamp(96px,12vw,172px);line-height:1.3;color:transparent;-webkit-text-stroke:3.5px var(--ink);filter:drop-shadow(0 5px 0 rgb(var(--sh)/var(--sha)));
+    background:url(img/cards/showcase.webp) 50% 58%/cover no-repeat,var(--ink);
+    -webkit-background-clip:text;background-clip:text}
+  .works .sec-head{grid-template-columns:auto minmax(0,1fr);align-items:end;column-gap:clamp(24px,4vw,56px)}
+  /* the room on top is for the sprinting sticker, so it never covers this line */
+  .works .sec-sub{padding-block:clamp(100px,10vw,124px) 2.2em}
+}
+
+/* ── services, and the closing contact band: a kraft board with pinking-shear edges ── */
+.svc-band,.cta-band{--zz:20px;background:var(--grain),var(--kraft);padding-block:clamp(56px,7vw,92px);
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/var(--zz) 51% repeat-x,conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/var(--zz) 51% repeat-x;
+  mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/var(--zz) 51% repeat-x,conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/var(--zz) 51% repeat-x}
+/* the inline padding is room for the cards' resting tilt */
+.svc-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;padding-inline:6px}
+.svc{display:grid;grid-template-columns:52px minmax(0,1fr);gap:2px 14px;align-content:start;padding:18px 18px 20px;background:var(--grain),var(--sheet);border-radius:var(--radius-cut);box-shadow:var(--shadow-sheet)}
+.svc .ico{grid-row:span 2;inline-size:52px;block-size:52px}
+.svc h3{font:700 21px/1.45 var(--display)}
+.svc p{font-size:15.5px;line-height:1.7;color:var(--ink-2)}
+.ico .t{fill:var(--teal)}.ico .s{fill:var(--saffron)}.ico .p{fill:var(--pom)}.ico .k{fill:var(--kraft-2)}.ico .i{fill:var(--ink)}.ico .c{fill:var(--sheet)}
+.ico .ln{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:3 3}
+.ico .lc{stroke:var(--on-teal)}
+.ico .st{fill:none;stroke:var(--teal);stroke-width:3.5;stroke-linecap:round}
+/* On a phone the icon sits beside the name and the line runs the card's full width under both
+   (beside a 52px icon column the line had 174px at 320px: 16 to 19 characters a line) */
+@media (max-width:639px){
+  .svc{grid-template-columns:40px minmax(0,1fr);align-items:center;gap:8px 12px;padding:16px 18px 18px}
+  .svc .ico{grid-row:auto;inline-size:40px;block-size:40px}
+  .svc p{grid-column:1/-1}
+}
+@media (min-width:640px){.svc-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.svc:nth-child(odd){rotate:-.7deg}.svc:nth-child(4n){rotate:.8deg}}
+@media (min-width:1080px){.svc-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 22px}.svc{grid-template-columns:minmax(0,1fr);padding:20px 20px 24px}.svc .ico{grid-row:auto;margin-block-end:10px;inline-size:56px;block-size:56px}}
+/* Open Doodles sticker sitting on the row's last card, reading on her phone */
+.svc-band .sec-head{position:relative}
+.dd-svc{--dd-a:var(--teal);position:absolute;z-index:1;inset-block-end:calc(-1 * clamp(24px,3vw,36px) - 4px);inset-inline-end:1%;inline-size:clamp(136px,19vw,250px)}
+@media (max-width:379px){.dd-svc{display:none}}
+/* English on a phone: its heading is longer, and at 430px it ran under the sticker's corner, so
+   there the sticker is a little smaller and the heading keeps clear of it (two short lines) */
+@media (min-width:380px) and (max-width:639px){:root:lang(en) .dd-svc{inline-size:100px}:root:lang(en) .svc-band .sec-title{padding-inline-end:104px}}
+
+/* ── work ── */
+.works{padding-block:clamp(56px,7vw,96px) 8px}
+.works .sec-head{position:relative}
+/* Open Doodles sticker sprinting into «أعمالي»: it sits at the inline end and runs toward the
+   title at the inline start. The drawing runs to the right, so Arabic shows it as drawn and
+   English mirrors it (the other way round, it ran off the page in both languages). */
+.dd-works{--dd-a:var(--teal);position:absolute;z-index:0;inset-block-start:-34px;inset-inline-end:2%;inline-size:clamp(120px,13vw,190px)}
+:root[dir="ltr"] .dd-works svg{scale:-1 1}
+@media (max-width:639px){.dd-works{display:none}}
+/* paper garland: the string is a fixed background per row, the flags swing */
+.garland{--row:86px;display:flex;flex-wrap:wrap;justify-content:center;gap:0 6px;padding:4px 8px 0;margin-block-end:clamp(24px,4vw,48px);background:repeating-linear-gradient(180deg,var(--ink-2) 0 2px,#0000 2px var(--row)) 0 7px/100% 100% no-repeat}
+.garland a{--c:var(--pom);position:relative;isolation:isolate;display:flex;justify-content:center;align-items:flex-start;block-size:68px;margin-block-end:18px;padding:16px 16px 0;font:600 15px/1.3 var(--sans);color:var(--on-pom);text-decoration:none;white-space:nowrap;transform-origin:50% 8px;rotate:-2deg;transition:rotate var(--dur-hover) ease}
+.garland a::before{content:"";position:absolute;inset:6px 0 0;z-index:-1;background:var(--grain),var(--c);clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%);filter:drop-shadow(0 2px 1px rgb(var(--sh)/.2))}
+.garland a:nth-child(4n+2){--c:var(--saffron);color:var(--on-saffron);rotate:2deg}
+.garland a:nth-child(4n+3){--c:var(--teal);color:var(--on-teal);rotate:-1deg}
+.garland a:nth-child(4n){--c:var(--kraft);color:var(--ink);rotate:3deg}
+.garland a:focus-visible{outline-offset:2px}
+/* On a phone the strings hang closer and the flags are a little smaller: ten flags took five
+   strings and about 430px at 320px, more than half a screen before the first project */
+@media (max-width:639px){
+  .garland{--row:72px;padding-inline:0}
+  .garland a{block-size:56px;margin-block-end:16px;padding:12px 12px 0;font-size:14.5px}
+}
+@media (min-width:960px){.garland{display:grid;grid-template-columns:repeat(5,auto);justify-content:center;column-gap:10px}}
+
+.proj{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:clamp(36px,5vw,64px);scroll-margin-block-start:16px}
+.proj + .proj{border-block-start:2px dashed var(--line)}
+.proj-head{display:grid;gap:12px;justify-items:start}
+.proj-head h3{font:700 clamp(23px,2.3vw,30px)/1.5 var(--sans)}
+.proj-head h3 a{padding-block:6px;text-decoration:underline wavy var(--teal);text-decoration-thickness:2px;text-underline-offset:.45em;text-decoration-skip-ink:none}
+.proj-head h3 a:hover{color:var(--teal);text-decoration-thickness:3px}
+.go{display:inline-grid;place-items:center;vertical-align:middle;inline-size:1.15em;block-size:1.15em;margin-inline-start:.35em;border-radius:50%;background:var(--teal);color:var(--on-teal)}
+.go .arw{inline-size:.7em;block-size:.7em;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.stickers,.role-tags{display:flex;flex-wrap:wrap;gap:12px}
+.sticker{padding:4px 14px;border-radius:999px;font:600 14px/1.5 var(--sans);color:var(--on-saffron);background:var(--saffron);box-shadow:0 0 0 3px var(--print),0 3px 8px 2px rgb(var(--sh)/.25);rotate:-2deg}
+.sticker--dev{background:var(--kraft);color:var(--ink);rotate:1.5deg}
+
+/* collage: coloured backing paper, the screenshot printed with a white edge, paper corners */
+.proj-vis{position:relative;order:-1;margin-block:22px 26px;padding:clamp(12px,1.3vw,18px)}
+.backing{position:absolute;inset:0;background:var(--grain),var(--paper-c,var(--teal));border-radius:2px;rotate:-2deg;box-shadow:0 2px 2px rgb(var(--sh)/.15),0 16px 26px -14px rgb(var(--sh)/var(--sha))}
+[data-paper=saffron]{--paper-c:var(--saffron)}
+[data-paper=pom]{--paper-c:var(--pom)}
+[data-paper=kraft]{--paper-c:var(--kraft)}
+.proj:nth-of-type(even) .backing{rotate:1.6deg}
+.print{position:relative;display:block;margin:0;padding:clamp(6px,.9vw,10px);background:var(--print);border-radius:2px;rotate:.7deg;box-shadow:0 1px 1px rgb(var(--sh)/.2),0 10px 18px -8px rgb(var(--sh)/var(--sha))}
+.print img{inline-size:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.print::before,.print::after{content:"";position:absolute;inline-size:30px;block-size:30px;background:var(--grain),var(--kraft-2);filter:drop-shadow(0 1px 1px rgb(var(--sh)/.35))}
+/* a project's picture on the home page opens its page, like its title: a clear layer over the print
+   (or over each phone card), for the finger and the mouse. The title link beside it serves the
+   keyboard and the screen reader, so this one is out of the tab order and hidden from them. */
+.vis-go{position:absolute;inset:0;z-index:1;border-radius:inherit;-webkit-tap-highlight-color:transparent}
+.print::before{inset-block-start:-5px;inset-inline-start:-5px;clip-path:polygon(0 0,100% 0,100% 100%)}
+.print::after{inset-block-end:-5px;inset-inline-end:-5px;clip-path:polygon(0 0,0 100%,100% 100%)}
+:root[dir="ltr"] .print::before{clip-path:polygon(0 0,100% 0,0 100%)}
+:root[dir="ltr"] .print::after{clip-path:polygon(100% 0,0 100%,100% 100%)}
+
+/* phone screens: each its own die-cut paper phone at a real phone size, taped on;
+   a row that swipes sideways when the column is narrower than the two. The card is sized
+   from the screen's own ratio (--w/--h, set by the generator) plus its 7px paper edge, and
+   the screen lies in it absolutely, so the tilted card has nothing in the flow to poke out. */
+.phone-row{position:relative;display:flex;gap:clamp(18px,2.6vw,34px);overflow-x:auto;scroll-snap-type:inline mandatory;overscroll-behavior-inline:contain;scroll-behavior:smooth;padding:22px 10px 26px;scrollbar-width:thin;scrollbar-color:var(--ink-2) #0000}
+.phone-card{--pw:clamp(196px,17vw,244px);position:relative;flex:none;inline-size:var(--pw);block-size:calc((var(--pw) - 14px) * var(--h) / var(--w) + 14px);scroll-snap-align:center;background:var(--grain),var(--print);border-radius:28px;rotate:-1.6deg;box-shadow:0 1px 1px rgb(var(--sh)/.25),0 14px 22px -10px rgb(var(--sh)/var(--sha))}
+.phone-card:first-child{margin-inline-start:auto}
+.phone-card:last-child{margin-inline-end:auto;rotate:1.8deg;margin-block-start:26px}
+.phone-card img{position:absolute;inset-block-start:7px;inset-inline-start:7px;inline-size:calc(100% - 14px);block-size:calc(100% - 14px);object-fit:cover;object-position:top;border-radius:21px}
+.phone-card::before{content:"";position:absolute;z-index:1;inset-block-start:-11px;inset-inline-start:calc(50% - 38px);inline-size:76px;block-size:24px;background:color-mix(in srgb,var(--scrap) 86%,#0000);clip-path:polygon(0 12%,8% 0,16% 14%,24% 0,76% 0,84% 14%,92% 0,100% 12%,100% 88%,92% 100%,84% 86%,76% 100%,24% 100%,16% 86%,8% 100%,0 88%);rotate:-5deg}
+.phone-card:last-child::before{rotate:6deg}
+.phone-row:focus-visible{outline-offset:-3px}
+/* On a narrow phone the cards shrink a little so the next one always shows a strip at the edge,
+   the hint that the row swipes (at 320px a project page showed 19px of it) */
+@media (max-width:639px){.phone-card{--pw:min(196px,58vw)}}
+
+.scrap{position:absolute;z-index:2;inset-block-start:-24px;inset-inline-start:clamp(10px,3vw,36px);rotate:2.5deg;filter:drop-shadow(0 3px 3px rgb(var(--sh)/.3))}
+.scrap span,.kicker span{display:block;padding:5px 20px 9px;font:700 clamp(20px,1.9vw,25px)/1.4 var(--hand);color:var(--scrap-ink);background:var(--grain),var(--scrap);clip-path:polygon(3% 0,97% 4%,100% 22%,96% 42%,100% 63%,97% 83%,99% 100%,4% 96%,0 79%,3% 58%,0 38%,2% 19%)}
+.proj[data-paper=kraft] .scrap span{background-color:var(--print)}
+.proj:nth-of-type(even) .scrap{inset-inline:auto clamp(10px,3vw,36px);rotate:-3deg}
+
+/* stamp: ink on paper, tilted, no pointer and no button fill */
+.stamp{display:inline-flex;align-items:center;gap:9px;inline-size:max-content;max-inline-size:100%;padding:7px 14px 8px;font:700 18px/1.3 var(--sans);color:var(--k);background:var(--grain),var(--print);border:3px solid currentColor;border-radius:8px;box-shadow:0 0 0 3px var(--print),0 0 0 5px currentColor,0 8px 16px -6px rgb(var(--sh)/var(--sha));rotate:-6deg;white-space:nowrap}
+.stamp::before,.stamp::after{content:"";flex:none;inline-size:7px;block-size:7px;background:currentColor;rotate:45deg}
+.stamp[data-k=live]{--k:var(--live)}
+.stamp[data-k=site]{--k:var(--site)}
+.stamp[data-k=photos]{--k:var(--photos);border-style:dashed;box-shadow:0 8px 16px -6px rgb(var(--sh)/var(--sha))}
+.stamp[data-k=sketch]{--k:var(--sketch);border-style:dotted;box-shadow:0 8px 16px -6px rgb(var(--sh)/var(--sha))}
+.proj-vis>.stamp{position:absolute;z-index:3;inset-block-end:-20px;inset-inline-start:clamp(8px,2vw,24px)}
+
+.proj-body{display:grid;gap:14px;align-content:start}
+.line{font-size:clamp(17.5px,1.35vw,19px);line-height:1.8;max-inline-size:36em}
+.points{display:grid;gap:9px;max-inline-size:40em}
+.points li,.sheet-pt{position:relative;padding-inline-start:24px;font-size:16.5px;line-height:1.75}
+.points li::before,.sheet-pt::before{content:"";position:absolute;inset-inline-start:3px;inset-block-start:.7em;inline-size:8px;block-size:8px;background:var(--pom);rotate:45deg}
+.status{display:grid;gap:14px;margin-block-start:6px;padding-block-start:16px;border-block-start:2px dashed var(--line)}
+.note{font-size:15.5px;line-height:1.75;color:var(--ink-2);max-inline-size:40em}
+.links{display:flex;flex-wrap:wrap;gap:16px 20px}
+/* On a phone a project's buttons span the column, one under the other: the thumb's easiest target */
+@media (max-width:639px){
+  .links{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+  .links .btn,.sheet-go .btn{justify-content:center}
+  .sheet-go .btn{flex:1}
+}
+
+@media (min-width:960px){
+  .proj{grid-template-columns:minmax(0,3fr) minmax(0,2fr);grid-template-rows:auto 1fr;grid-template-areas:"vis head" "vis body";column-gap:clamp(40px,4vw,64px);row-gap:18px}
+  .proj:nth-of-type(even){grid-template-columns:minmax(0,2fr) minmax(0,3fr);grid-template-areas:"head vis" "body vis"}
+  .proj-head{grid-area:head;align-self:end}
+  .proj-vis{grid-area:vis;order:0;align-self:start;margin-block:10px 0}
+  .proj-body{grid-area:body}
+  .proj:nth-of-type(odd) .proj-vis>.stamp{inset-inline:auto clamp(8px,2vw,24px)}
+}
+
+/* two projects on one card: two paper sheets stuck side by side (stacked on a phone), joined by a
+   shared tape strip that carries their short name and the line about both. One title, one line,
+   one stamp. Nothing tilts in the flow itself: the tilt is the coloured paper behind each sheet. */
+.proj--pair{display:block}
+.proj--pair .proj-head{gap:14px}
+/* the pair is the stacking context, so each sheet's coloured backing (z-index -1) lies under the sheet */
+.pair{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr);margin-block:40px 30px;padding-inline:6px}
+.sheet{position:relative;display:grid;gap:14px;align-content:start;padding:30px clamp(12px,1.4vw,18px);background:var(--grain),var(--sheet);border-radius:var(--radius-cut);box-shadow:0 1px 1px rgb(var(--sh)/.15),0 14px 24px -14px rgb(var(--sh)/var(--sha))}
+.sheet::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--grain),var(--back,var(--saffron));border-radius:2px;rotate:-2.2deg;box-shadow:0 2px 2px rgb(var(--sh)/.15),0 16px 26px -14px rgb(var(--sh)/var(--sha))}
+.sheet--2{--back:var(--teal)}
+.sheet--2::before{rotate:1.8deg}
+.sheet .print{rotate:-.5deg}
+.sheet--2 .print{rotate:.6deg}
+.sheet-go{display:flex;padding-block-start:4px}
+.pair-tape{position:relative;z-index:2;justify-self:center;inline-size:min(100%,560px);margin-block:-22px;padding:10px 26px 14px;text-align:center;color:var(--on-saffron);background:var(--grain),var(--saffron);clip-path:polygon(0 8%,3% 0,6% 9%,9% 0,91% 0,94% 9%,97% 0,100% 8%,100% 92%,97% 100%,94% 91%,91% 100%,9% 100%,6% 91%,3% 100%,0 92%);filter:drop-shadow(0 3px 3px rgb(var(--sh)/.3))}
+.tape-label{font:700 clamp(21px,2vw,26px)/1.4 var(--hand)}
+.tape-pt{font-size:15.5px;line-height:1.65;text-wrap:pretty}
+.pair>.stamp{position:absolute;z-index:3;inset-block-end:-18px;inset-inline-end:clamp(10px,3vw,30px)}
+/* stacked: Nadim, then the tape joining it to Jeel, then Jeel */
+.sheet--1{grid-row:1}
+.pair-tape{grid-row:2}
+.sheet--2{grid-row:3}
+@media (min-width:860px){
+  .pair{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(28px,4vw,56px);margin-block-start:28px}
+  .pair-tape{grid-row:1;grid-column:1/-1;margin-block:0 -26px}
+  .sheet--1,.sheet--2{grid-row:2;padding-block-start:34px}
+  .sheet--1{grid-column:1}
+  .sheet--2{grid-column:2}
+  /* the stamp lands on the joint at the bottom, so Jeel's button keeps to the outer side */
+  .sheet--2 .sheet-go{justify-content:flex-end}
+  .pair>.stamp{inset-inline:0;margin-inline:auto;inset-block-end:-22px}
+}
+
+/* ── closing: a paper speech bubble ── */
+.cta{padding-block:clamp(64px,8vw,112px) clamp(56px,7vw,96px)}
+/* the closing band: its own kraft board, so contact stands apart from «أعمالي» */
+.cta-band{margin-block-start:clamp(28px,4vw,56px);
+  /* the drawings stand 64-104px above the bubble; the band's mask (teeth) would cut their heads,
+     so the band keeps them inside: its usual padding plus room for the tallest one */
+  padding-block-start:calc(clamp(56px,7vw,92px) + 44px)}
+.cta-band .cta{padding-block:0}
+.bubble{--focus:var(--on-teal);position:relative;isolation:isolate;max-inline-size:1000px;margin-inline:auto;display:grid;gap:26px 52px;padding:clamp(28px,5vw,60px);color:var(--on-teal)}
+.bubble::before,.bubble::after{content:"";position:absolute;z-index:-1;background:var(--grain),var(--teal)}
+.bubble::before{inset:0;border-radius:44px 58px 40px 62px/56px 40px 60px 44px;box-shadow:calc(var(--flip) * -7px) 9px 0 var(--saffron),0 24px 40px -18px rgb(var(--sh)/var(--sha))}
+.bubble::after{inset-block-end:-38px;inset-inline-start:14%;inline-size:70px;block-size:46px;clip-path:polygon(0 0,100% 0,82% 100%)}
+:root[dir="ltr"] .bubble::after{clip-path:polygon(0 0,100% 0,18% 100%)}
+.bubble h2{font:700 clamp(30px,4vw,52px)/1.4 var(--display);margin-block-end:12px}
+.ask{font-size:clamp(17.5px,1.4vw,19.5px);line-height:1.85;max-inline-size:30em}
+.ways{display:grid;gap:12px;justify-items:start;align-content:center}
+.mail{display:inline-flex;align-items:center;min-block-size:44px;font:500 15px/1.4 var(--mono);direction:ltr;unicode-bidi:isolate;text-underline-offset:5px;overflow-wrap:anywhere}
+.cta-note{font-size:15.5px;line-height:1.7}
+@media (min-width:880px){.bubble{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:center}}
+/* Open Doodles sticker jumping for joy at the bubble's corner (decoration, not a self-portrait) */
+.dd-cta{--dd-a:var(--saffron);position:absolute;inset-block-end:-40px;inset-inline-end:-28px;inline-size:clamp(130px,15vw,210px)}
+@media (min-width:1280px){.dd-cta{inset-inline-end:-118px}}
+@media (max-width:879px){.dd-cta{inset-block:-64px auto;inset-inline-end:8px;inline-size:112px}}
+/* and one levitating above the bubble's other corner, so the drawings are not all on one side */
+.dd-float{--dd-a:var(--saffron);position:absolute;inset-block-start:calc(-1 * clamp(70px,7vw,104px));inset-inline-start:clamp(16px,5%,60px);inline-size:clamp(130px,13vw,190px)}
+@media (max-width:639px){.dd-float{display:none}}
+
+/* ── footer ── */
+.foot{padding-block:8px 40px}
+/* the dashed rule spans the content, like every other rule on the page (a border on .wrap would
+   also run under its gutters) */
+.foot-in{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:6px 26px;padding-block-start:22px;color:var(--ink-2);font-size:15px}
+.foot-in::before{content:"";position:absolute;inset-block-start:0;inset-inline:var(--gut);border-block-start:2px dashed var(--line)}
+/* a short foreign phrase is never cut in two at a line end */
+.nw{white-space:nowrap}
+.foot-name{font:700 21px/1.4 var(--display);color:var(--ink)}
+.gh{display:inline-flex;align-items:center;min-block-size:44px;font:500 14px/1.4 var(--mono);direction:ltr;unicode-bidi:isolate;color:var(--ink);text-underline-offset:4px}
+.foot-real{margin-inline-start:auto;max-inline-size:44em}
+
+/* ── 404 ── */
+.nf{display:grid;grid-template-columns:minmax(0,1fr);gap:20px 40px;align-items:center;padding-block:clamp(32px,6vw,80px) clamp(48px,7vw,96px)}
+.nf-copy{display:grid;gap:clamp(16px,2vw,24px);justify-items:start}
+.dd-nf{--dd-a:var(--teal);inline-size:min(70%,300px);margin-inline:auto}
+@media (min-width:860px){.nf{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr)}.nf .cut-title{font-size:min(6vw,88px)}.dd-nf{inline-size:100%;max-inline-size:340px}}
+
+/* ── project pages (work/<slug>.html): the same workshop, zoomed in on one project. The idea on
+   a kraft scrap, the tags as stickers, the title in cut words with the project's name on the
+   saffron patch, the verdict as a stamp, «لمين» a note taped on, and every picture printed on
+   coloured paper (the first in the colour of the project's card on the home page). Phone
+   screens are phone cards, as on the home page. Every picture opens big (viewer.js). ── */
+.pg-hero{display:grid;grid-template-columns:minmax(0,1fr);gap:30px 56px;align-items:center;padding-block:clamp(14px,3vw,40px) clamp(44px,6vw,84px)}
+.pg-copy{display:grid;gap:16px;justify-items:start;align-content:start;min-inline-size:0}
+/* the scrap tilts inside its box (the inline margin is room for that tilt) */
+.kicker{display:inline-block;margin-inline:4px;filter:drop-shadow(0 3px 3px rgb(var(--sh)/.3))}
+.kicker span{rotate:-2deg}
+.cut-title.pg-title{font-size:clamp(31px,8.2vw,42px);line-height:1.42;margin-block:2px 0}
+.pg-copy .line{font-size:clamp(18px,1.4vw,20px)}
+.pg-copy .status-row{margin-block-start:4px}
+@media (min-width:1080px){
+  .pg-hero{grid-template-columns:minmax(0,5fr) minmax(0,7fr);min-block-size:min(620px,calc(100svh - 120px))}
+  .cut-title.pg-title{font-size:clamp(38px,3.3vw,50px)}
+}
+/* a picture: printed on coloured paper; a desk shot is one print, phone screens a row of cards */
+.pg-vis{position:relative;min-inline-size:0;padding:clamp(12px,1.4vw,20px);margin-block:6px}
+.pg-vis--phones{justify-self:center;inline-size:fit-content;max-inline-size:100%}
+.pg-vis .phone-card{--pw:clamp(224px,19vw,270px)}
+@media (max-width:639px){.pg-vis .phone-card{--pw:min(224px,60vw)}}
+.pg-sec:nth-of-type(odd) .backing{rotate:1.8deg}
+.pg-sec:nth-of-type(odd) .print{rotate:-.6deg}
+/* every picture is a link to itself (it opens big); its badge sits on the corner the paper corners leave free */
+.zoom{color:inherit;cursor:zoom-in;-webkit-tap-highlight-color:transparent}
+.zoom:focus-visible{outline-offset:6px}
+.zoom-ico{position:absolute;z-index:2;inset-block-end:-16px;inset-inline-start:-16px;display:grid;place-items:center;inline-size:44px;block-size:44px;border-radius:50%;color:var(--on-teal);background:var(--grain),var(--teal);box-shadow:0 0 0 3px var(--print),0 6px 12px -4px rgb(var(--sh)/var(--sha));transition:scale var(--dur-hover) var(--ease-spring),opacity .2s ease}
+.zoom-ico .arw{inline-size:22px;block-size:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+/* on a phone card: at the middle of its foot, inside the row's padding (the row scrolls, so it clips) */
+.phone-card .zoom-ico{inset-block-end:-17px;inset-inline-start:calc(50% - 20px);inline-size:40px;block-size:40px}
+.zoom:hover .zoom-ico{scale:1.08}
+/* «لمين»: a note taped on. The text stays straight; only the paper behind it tilts (as the
+   sheets of the shared card on the home page), so no line is ever pushed out of its box. */
+.pg-who{display:grid;gap:26px;padding-block:clamp(20px,3vw,44px)}
+.note-card{position:relative;isolation:isolate;justify-self:start;max-inline-size:40em;margin-inline:6px;padding:34px clamp(22px,3vw,40px) 30px}
+.note-card::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--grain),var(--sheet);border-radius:var(--radius-cut);rotate:-.7deg;box-shadow:0 1px 1px rgb(var(--sh)/.15),0 16px 28px -16px rgb(var(--sh)/var(--sha))}
+.note-card::before{content:"";position:absolute;inset-block-start:-13px;inset-inline-start:calc(50% - 60px);inline-size:120px;block-size:28px;background:color-mix(in srgb,var(--saffron) 72%,#0000);clip-path:polygon(0 12%,8% 0,16% 14%,24% 0,76% 0,84% 14%,92% 0,100% 12%,100% 88%,92% 100%,84% 86%,76% 100%,24% 100%,16% 86%,8% 100%,0 88%);rotate:-4deg}
+.note-card p{font-size:clamp(18px,1.5vw,21px);line-height:1.85;text-wrap:pretty}
+@media (min-width:860px){.pg-who{grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:clamp(40px,5vw,80px)}}
+/* the sections: text and picture side by side, swapping sides down the page (stacked on a phone) */
+.pg-secs{padding-block:clamp(36px,5vw,72px) 0}
+.pg-secs>.sec-title{margin-block-end:clamp(4px,1.5vw,16px)}
+.pg-sec{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:center;padding-block:clamp(30px,4.5vw,60px)}
+.pg-sec+.pg-sec{border-block-start:2px dashed var(--line)}
+.pg-text{display:grid;gap:10px;align-content:start;min-inline-size:0}
+.pg-text h3{font:700 clamp(24px,2.3vw,31px)/1.45 var(--display)}
+.pg-text .line{text-wrap:pretty}
+@media (min-width:900px){
+  .pg-sec{grid-template-columns:minmax(0,4fr) minmax(0,8fr);grid-template-areas:"text vis";column-gap:clamp(36px,4.5vw,72px)}
+  .pg-sec:nth-of-type(even){grid-template-columns:minmax(0,8fr) minmax(0,4fr);grid-template-areas:"vis text"}
+  .pg-text{grid-area:text}
+  .pg-sec .pg-vis{grid-area:vis}
+}
+
+/* the viewer: the picture at its natural size, never taller NOR wider than the screen, so on a phone
+   the whole picture shows at once; the browser's own pinch zoom still works. A row of phone screens still scrolls.
+   The ground stays dark in both themes, like any photo viewer */
+.viewer{--focus:#F3EADB;inset:0;inline-size:auto;block-size:auto;max-inline-size:none;max-block-size:none;margin:0;padding:0;border:0;overflow:hidden;color:#F3EADB;background:rgb(24 21 28/.94)}
+.viewer::backdrop{background:none}
+.viewing{overflow:hidden}
+.viewer-body{block-size:100%;display:flex;align-items:center;gap:clamp(16px,3vw,32px);overflow:auto;overscroll-behavior:contain;padding:76px clamp(12px,3vw,40px) 24px}
+.viewer-body.many{scroll-snap-type:inline mandatory}
+.viewer-body img{flex:none;margin-block:auto;max-inline-size:none;block-size:auto;aspect-ratio:var(--w)/var(--h);border-radius:var(--radius-sheet);background:#FCF8F0 0 0/100% 100% no-repeat;box-shadow:0 0 0 6px #FCF8F0,0 24px 48px -12px #000;scroll-snap-align:center;
+  inline-size:min(calc(var(--w) * 1px),calc((100vh - 112px) * var(--w) / var(--h)),100%);
+  inline-size:min(calc(var(--w) * 1px),calc((100dvh - 112px) * var(--w) / var(--h)),100%)}
+.viewer-body img:first-child{margin-inline-start:auto}
+.viewer-body img:last-child{margin-inline-end:auto}
+.viewer-x{position:absolute;z-index:1;inset-block-start:16px;inset-inline-end:clamp(12px,3vw,40px);display:inline-flex;align-items:center;gap:8px}
+.viewer-x .arw{inline-size:18px;block-size:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+.viewer[open] .viewer-body img{animation:viewer-in .3s var(--ease-out)}
+@keyframes viewer-in{from{opacity:0;translate:0 14px}}
+
+/* the old system template (content/systems), kept for a page that has no simple page yet */
+.sys-hero{padding-block:clamp(20px,4vw,48px) 8px;display:grid;gap:14px;justify-items:start}
+.sys-hero h1{font:700 clamp(30px,3.6vw,46px)/1.4 var(--display);max-inline-size:24ch}
+.sys-hero .line{max-inline-size:40em}
+.eyebrow-mono{font:500 13px/1.5 var(--mono);color:var(--ink-2);direction:ltr;unicode-bidi:isolate;text-align:start}
+.status-row{justify-self:stretch;padding-block:16px 18px;border-block:2px dashed var(--line);margin-block-start:8px}
+/* the inline padding is room for the stamp's resting tilt */
+.status-row .status{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin:0;padding:0 6px;border:0}
+.status-row .note{flex:1 1 22ch}
+@media (max-width:639px){.status-row .links{flex-basis:100%}}
+.hero-shot{justify-self:stretch;margin:18px 0 0;padding:clamp(6px,.9vw,10px);background:var(--print);border-radius:2px;box-shadow:0 1px 1px rgb(var(--sh)/.2),0 10px 18px -8px rgb(var(--sh)/var(--sha))}
+.hero-shot img{inline-size:100%}
+.sys-section{padding-block:34px 8px;display:grid;gap:14px}
+.sys-section>h2{font:700 clamp(26px,3vw,38px)/1.4 var(--display)}
+.sys-section .h3{margin-block-start:6px}
+.scroller{overflow-x:auto;scrollbar-gutter:stable}
+.roles{inline-size:100%;border-collapse:collapse}
+.roles caption{text-align:start}
+.roles th,.roles td{text-align:start;vertical-align:top;padding:14px 12px;border-block-end:1px solid var(--line)}
+.roles thead th{font-size:15px;color:var(--ink-2);font-weight:600}
+@media (max-width:639px){
+  .roles,.roles tbody,.roles tr,.roles th,.roles td{display:block;inline-size:auto}
+  .roles thead,.roles thead tr,.roles thead th{position:absolute;inline-size:1px;block-size:1px;overflow:hidden;clip-path:inset(50%);padding:0;border:0;white-space:nowrap}
+  .roles tr{border-block-end:1px solid var(--line);padding-block:14px}
+  .roles tbody th{font:600 15px/1.6 var(--sans);color:var(--ink-2);padding:0 0 4px;border:0}
+  .roles td{padding:0;border:0}
+}
+.gallery{display:grid;gap:24px}
+@media (min-width:768px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.gallery figure,.phones figure{margin:0;min-inline-size:0}
+.frame{display:block;background:var(--print);padding:6px}
+.gallery .frame img{inline-size:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
+figcaption{padding-block:8px;font-size:15px;line-height:1.6;color:var(--ink-2)}
+figcaption b{display:block;color:var(--ink);font-weight:600}
+.phones{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-block-end:10px}
+.phones figure{flex:0 0 200px;scroll-snap-align:start}
+.safe{display:grid;gap:28px 48px}
+@media (min-width:768px){.safe{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.safe li,.todo li{position:relative;padding-block:10px;padding-inline-start:20px;border-block-end:1px solid var(--line)}
+.safe li::before,.todo li::before{content:"";position:absolute;inset-inline-start:0;inset-block-start:.95em;inline-size:8px;block-size:8px;background:var(--live)}
+.todo li::before{background:transparent;border:1.5px solid var(--photos)}
+.honest{background:var(--sheet);padding:clamp(20px,3vw,32px);margin-block-start:34px}
+
+/* ── motion: only when craft.js runs and reduced motion is off (the head script decides). One
+   easing family (out: cubic-bezier(.22,1,.36,1); a paste with a small overshoot:
+   cubic-bezier(.34,1.45,.64,1)); touches take 150-300 ms, entrances under a second, each once;
+   the only endless loop is the drawings' slow float (and only while on screen); the idle hero
+   (@idea:idle) sways and breathes twice, then rests. The entrances move only transform, opacity and
+   clip-path, and only up and down or inside their own box, so nothing pokes out sideways while they
+   run; the interactive layer (below) keeps inside caps measured on the page instead (only the
+   magnet's paper reaches past its button: 8px across, about 9 on the spring's overshoot). ── */
+.motion [data-reveal]:not(.in){opacity:0}
+/* a heading's words: each one is pasted on as its own piece of paper */
+.pw{display:inline-block}
+/* a picture is printed onto its paper first (craft.js: a clip-path from the top down), then its
+   paper corners, its tape and its zoom badge land (.taped) */
+.print::before,.print::after,.phone-card::before{transition:opacity .2s ease,translate .3s var(--ease-spring),scale var(--dur-hover) var(--ease-spring)}
+.motion .print:not(.taped)::before,.motion .print:not(.taped)::after,.motion .phone-card:not(.taped)::before{opacity:0;translate:0 -8px}
+.motion :is(.print,.phone-card):not(.taped) .zoom-ico{opacity:0;scale:.4}
+/* a text link: on hover or keyboard focus a pen line draws in under its words, from where they start */
+.ul{position:relative}
+@media (prefers-reduced-motion:no-preference){
+  /* page transitions, where the browser has them: the page cross-fades, and a project's picture
+     moves from its card on the home page into its page's hero, and back (build_site.py: VT_REVEAL) */
+  @view-transition{navigation:auto}
+  .vt-on,.pg-hero [data-vt]{view-transition-name:shot}
+  ::view-transition-group(shot){animation-duration:.5s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  ::view-transition-old(root),::view-transition-new(root){animation-duration:.3s}
+  /* paper buttons and toggles: the top sheet lifts on hover and drops 2px when pressed, while the
+     sheet under it stays on the desk, so the shadow between them grows, then shrinks */
+  .btn,.btn::after,.tool,.tool::after{transition:translate var(--dur-tap) ease}
+  /* the drawings float a few pixels, slowly, only while on screen (craft.js: .afloat) */
+  .motion .dd svg{animation:bob var(--dur-float) ease-in-out infinite alternate paused}
+  .motion .dd.afloat svg{animation-play-state:running}
+  .motion .dd-svc svg{animation-delay:-1.2s}.motion .dd-works svg{animation-delay:-2.4s}
+  .motion .dd-cta svg{animation-delay:-.7s}.motion .dd-float svg{animation-delay:-3s}
+  /* the hero's WhatsApp button lifts once when the hero's story ends (craft.js) */
+  .btn.cue{animation:cue var(--dur-cue) var(--ease-cue)}
+  .btn.cue::after{animation:cue-sh var(--dur-cue) var(--ease-cue)}
+}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .btn:hover{translate:0 -2px}
+  .btn:hover::after{translate:calc(var(--flip) * -4px) 7px}
+  .tool:hover{translate:0 -1px}
+  .tool:hover::after{translate:calc(var(--flip) * -3px) 4px}
+  /* a stamp shakes on its paper: a vertical shear, so it never gets wider than it is */
+  .stamp:hover{animation:wobble .3s ease-in-out}
+  .ul::after{content:"";position:absolute;inset-inline:0;inset-block-end:-2px;block-size:2px;border-radius:1px;background:currentColor;clip-path:inset(0 0 0 100%);pointer-events:none}
+  :root[dir="ltr"] .ul::after{clip-path:inset(0 100% 0 0)}
+  /* (:root: it must outweigh the left-to-right rule above, or English never shows the line) */
+  :root :is(a:hover,a:focus-visible)>.ul::after{clip-path:inset(0);transition:clip-path .28s var(--ease-out)}
+  :is(.back,.mail,.gh):is(:hover,:focus-visible){text-decoration-color:transparent}
+}
+@media (prefers-reduced-motion:no-preference){
+  .btn:active,.tool:active{translate:0 2px}
+  .btn:active::after{translate:calc(var(--flip) * -3px) 3px}
+  .tool:active::after{translate:calc(var(--flip) * -2px) 1px}
+}
+@keyframes bob{to{translate:0 -5px}}
+@keyframes wobble{30%{transform:skewY(-3deg)}70%{transform:skewY(2deg)}}
+@keyframes cue{35%{translate:0 -4px}70%{translate:0 0}85%{translate:0 -1px}}
+@keyframes cue-sh{35%{translate:calc(var(--flip) * -4px) 9px}70%{translate:calc(var(--flip) * -4px) 5px}85%{translate:calc(var(--flip) * -4px) 6px}}
+
+/* ── after the story: the interactive layer. Each idea owns one block;
+   each starts only after its own entrance, pointer ideas only on (hover:hover) and (pointer:fine),
+   nothing changes at rest, print shows everything still, and reduced motion keeps all of it still
+   (the rule right below; craft.js never runs). ── */
+/* @idea:garland */
+/* the flags swing on their string once they have unfolded (craft.js: a spring on `transform`, after
+   .settled); a fine pointer also lifts the flag under it 2px, on `translate`, which nothing else moves
+   on a flag. Print shows them hanging still. */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .motion .garland a{transition:rotate var(--dur-hover) ease,translate var(--dur-hover) var(--ease-spring)}
+  .motion .garland.settled a:hover{translate:0 -2px}
+}
+/* Where nothing moves (reduced motion, or craft.js not running) a mouse still gets the old sign
+   that a flag is a link: it turns a little further on its string. Never on touch, where :hover
+   sticks after a tap. (The second rule: reduced motion switched on while the page is open, which
+   leaves html.motion in place.) */
+@media (hover:hover) and (pointer:fine){html:not(.motion) .garland a:hover{rotate:6deg}}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:reduce){.garland a:hover{rotate:6deg}}
+@media print{.garland a{transform:none!important;translate:none!important;will-change:auto!important}}
+/* @end:garland */
+
+/* @idea:icons */
+/* Each service icon acts out what it does, once, in 0.6 to 0.9 s, while craft.js has .wave on its
+   card: on a mouse when the card is pointed at, on a touch screen as the icon comes on screen.
+   Only an icon's own parts move, inside its 48-unit box. Many parts carry a transform attribute
+   (their resting tilt, tools/craft_parts.py) that the CSS `transform` would replace, so those move
+   only by `translate` (it adds to the attribute); `rotate`, `scale`, `transform` and an origin go
+   only on parts without one. Every animation starts and ends at rest, with no fill, so the icon is
+   drawn exactly as before the moment it ends (and craft.js takes .wave off then). */
+@media (prefers-reduced-motion:no-preference){
+  /* 1 a company website: the page's bar is lifted and dropped back in place, then the dot hops */
+  .motion .svc.wave:nth-child(1) .ico .t{animation:ico-bar var(--dur-paste) var(--ease-cue)}
+  .motion .svc.wave:nth-child(1) .ico .p{transform-box:fill-box;transform-origin:50% 100%;animation:ico-hop var(--dur-paste) var(--ease-cue) .25s}
+  /* 2 a landing page: the flag, and the dot on it, flutter from the pole */
+  .motion .svc.wave:nth-child(2) .ico :is(.p,.s){transform-origin:13px 16.5px;animation:ico-flap var(--dur-cue) var(--ease-cue)}
+  /* 3 a store: the bag hops, its dot jumps out into the handle and drops back in */
+  .motion .svc.wave:nth-child(3) .ico :is(.st,.s){transform-origin:24px 43px;animation:ico-bag var(--dur-cue) var(--ease-cue)}
+  .motion .svc.wave:nth-child(3) .ico .p{animation:ico-drop var(--dur-cue) var(--ease-cue)}
+  /* 4 booking: the ticket tips and its perforation runs (two dash lengths: it ends as it was) */
+  .motion .svc.wave:nth-child(4) .ico{animation:ico-tilt var(--dur-cue) var(--ease-cue)}
+  .motion .svc.wave:nth-child(4) .ico .ln{animation:ico-dash var(--dur-cue) linear}
+  /* 5 management: the clipboard's lines are wiped and written again one by one, from the inline start */
+  .motion .svc.wave:nth-child(5) .ico rect:nth-of-type(n+4){transform-box:fill-box;transform-origin:calc(50% + 50% * var(--flip)) 50%;animation:ico-w1 var(--dur-cue) var(--ease-cue)}
+  .motion .svc.wave:nth-child(5) .ico rect:nth-of-type(5){animation-name:ico-w2}
+  .motion .svc.wave:nth-child(5) .ico rect:nth-of-type(6){animation-name:ico-w3}
+  /* 6 dashboards: the bars jump up one after another */
+  .motion .svc.wave:nth-child(6) .ico :is(.t,.s,.p){animation:ico-rise var(--dur-paste) var(--ease-cue)}
+  .motion .svc.wave:nth-child(6) .ico .s{animation-delay:.1s}
+  .motion .svc.wave:nth-child(6) .ico .p{animation-delay:.2s}
+  /* 7 integration: the dot runs along the line to the square, over to the circle and back */
+  .motion .svc.wave:nth-child(7) .ico .p{animation:ico-run var(--dur-cue) var(--ease-cue)}
+  .motion .svc.wave:nth-child(7) .ico .ln{animation:ico-dash var(--dur-cue) linear}
+  /* 8 fixing: the patch's middle turns a quarter turn, like a screw (a square: it lands as it was) */
+  .motion .svc.wave:nth-child(8) .ico g .s{transform-box:fill-box;transform-origin:50% 50%;animation:ico-screw var(--dur-cue) var(--ease-spring)}
+}
+@keyframes ico-bar{30%{translate:0 -5px}62%{translate:0 .8px}82%{translate:0 -.3px}}
+@keyframes ico-hop{18%{scale:1.1 .86}48%{translate:0 -4px;scale:.94 1.07}74%{translate:0 0;scale:1.07 .93}88%{scale:.98 1.02}}
+@keyframes ico-flap{20%{transform:skewY(-7deg) scaleX(.94)}45%{transform:skewY(5deg) scaleX(.97)}70%{transform:skewY(-2.5deg) scaleX(.99)}88%{transform:skewY(1deg) scaleX(1)}}
+@keyframes ico-bag{12%{scale:1.05 .92}32%{translate:0 -3px;scale:.97 1.04}50%{translate:0 0;scale:1.03 .96}62%{scale:1 1}72%{scale:1.04 .94}86%{scale:.99 1.01}}
+@keyframes ico-drop{32%{translate:0 -14px}48%{translate:0 -13px}70%{translate:0 0}82%{translate:0 -1px}}
+@keyframes ico-tilt{30%{rotate:-6deg}62%{rotate:2.5deg}84%{rotate:-.8deg}}
+@keyframes ico-dash{to{stroke-dashoffset:-12px}}
+@keyframes ico-w1{10%{scale:0 1}40%{scale:1 1}}
+@keyframes ico-w2{10%,38%{scale:0 1}66%{scale:1 1}}
+@keyframes ico-w3{10%,62%{scale:0 1}90%{scale:1 1}}
+@keyframes ico-rise{40%{translate:0 -4.5px}70%{translate:0 .5px}86%{translate:0 -.2px}}
+@keyframes ico-run{22%{translate:-6px 0}64%{translate:7px 0}}
+@keyframes ico-screw{to{rotate:90deg}}
+@media print{.svc .ico,.svc .ico *{animation:none!important}}
+/* @end:icons */
+
+/* @idea:magnet */
+/* The WhatsApp buttons lean toward a pointer that comes near (craft.js sets --mx/--my and .magnet,
+   only while it is near): the paper, its words and its icon follow it, the sheet under it shifts
+   half as far the other way, all through `transform` (`translate` is the hover's, the press's and
+   the cue's), and the link's own box never moves. No .magnet at rest, so none of this applies then.
+   The sheet's list replaces its translate transition above, so it carries that one too. */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .btn.magnet::before,.btn.magnet>*{transform:translate(var(--mx,0px),var(--my,0px));transition:transform var(--dur-hover) var(--ease-spring)}
+  .btn.magnet::after{transform:translate(calc(var(--mx,0px) * -.5),calc(var(--my,0px) * -.5));transition:translate var(--dur-tap) ease,transform var(--dur-hover) var(--ease-spring)}
+}
+@media print{.btn.magnet::before,.btn.magnet::after,.btn.magnet>*{transform:none!important;transition:none!important}}
+/* @end:magnet */
+
+/* @idea:idle */
+/* The hero after its story (craft.js: .stage.idle). The big rhombus sways a degree either way
+   around its resting 45deg, like a sheet in a draught: a sine, quickest through 45deg and still at
+   either end. The three small pen dots breathe, each at its own pace and after its own pause, so
+   never all at once. Each plays twice (the rhombus 16 s, the last dot about 15 s) and then rests,
+   once a visit: off screen they hold where they are (.idle-off) and go on when it is back, and once
+   they have all ended craft.js takes .idle away for good. Both start and end on this file's own
+   values, so nothing anyone sees changes when they end; print shows them still. */
+@media (prefers-reduced-motion:no-preference){
+  .motion .stage.idle .d1{animation:idle-sway 8s linear 2}
+  .motion .stage.idle .confetti i{animation:idle-breathe calc(var(--dur-float) * 1.2) var(--ease-cue) var(--dur-paste) 2}
+  .motion .stage.idle .confetti i+i{animation-duration:calc(var(--dur-float) * 1.55);animation-delay:calc(var(--dur-paste) * 3)}
+  .motion .stage.idle .confetti i+i+i{animation-duration:calc(var(--dur-float) * 1.9);animation-delay:calc(var(--dur-paste) * 2)}
+  .motion .stage.idle.idle-off :is(.d1,.confetti i){animation-play-state:paused}
+}
+@keyframes idle-sway{
+  0%,100%{rotate:45deg;animation-timing-function:cubic-bezier(.61,1,.88,1)}
+  25%{rotate:46deg;animation-timing-function:cubic-bezier(.37,0,.63,1)}
+  75%{rotate:44deg;animation-timing-function:cubic-bezier(.12,0,.39,0)}
+}
+@keyframes idle-breathe{0%,100%{opacity:1}50%{opacity:.6}}
+@media print{.stage .d1,.stage .confetti i{animation:none!important}}
+/* @end:idle */
+
+/* @idea:theme */
+/* the theme button (site.js): the new theme is cut in like a fresh sheet laid over the page from the
+   button's side, behind an edge cut with pinking shears; the clip runs between --vt-from and --vt-to,
+   two polygons with the same points that site.js sets on <html>. html.vt-theme only while it runs:
+   the page as it was stays still under it, and the project picture is part of the page being cut
+   rather than carried on its own */
+@media (prefers-reduced-motion:no-preference){
+  html.vt-theme :is(.vt-on,.pg-hero [data-vt]){view-transition-name:none}
+  :root.vt-theme::view-transition-old(root){animation:none}
+  :root.vt-theme::view-transition-new(root){animation:theme-cut .6s var(--ease-out) both;mix-blend-mode:normal}
+  @keyframes theme-cut{from{clip-path:var(--vt-from)}to{clip-path:var(--vt-to)}}
+}
+@media print{:root.motion.vt-theme::view-transition-new(root){animation:none}}
+/* @end:theme */
+
+/* @idea:pencil */
+/* a pencil line along the top edge of the screen shows how far down the page you are: it starts
+   where a line of text starts (the right in Arabic, the left in English: --flip) and reaches the
+   far edge at the page's end. CSS only, on the page's own scroll timeline, so the browser draws it
+   off the main thread and nothing ticks between scrolls. At the top of the page, and on a page too
+   short to scroll (its timeline is then inactive), it has no width: the resting page paints as
+   before. Fixed, not a flex item of body's column. Graphite: --ink-2 with the paper's tooth
+   showing through and a softer lower edge (the texture squeezes with the scale; it is faint). */
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline: scroll()){
+    html.motion body::after{content:"";position:fixed;inset-block-start:0;inset-inline:0;block-size:3px;z-index:50;pointer-events:none;
+      background:linear-gradient(transparent 2px,color-mix(in srgb,var(--paper) 35%,transparent) 0),repeating-linear-gradient(100deg,transparent 0 5px,color-mix(in srgb,var(--paper) 30%,transparent) 5px 6px,transparent 6px 11px,color-mix(in srgb,var(--paper) 18%,transparent) 11px 13px),repeating-linear-gradient(77deg,transparent 0 3px,color-mix(in srgb,var(--paper) 14%,transparent) 3px 4px,transparent 4px 7px),color-mix(in srgb,var(--ink-2) 78%,transparent);
+      scale:0 1;transform-origin:calc(50% + 50% * var(--flip)) 0;
+      animation:pencil-grow linear both;animation-timeline:scroll(root block)}
+    @keyframes pencil-grow{to{scale:1 1}}
+  }
+}
+@media print{body::after{display:none}}
+/* @end:pencil */
+
+/* @idea:lean */
+/* a project's picture leans toward the pointer (craft.js owns its transform), and the kraft corner at
+   the foot of its line's end grows as it does: from its own outer corner (inline end, bottom), so it
+   grows into the picture, never out of it. Its scale eases on the corners' own list above. */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .motion .print.taped::after{transform-origin:calc(50% - 50% * var(--flip)) 100%}
+  .motion .print.taped:hover::after{scale:1.35}
+}
+@media print{.motion :is(.print,.phone-card){transform:none!important}.motion .print::after{scale:none!important;transition:none!important}}
+/* @end:lean */
+
+/* @idea:peek */
+/* A flag's project peeks out beside it (craft.js): its picture on a small polaroid, taped on and
+   tilted toward the side it sits on, growing from .9 as it fades in and shrinking back as it fades
+   out. A desktop with a mouse only. Between hovers the one figure is display:none, with no inline
+   style and no class but its own; the bare rule below only ever hides it, wherever this block's
+   media query stops holding (a window narrowed under 960px, a mouse unplugged). */
+.peek{display:none}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) and (min-width:960px){
+  .motion .peek.live{display:block;position:fixed;z-index:40;inset-block-start:0;inset-inline-start:0;inline-size:200px;margin:0;padding:8px 8px 22px;background:var(--grain),var(--print);border-radius:2px;box-shadow:0 1px 1px rgb(var(--sh)/.2),0 18px 30px -12px rgb(var(--sh)/var(--sha));pointer-events:none;opacity:0;scale:.9;rotate:0deg;
+    transition:opacity var(--dur-hover) var(--ease-spring),scale var(--dur-hover) var(--ease-spring),rotate var(--dur-hover) var(--ease-spring)}
+  .motion .peek.on{opacity:1;scale:1;rotate:var(--tilt,0deg)}
+  .motion .peek.live::before{content:"";position:absolute;z-index:1;inset-block-start:-9px;inset-inline-start:calc(50% - 26px);inline-size:52px;block-size:18px;background:color-mix(in srgb,var(--scrap) 86%,#0000);clip-path:polygon(0 12%,8% 0,16% 14%,24% 0,76% 0,84% 14%,92% 0,100% 12%,100% 88%,92% 100%,84% 86%,76% 100%,24% 100%,16% 86%,8% 100%,0 88%);rotate:-4deg}
+  /* a phone's screen is cut from its top to a 4:3 print (craft.js sets --ar); the paper stays blank
+     until the picture is decoded (.wait), so it never shows the last project's picture */
+  .motion .peek img{inline-size:100%;aspect-ratio:var(--ar,16/10);object-fit:cover;object-position:top;transition:opacity var(--dur-hover) var(--ease-out)}
+  .motion .peek.wait img{opacity:0;transition:none}
+}
+@media print{.peek,.motion .peek.live{display:none}}
+/* @end:peek */
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media print{.motion [data-reveal]{opacity:1!important}.i18n-wait body{visibility:visible}
+  .motion .print::before,.motion .print::after,.motion .phone-card::before,.motion .zoom-ico{opacity:1!important;translate:none!important;scale:none!important}}
+
+/* ── English: Latin letters run larger than Arabic at the same size, and longer ── */
+:root:lang(en) .cut-title{font-size:min(10.4vw,54px);line-height:1.2}
+:root:lang(en) .cut-title .hl::before{inset:.38em -.14em .02em -.12em}
+@media (min-width:960px){:root:lang(en) .cut-title{font-size:min(5.4vw,80px)}:root:lang(en) .nf .cut-title{font-size:min(5vw,72px)}}
+:root:lang(en) .sec-title{font-size:clamp(34px,4.4vw,56px)}
+@media (min-width:640px){:root:lang(en) .patch{font-size:clamp(76px,9vw,136px);line-height:1.15}}
+/* Aref Ruqaa's Latin is a book serif, not a hand: English scraps use the display hand instead */
+:root:lang(en) .scrap span,:root:lang(en) .tape-label,:root:lang(en) .kicker span{font-family:var(--display);font-size:clamp(17px,1.6vw,21px)}
+:root:lang(en) .cut-title.pg-title{font-size:clamp(28px,7vw,36px);line-height:1.3}
+@media (min-width:1080px){:root:lang(en) .cut-title.pg-title{font-size:clamp(32px,2.6vw,38px)}}
+:root:lang(en) .pg-text h3{font-size:clamp(22px,2vw,28px)}
+:root:lang(en) .svc h3{font-size:19px}
+:root:lang(en) .brand{font-size:23px}
+@media (max-width:359px){:root:lang(en) .brand{font-size:21px}}
+:root:lang(en) .bubble h2{font-size:clamp(28px,3.4vw,44px);line-height:1.25}
+/* Arabic needs its tall 1.8 lines (dots and marks above and below); Latin running text reads
+   best nearer 1.6, or its lines drift apart */
+:root:lang(en) :is(body,.lede,.line,.points li,.sheet-pt,.note,.svc p,.ask,.cta-note,.tape-pt,.note-card p,.sec-sub,.muted){line-height:1.62}
+/* Latin runs more letters to the em than Arabic: 36em of English was 76 characters a line on a tablet */
+:root:lang(en) .line{max-inline-size:33em}
+
+/* ── a phone or a tablet: no running text under 16px (labels, stickers and the mono links are not
+   prose). A tablet holds the phone's one-column layout, so it reads the same. ── */
+@media (max-width:959px){.role,.svc p,.note,.tape-pt,.cta-note,.foot-real{font-size:16px}}
+/* running text never ends on one lonely word (on a phone the services' lines often did) */
+.svc p,.points li,.sheet-pt,.note,.line,.ask,.cta-note,.foot-real{text-wrap:pretty}
